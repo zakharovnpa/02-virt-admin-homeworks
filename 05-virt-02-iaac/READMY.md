@@ -77,6 +77,24 @@ Expand-Archive ~/Ubuntu.zip C:\Distros\Ubuntu
 
 Установка WSL 2, Ubuntu, Vagrant по [статье How to run Vagrant + VirtualBox on WSL 2 (2021)](https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/)
 
+Команды:
+```bash
+# run inside WSL 2
+# check https://www.vagrantup.com/downloads for more info
+```
+
+```bash
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+```
+
+``bash
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+```
+
+```bash
+sudo apt-get update && sudo apt-get install vagrant
+```
+
 Лог установки:
 
 ```markdown
