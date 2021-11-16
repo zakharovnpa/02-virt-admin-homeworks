@@ -33,6 +33,12 @@
 
 *Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.*
 
+Задача:
+* Установить на Windows 10 Домашняя систему виртуализации Virtualbox?
+* Установить на Windows 10 Домашняя систему виртуализации WSL (Windows-Subsystem-Linux)
+* Скачать и запустить в WSL дистрибутив Linux
+* Установить в виртуальную ОС Linux систему управления виртуализацией vagrant
+* Установить в виртуальную ОС Linux систему управления виртуализацией Virtualbox
 
 Установка на Windows 10 Домашняя WSL 2: 
 Из [статьи](https://www.thomasmaurer.ch/2019/06/install-wsl-2-on-windows-10/) команды выполненные в PowerShell под администратором:
@@ -93,6 +99,15 @@ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(l
 
 ```bash
 sudo apt-get update && sudo apt-get install vagrant
+```
+
+```bash
+# append those two lines into ~/.bashrc
+echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"' >> ~/.bashrc
+echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ~/.bashrc
+
+# now reload the ~/.bashrc file
+source ~/.bashrc
 ```
 
 Лог установки:
