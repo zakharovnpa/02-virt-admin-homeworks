@@ -33,6 +33,7 @@
 
 *Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.*
 
+
 Установка на Windows 10 Домашняя WSL 2: 
 Из [статьи](https://www.thomasmaurer.ch/2019/06/install-wsl-2-on-windows-10/) команды выполненные в PowerShell под администратором:
 
@@ -73,6 +74,8 @@ Invoke-WebRequest -Uri https://aka.ms/wsl-sles-12 -OutFile ~/SLES.zip -UseBasicP
 Expand-Archive ~/Ubuntu.zip C:\Distros\Ubuntu
 ```
 Затем запустить файл .exe. Установиться ВМ.
+
+Установка WSL 2, Ubuntu, Vagrant по [статье How to run Vagrant + VirtualBox on WSL 2 (2021)](https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/)
 
 ## Задача 4 (*)
 
