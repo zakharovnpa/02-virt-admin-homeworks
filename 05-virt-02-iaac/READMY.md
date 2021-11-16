@@ -33,6 +33,47 @@
 
 *Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.*
 
+Установка на Windows 10 Домашняя WSL 2: 
+Из [статьи](https://www.thomasmaurer.ch/2019/06/install-wsl-2-on-windows-10/) команды выполненные в PowerShell под администратором:
+
+```bash
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+```
+ПК перезагрузиться.
+
+Затем выполнить:
+```bash
+Включить - WindowsOptionalFeature - Online - FeatureName VirtualMachinePlatform
+```
+ПК перезагрузиться.
+
+Затем из [статьи](https://www.thomasmaurer.ch/2018/04/windows-subsystem-for-linux-on-windows-server/)
+выполнить команды на  скачивание и установку дистрибутивов Linux
+
+```bash
+# For Ubuntu 16.04
+ 
+Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1604 -OutFile ~/Ubuntu.zip -UseBasicParsing
+ 
+# For Ubuntu 18.04
+ 
+Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Ubuntu1804.zip -UseBasicParsing
+ 
+# For OpenSUSE 42
+ 
+Invoke-WebRequest -Uri https://aka.ms/wsl-opensuse-42 -OutFile ~/OpenSUSE.zip -UseBasicParsing
+ 
+# For SLES 12
+ 
+Invoke-WebRequest -Uri https://aka.ms/wsl-sles-12 -OutFile ~/SLES.zip -UseBasicParsing
+```
+Затем распаковать архив с дистрибутивом
+
+```bash
+Expand-Archive ~/Ubuntu.zip C:\Distros\Ubuntu
+```
+Затем запустить файл .exe. Установиться ВМ.
+
 ## Задача 4 (*)
 
 Воспроизвести практическую часть лекции самостоятельно.
