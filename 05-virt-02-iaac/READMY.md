@@ -1005,7 +1005,7 @@ end
 
 * а также файл ` ansible.cfg `:
 
-``bash
+```bash
 [defaults]
 inventory=./inventory
 deprecation_warnings=False
