@@ -1004,7 +1004,7 @@ Vagrant.configure(2) do |config|
 end
 ```
 
-* а также файл ` ansible.cfg `:
+* а также файл ` ansible `:
 
 ```bash
 [defaults]
