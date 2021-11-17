@@ -587,6 +587,40 @@ You're running an up-to-date version of Vagrant!
 maestro@Sergey-PC:/mnt/c/Users/Sergey$
 ```
 
+Инициализация Vagrant
+
+```bash
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ vagrant status
+A Vagrant environment or target machine is required to run this
+command. Run `vagrant init` to create a new Vagrant environment. Or,
+get an ID of a target machine from `vagrant global-status` to run
+this command on. A final option is to change to a directory with a
+Vagrantfile and to try again.
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ pwd
+/mnt/c/Users/Sergey
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ mc
+
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ mkdir -p Vagrant-project/Ubuntu-1
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ cd Vagrant-project/Ubuntu-1
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ vagrant init
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ ls -lha
+total 4.0K
+drwxrwxrwx 1 maestro maestro  512 Nov 17 10:22 .
+drwxrwxrwx 1 maestro maestro  512 Nov 17 10:22 ..
+-rwxrwxrwx 1 maestro maestro 3.0K Nov 17 10:22 Vagrantfile
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+```
 
 ## Задача 4 (*)
 
