@@ -923,7 +923,8 @@ server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
 ```
 
 * В директорию ../ansible/ создаем файл ` provision.yml ` с содержимым:
-* 
+* Это и есть Playbook
+
 ```bash
   - hosts: nodes
     become: yes
@@ -957,7 +958,7 @@ server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
         user: name=vagrant append=yes groups=docker
 ```
 
-* В директорию ../vagrant/ создаем файл ` vagrantfile ` с содержимым:
+* В директорию ../vagrant/<Имя_ВМ> создаем файл ` vagrantfile ` с содержимым:
 
 ```bash
 # -*- mode: ruby -*-
