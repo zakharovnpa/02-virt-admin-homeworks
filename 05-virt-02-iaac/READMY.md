@@ -457,6 +457,109 @@ root@Sergey-PC:~#
 root@Sergey-PC:~#
 ```
 
+Была ошибка при установке плагина:
+```bash
+root@Sergey-PC:~# vagrant plugin install virtualbox_WSL2
+The executable 'cmd.exe' Vagrant is trying to run was not
+found in the PATH variable. This is an error. Please verify
+this software is installed and on the path.
+root@Sergey-PC:~#
+```
+Решено прописыванием пути до файла CMD.exe
+```bash
+root@Sergey-PC:~# PATH=/mnt/c/Windows/System32:$PATH
+root@Sergey-PC:~#
+root@Sergey-PC:~# echo $PATH
+/mnt/c/Windows/System32:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/mnt/c/Program Files/Oracle/VirtualBox
+```
+Успешная установка плагина:
+```bash
+root@Sergey-PC:~# vagrant plugin install virtualbox_WSL2
+Installing the 'virtualbox_WSL2' plugin. This can take a few minutes...
+Fetching rake-13.0.6.gem
+Fetching virtualbox_WSL2-0.1.3.gem
+Installed the plugin 'virtualbox_WSL2 (0.1.3)'!
+root@Sergey-PC:~#
+```
+
+Теперь, когда у вас все установлено и настроено, давайте создадим простой проект hello world.
+
+Вам нужно будет перейти к файлам Windows с помощью WSL, а затем запустить оттуда каждую команду Vagrant:
+
+```bash
+# Go to Windows user's dir from WSL
+cd /mnt/c/Users/<my-user-name>/
+
+# Create a project dir
+mkdir -p projects/vagrant-demo
+cd projects/vagrant-demo
+
+# Create a Vagrantfile using Vagrant CLI
+vagrant init hashicorp/bionic64
+ls -l Vagrantfile
+
+# Start a VM using Vagrantfile
+vagrant up
+
+# Login to the VM
+# (password is 'vagrant')
+vagrant ssh
+
+# Done :)
+```
+
+
+При попытке запуска vagrant в ubuntu в wsl:
+
+```bash
+root@Sergey-PC:~#
+root@Sergey-PC:~# type -a vagrant
+root@Sergey-PC:~# n/vagrant
+root@Sergey-PC:~#
+root@Sergey-PC:~#
+root@Sergey-PC:~#
+root@Sergey-PC:~# mc
+root@Sergey-PC:~#
+root@Sergey-PC:~# clear
+root@Sergey-PC:~#
+root@Sergey-PC:~# cd /mnt/c/HashiCorp/Ubuntu-20.04-Vagrant/
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant#
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant# ls -lha
+total 4.0K
+drwxrwxrwx 1 root root  512 Nov 11 15:58 .
+drwxrwxrwx 1 root root  512 Oct 25 21:59 ..
+-rwxrwxrwx 1 root root    0 Nov 11 15:58 test-157.txt
+drwxrwxrwx 1 root root  512 Sep 30 17:29 .vagrant
+-rwxrwxrwx 1 root root 3.3K Oct 23 10:53 Vagrantfile
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant#
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant#
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant#
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant# ls -lha
+total 4.0K
+drwxrwxrwx 1 root root  512 Nov 11 15:58 .
+drwxrwxrwx 1 root root  512 Oct 25 21:59 ..
+-rwxrwxrwx 1 root root    0 Nov 11 15:58 test-157.txt
+drwxrwxrwx 1 root root  512 Sep 30 17:29 .vagrant
+-rwxrwxrwx 1 root root 3.3K Oct 23 10:53 Vagrantfile
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant#
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant# vagrant status
+Vagrant failed to initialize at a very early stage:
+
+Failed to locate the powershell executable on the available PATH. Please
+ensure powershell is installed and available on the local PATH, then
+run the command again.
+root@Sergey-PC:/mnt/c/HashiCorp/Ubuntu-20.04-Vagrant# Работа экземпляра подсистемы Windows для Linux была завершена.
+PS C:\Distros\Ubuntu>
+PS C:\Distros\Ubuntu> wsl -l
+Распределения подсистемы Windows для Linux:
+Ubuntu-16.04 (по умолчанию)
+PS C:\Distros\Ubuntu>
+PS C:\Distros\Ubuntu>
+PS C:\Distros\Ubuntu>
+
+
+```
+
 ## Задача 4 (*)
 
 Воспроизвести практическую часть лекции самостоятельно.
