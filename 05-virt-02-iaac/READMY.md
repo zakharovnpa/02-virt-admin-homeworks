@@ -587,6 +587,9 @@ You're running an up-to-date version of Vagrant!
 maestro@Sergey-PC:/mnt/c/Users/Sergey$
 ```
 
+ВАЖНО! 
+Был произведен откат VirtualBox с версии 6.1.28-147628-Win на версию Версия 6.1.26 r145957 (Qt5.6.2)
+
 Инициализация Vagrant
 
 ```bash
@@ -621,6 +624,130 @@ drwxrwxrwx 1 maestro maestro  512 Nov 17 10:22 ..
 -rwxrwxrwx 1 maestro maestro 3.0K Nov 17 10:22 Vagrantfile
 maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
 ```
+
+
+```bash
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ vagrant up
+Vagrant failed to initialize at a very early stage:
+
+Vagrant is unable to use the VirtualBox provider from the Windows Subsystem for
+Linux without access to the Windows environment. Enabling this access must be
+done with caution and an understanding of the implications. For more information
+on enabling Windows access and using VirtualBox from the Windows Subsystem for
+Linux, please refer to the Vagrant documentation:
+
+  https://www.vagrantup.com/docs/other/wsl.html
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ vagrant status
+Current machine states:
+
+default                   poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run `vagrant up`
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
+==> default: Clearing any previously set forwarded ports...
+==> default: Fixed port collision for 22 => 2222. Now on port 2200.
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+==> default: Forwarding ports...
+    default: 22 (guest) => 2200 (host) (adapter 1)
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2200
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default:
+    default: Vagrant insecure key detected. Vagrant will automatically replace
+    default: this with a newly generated keypair for better security.
+    default:
+    default: Inserting generated public key within guest...
+    default: Removing insecure key from the guest if it's present...
+    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> default: Machine booted and ready!
+==> default: Checking for guest additions in VM...
+==> default: Mounting shared folders...
+    default: /vagrant => /mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+```
+
+```bash
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ vagrant status
+Current machine states:
+
+default                   running (virtualbox)
+
+The VM is running. To stop this VM, you can run `vagrant halt` to
+shut it down forcefully, or you can run `vagrant suspend` to simply
+suspend the virtual machine. In either case, to restart it again,
+simply run `vagrant up`.
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$
+```
+
+```bash
+maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ ssh
+usage: ssh [-1246AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
+           [-D [bind_address:]port] [-E log_file] [-e escape_char]
+           [-F configfile] [-I pkcs11] [-i identity_file] [-L address]
+           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]
+           [-Q query_option] [-R address] [-S ctl_path] [-W host:port]
+           [-w local_tun[:remote_tun]] [user@]hostname [command]
+```
+
+Через PuTTY зашел на Ubuntu на wsl:
+
+```bash
+Using username "vagrant".
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed 17 Nov 2021 09:35:11 AM UTC
+
+  System load:  0.0               Processes:             112
+  Usage of /:   2.4% of 61.31GB   Users logged in:       0
+  Memory usage: 15%               IPv4 address for eth0: 10.0.2.15
+  Swap usage:   0%
+
+
+This system is built by the Bento project by Chef Software
+More information can be found at https://github.com/chef/bento
+vagrant@vagrant:~$
+vagrant@vagrant:~$ uname -a
+Linux vagrant 5.4.0-80-generic #90-Ubuntu SMP Fri Jul 9 22:49:44 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+vagrant@vagrant:~$
+vagrant@vagrant:~$
+
+```
+
+В итоге: 
+* на WSL:
+  *  устновлена версия Linux: Linux Sergey-PC 4.4.0-18362-Microsoft #1049-Microsoft Thu Aug 14 12:01:00 PST 2020 x86_64 x86_64 x86_64 GNU/Linux
+  *  устанвлен vagrant 
+  - ```bash
+    maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-1$ vagrant version
+    Installed Version: 2.2.19
+    Latest Version: 2.2.19
+
+    You're running an up-to-date version of Vagrant!
+    ```
+ * На Windows 10 установлен VirtualBox 
+   - ```bash
+   - Графический интерфейс VirtualBox
+     Версия 6.1.26 r145957 (Qt5.6.2)
+     Copyright © 2021 Oracle Corporation and/or its affiliates. All rights reserved
+   - ```
 
 ## Задача 4 (*)
 
