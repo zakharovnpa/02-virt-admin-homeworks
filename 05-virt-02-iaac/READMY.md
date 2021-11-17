@@ -560,6 +560,34 @@ PS C:\Distros\Ubuntu>
 
 ```
 
+Запуск vagrant в Linux на wsl по [статье](https://www.vagrantup.com/docs/other/wsl):
+
+```bash
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ vagrant version
+Vagrant failed to initialize at a very early stage:
+
+Vagrant is unable to use the VirtualBox provider from the Windows Subsystem for
+Linux without access to the Windows environment. Enabling this access must be
+done with caution and an understanding of the implications. For more information
+on enabling Windows access and using VirtualBox from the Windows Subsystem for
+Linux, please refer to the Vagrant documentation:
+
+  https://www.vagrantup.com/docs/other/wsl.html
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+maestro@Sergey-PC:/mnt/c/Users/Sergey$ vagrant version
+Installed Version: 2.2.19
+Latest Version: 2.2.19
+
+You're running an up-to-date version of Vagrant!
+maestro@Sergey-PC:/mnt/c/Users/Sergey$
+```
+
+
 ## Задача 4 (*)
 
 Воспроизвести практическую часть лекции самостоятельно.
