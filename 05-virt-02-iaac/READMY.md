@@ -910,3 +910,106 @@ drwxrwxrwx 1 maestro maestro 512 Nov 17 16:18 ..
 maestro@Sergey-PC:/mnt/c/Users/Sergey/Vagrant-project/Ubuntu-157$
 
 ```
+
+Подготовка:
+
+* в директорию ../ansible/ создаем файл ` inventory ` с содержимым:
+```bash
+[nodes:children]
+manager
+
+[manager]
+server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
+```
+
+* В директорию ../ansible/ создаем файл ` provision.yml ` с содержимым:
+* 
+```bash
+  - hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: vagrant
+
+    tasks:
+      - name: Create directory for ssh-keys
+        file: state=directory mode=0700 dest=/root/.ssh/
+
+      - name: Adding rsa-key in /root/.ssh/authorized_keys
+        copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
+        ignore_errors: yes
+
+      - name: Checking DNS
+        command: host -t A google.com
+
+      - name: Installing tools
+        apt: >
+          package={{ item }}
+          state=present
+          update_cache=yes
+        with_items:
+          - git
+          - curl
+
+      - name: Installing docker
+        shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
+
+      - name: Add the current user to docker group
+        user: name=vagrant append=yes groups=docker
+```
+
+* В директорию ../vagrant/ создаем файл ` vagrantfile ` с содержимым:
+
+```bash
+# -*- mode: ruby -*-
+
+ISO = "bento/ubuntu-20.04"
+NET = "192.168.192."
+DOMAIN = ".netology"
+HOST_PREFIX = "server"
+INVENTORY_PATH = "../ansible/inventory"
+
+servers = [
+  {
+    :hostname => HOST_PREFIX + "1" + DOMAIN,
+    :ip => NET + "11",
+    :ssh_host => "20011",
+    :ssh_vm => "22",
+    :ram => 1024,
+    :core => 1
+  }
+]
+
+Vagrant.configure(2) do |config|
+  config.vm.synced_folder ".", "/vagrant", disabled: false
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+      node.vm.box = ISO
+      node.vm.hostname = machine[:hostname]
+      node.vm.network "private_network", ip: machine[:ip]
+      node.vm.network :forwarded_port, guest: machine[:ssh_vm], host: machine[:ssh_host]
+      node.vm.provider "virtualbox" do |vb|
+        vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+        vb.customize ["modifyvm", :id, "--cpus", machine[:core]]
+        vb.name = machine[:hostname]
+      end
+      node.vm.provision "ansible" do |setup|
+        setup.inventory_path = INVENTORY_PATH
+        setup.playbook = "../ansible/provision.yml"
+        setup.become = true
+        setup.extra_vars = { ansible_user: 'vagrant' }
+      end
+    end
+  end
+end
+```
+
+* а также файл ` ansible.cfg `:
+
+``bash
+[defaults]
+inventory=./inventory
+deprecation_warnings=False
+command_warnings=False
+ansible_port=22
+interpreter_python=/usr/bin/python3
+```
