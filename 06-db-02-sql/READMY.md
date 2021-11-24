@@ -102,5 +102,6 @@
 
 ---
 Ссылки:
-[GRANT](https://docs.microsoft.com/ru-ru/sql/t-sql/statements/permissions-grant-deny-revoke-azure-sql-data-warehouse-parallel-data-warehouse?view=aps-pdw-2016-au7)
-[DBeaver Community Free Universal Database Tool](https://dbeaver.io/download/)
+- [GRANT](https://docs.microsoft.com/ru-ru/sql/t-sql/statements/permissions-grant-deny-revoke-azure-sql-data-warehouse-parallel-data-warehouse?view=aps-pdw-2016-au7)
+- [DBeaver Community Free Universal Database Tool](https://dbeaver.io/download/)
+- [Использование EXPLAIN. Улучшение запросов](https://habr.com/ru/post/211022/)
