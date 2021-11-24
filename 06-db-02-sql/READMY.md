@@ -101,4 +101,6 @@
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
 
 ---
-
+Ссылки:
+[GRANT](https://docs.microsoft.com/ru-ru/sql/t-sql/statements/permissions-grant-deny-revoke-azure-sql-data-warehouse-parallel-data-warehouse?view=aps-pdw-2016-au7)
+[DBeaver Community Free Universal Database Tool](https://dbeaver.io/download/)
