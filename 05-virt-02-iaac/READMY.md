@@ -46,13 +46,13 @@
 ```bash
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
 ```
-ПК перезагрузиться.
+ПК перезагрузится.
 
 Затем выполнить:
 ```bash
 Включить - WindowsOptionalFeature - Online - FeatureName VirtualMachinePlatform
 ```
-ПК перезагрузиться.
+ПК перезагрузится.
 
 Затем из [статьи](https://www.thomasmaurer.ch/2018/04/windows-subsystem-for-linux-on-windows-server/)
 выполнить команды на  скачивание и установку дистрибутивов Linux
