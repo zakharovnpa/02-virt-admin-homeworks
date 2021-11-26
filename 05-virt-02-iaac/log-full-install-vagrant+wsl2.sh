@@ -2575,3 +2575,32 @@ logout
 vagrant@vagrant:~$
 vagrant@vagrant:~$
 vagrant@vagrant:~$
+vagrant@vagrant:~$ exit
+logout
+Connection to localhost closed.
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant status
+Current machine states:
+
+default                   running (virtualbox)
+
+The VM is running. To stop this VM, you can run `vagrant halt` to
+shut it down forcefully, or you can run `vagrant suspend` to simply
+suspend the virtual machine. In either case, to restart it again,
+simply run `vagrant up`.
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant halt
+==> default: Attempting graceful shutdown of VM...
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant status
+Current machine states:
+
+default                   poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run `vagrant up`
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
