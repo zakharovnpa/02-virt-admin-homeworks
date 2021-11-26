@@ -97,7 +97,7 @@ sudo apt-get update && sudo apt-get install vagrant
 -------------------------------------------------------------------------------------
 
 
-
+#### Запустили vagrant а он не находит путь до cmd.exe
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant status
 Vagrant failed to initialize at a very early stage:
@@ -105,37 +105,47 @@ Vagrant failed to initialize at a very early stage:
 The executable 'cmd.exe' Vagrant is trying to run was not
 found in the PATH variable. This is an error. Please verify
 this software is installed and on the path.
+```
+#### Включаем поддержку WSL
+```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32"' >>
-~/.bashrc
+```
+#### Добавляем переменные окружения
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell\v1.0"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+```
+#### Перезапускаем ./bashrc
+```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# source ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+```
+#### Установка плагина поддержки WSL
+```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant plugin install virtualbox_WSL2
 Installing the 'virtualbox_WSL2' plugin. This can take a few minutes...
 Fetching rake-13.0.6.gem
 Fetching virtualbox_WSL2-0.1.3.gem
 Installed the plugin 'virtualbox_WSL2 (0.1.3)'!
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+```
+#### Инициализируем vagrant
+```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant init
 Vagrant failed to initialize at a very early stage:
 
 Failed to locate the powershell executable on the available PATH. Please
 ensure powershell is installed and available on the local PATH, then
 run the command again.
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
+```
+
+Не найден путь к PowerShell. Ошибка в пути к файлу.
 
 #### Проверяем переменные окружения:
 ```bash
@@ -162,7 +172,8 @@ MAIL=/var/mail/root
 OLDPWD=/root
 _=/usr/bin/env
 ```
-
+#### Корректируем путь до PowerShell
+```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# mc
@@ -180,6 +191,7 @@ Select an editor.  To change later, run 'select-editor'.
   5. /bin/ed
 
 Choose 1-5 [1]: 3
+```
 
 #### Перезапускаем ./bashrc
 ```bash
