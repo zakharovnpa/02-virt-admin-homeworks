@@ -144,11 +144,11 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 ```
 #### Создаем в директории нового проекта server-2 окружение для запуска ВМ под управлением vagrant & ansible
 * Файл Vagrantfile
-```bash
+```ruby
 # -*- mode: ruby -*-
 
 ISO = "bento/ubuntu-20.04"
-NET = "192.168.192."
+#NET = "192.168.192."
 DOMAIN = ".netology"
 HOST_PREFIX = "server"
 INVENTORY_PATH = "../ansible/inventory"
@@ -156,7 +156,7 @@ INVENTORY_PATH = "../ansible/inventory"
 servers = [
   {
     :hostname => HOST_PREFIX + "1" + DOMAIN,
-    :ip => NET + "11",
+    #:ip => NET + "11",
     :ssh_host => "20011",
     :ssh_vm => "22",
     :ram => 1024,
