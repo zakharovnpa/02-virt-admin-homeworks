@@ -207,6 +207,98 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#source ~/.bashr
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#env
 ```
+#### Запускаем новую ВМ
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant up
+Bringing machine 'server1.netology' up with 'virtualbox' provider...
+==> server1.netology: Importing base box 'bento/ubuntu-20.04'...
+==> server1.netology: Matching MAC address for NAT networking...
+==> server1.netology: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
+==> server1.netology: Setting the name of the VM: server1.netology
+==> server1.netology: Clearing any previously set network interfaces...
+Network settings specified in your Vagrantfile define an invalid
+IP address. Please review the error message below and update your
+Vagrantfile network settings:
+
+  Address:
+  Netmask:
+  Error: address family must be specified
+  ```
+  #### Исправляем файл ` Vagrantfile `. Устанавливаем IP адреса
+  ```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vim Vagrantfile
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant status
+Current machine states:
+
+server1.netology          poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run `vagrant up`
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant up
+Bringing machine 'server1.netology' up with 'virtualbox' provider...
+==> server1.netology: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
+==> server1.netology: Clearing any previously set network interfaces...
+The IP address configured for the host-only network is not within the
+allowed ranges. Please update the address used to be within the allowed
+ranges and run the command again.
+
+  Address: 192.168.192.11
+  Ranges: 192.168.56.0/21
+
+Valid ranges can be modified in the /etc/vbox/networks.conf file. For
+more information including valid format see:
+
+  https://www.virtualbox.org/manual/ch06.html#network_hostonly
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+```
+#### В файле ` Vagrentfile ` выставляем ip адрес внутренней сети Virtualbox для новой ВМ
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vim Vagrantfile
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+```
+#### Перезапускаем vagrant
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant up
+Bringing machine 'server1.netology' up with 'virtualbox' provider...
+==> server1.netology: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
+==> server1.netology: Clearing any previously set network interfaces...
+==> server1.netology: Preparing network interfaces based on configuration...
+    server1.netology: Adapter 1: nat
+    server1.netology: Adapter 2: hostonly
+==> server1.netology: Forwarding ports...
+    server1.netology: 22 (guest) => 20011 (host) (adapter 1)
+    server1.netology: 22 (guest) => 2222 (host) (adapter 1)
+    server1.netology: 22 (guest) => 2222 (host) (adapter 1)
+==> server1.netology: Running 'pre-boot' VM customizations...
+==> server1.netology: Booting VM...
+==> server1.netology: Waiting for machine to boot. This may take a few minutes...
+    server1.netology: SSH address: localhost:2222
+    server1.netology: SSH username: vagrant
+    server1.netology: SSH auth method: private key
+    server1.netology:
+    server1.netology: Vagrant insecure key detected. Vagrant will automatically replace
+    server1.netology: this with a newly generated keypair for better security.
+    server1.netology:
+    server1.netology: Inserting generated public key within guest...
+    server1.netology: Removing insecure key from the guest if it's present...
+    server1.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> server1.netology: Machine booted and ready!
+==> server1.netology: Checking for guest additions in VM...
+==> server1.netology: Setting hostname...
+==> server1.netology: Configuring and enabling network interfaces...
+==> server1.netology: Mounting shared folders...
+    server1.netology: /vagrant => /mnt/c/Users/serje/Vagrant-project/server-2
+
+==> server1.netology: Running provisioner: ansible...
+`playbook` does not exist on the host: /mnt/c/Users/serje/Vagrant-project/ansible/provision.yml
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+```
+
+
 #### Создаем директорию  ` ../ansible/ ` и создаем в ней файл ` inventory ` с содержимым:
 ```bash
 [nodes:children]
