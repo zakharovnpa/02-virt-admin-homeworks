@@ -297,7 +297,69 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 ```
+#### К новой ВМ можно подключиться по ssh
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant ssh
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
 
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat 27 Nov 2021 10:52:17 AM UTC
+
+  System load:  0.08              Processes:             98
+  Usage of /:   2.4% of 61.31GB   Users logged in:       0
+  Memory usage: 15%               IPv4 address for eth0: 10.0.2.15
+  Swap usage:   0%                IPv4 address for eth1: 192.168.56.11
+
+
+This system is built by the Bento project by Chef Software
+More information can be found at https://github.com/chef/bento
+vagrant@server1:~$
+vagrant@server1:~$
+```
+#### Удаляем нлвую ВМ
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant status
+Current machine states:
+
+server1.netology          running (virtualbox)
+
+The VM is running. To stop this VM, you can run `vagrant halt` to
+shut it down forcefully, or you can run `vagrant suspend` to simply
+suspend the virtual machine. In either case, to restart it again,
+simply run `vagrant up`.
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant halt
+==> server1.netology: Attempting graceful shutdown of VM...
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant status
+Current machine states:
+
+server1.netology          poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run `vagrant up`
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant destroy
+    server1.netology: Are you sure you want to destroy the 'server1.netology' VM? [y/N] y
+==> server1.netology: Destroying VM and associated drives...
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant status
+Current machine states:
+
+server1.netology          not created (virtualbox)
+
+The environment has not yet been created. Run `vagrant up` to
+create the environment. If a machine is not created, only the
+default provider will be shown. So if a provider is not listed,
+then the machine is not created for that environment.
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+```
 
 #### Создаем директорию  ` ../ansible/ ` и создаем в ней файл ` inventory ` с содержимым:
 ```bash
