@@ -49,7 +49,14 @@ Vagrant 2.2.19
 
 - Версия установенного Ansible
 ```md
-
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# ansible --version
+ansible 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.8.2 (default, Mar 13 2020, 10:14:16) [GCC 9.3.0]
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 ```
 
 ## Задача 4 (*)
