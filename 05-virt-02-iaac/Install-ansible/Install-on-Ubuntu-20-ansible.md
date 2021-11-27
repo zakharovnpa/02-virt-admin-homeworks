@@ -369,7 +369,141 @@ manager
 [manager]
 server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
 ```
-#### В директории  ` ../ansible/ ` создаем файл ` provision.yml ` с содержимым:
+#### В директории  ` ../ansible/ ` создаем файл ` provision.yml ` с содержимым. 
+
+* Строго соблюдать отступы. точно как в этом файле.
+* Проверить директорию ` ~/.ssh/ ` на содержимое. Там должен быть файл ` id_rsa.pub `
+```yml
+---
+
+  - hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: vagrant
+
+    tasks:
+      - name: Create directory for ssh-keys
+        file: state=directory mode=0700 dest=/root/.ssh/
+
+      - name: Adding rsa-key in /root/.ssh/authorized_keys
+        copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
+        ignore_errors: yes
+
+      - name: Checking DNS
+        command: host -t A google.com
+
+      - name: Installing tools
+        apt: >
+          package={{ item }}
+          state=present
+          update_cache=yes
+        with_items:
+          - git
+          - curl
+
+      - name: Installing docker
+        shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
+
+      - name: Add the current user to docker group
+        user: name=vagrant append=yes groups=docker
+```
+#### Пример неверно написанного файла. При этом после запуска провижион-вагрант появляются синтаксические ошибки:
+```bash
+ERROR! Syntax Error while loading YAML.
+  mapping values are not allowed in this context
+
+The error appears to be in '/mnt/c/Users/serje/Vagrant-project/ansible/provision.yml': line 2, column 11, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+- hosts: nodes
+    become: yes
+          ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+
+
+--------------------------
+
+ERROR! this task 'apt' has extra params, which is only allowed in the following modules: include_tasks, import_tasks, include, import_role, script, raw, shell, include_vars, add_host, win_command, command, group_by, set_fact, meta, win_shell, include_role
+
+The error appears to be in '/mnt/c/Users/serje/Vagrant-project/ansible/provision.yml': line 19, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Installing tools
+      ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+
+------
+
+provisions the vagrant machine
+
+--------
+ERROR! this task 'apt' has extra params, which is only allowed in the following modules: script, include, command, win_shell, include_role, raw, meta, win_command, include_tasks, group_by, include_vars, shell, import_role, add_host, import_tasks, set_fact
+
+The error appears to be in '/mnt/c/Users/serje/Vagrant-project/ansible/provision.yml': line 19, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Installing tools
+      ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+
+
+-------
+he offending line appears to be:
+
+
+ tasks:
+ ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+
+---------------------------
+The offending line appears to be:
+
+  - name: Create directory for ssh-keys
+   file: state=directory mode=0700 dest=/root/.ssh/
+   ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+
+-----------------------------
+The offending line appears to be:
+
+  - name: Create directory for ssh-keys
+      file: state=directory mode=0700 dest=/root/.ssh/
+          ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+
+-----
+
+he offending line appears to be:
+
+      update_cache=yes
+                  ^ here
+
+
+----------------
+
+he offending line appears to be:
+
+
+  - name: Adding rsa-key in /root/.ssh/authorized_keys
+    ^ here
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+```
+
 ```yml
 - hosts: nodes
     become: yes
@@ -401,4 +535,49 @@ server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
 
       - name: Add the current user to docker group
         user: name=vagrant append=yes groups=docker
+```
+#### Если ВМ уже ране была создана и запущена, то можно запустить ее конфигурирование с помощью команды ` vagrant provision `
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant provision
+==> server1.netology: Running provisioner: ansible...
+    server1.netology: Running ansible-playbook...
+
+PLAY [nodes] *******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server1.netology]
+
+TASK [Create directory for ssh-keys] *******************************************
+changed: [server1.netology]
+
+TASK [Adding rsa-key in /root/.ssh/authorized_keys] ****************************
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+fatal: [server1.netology]: FAILED! => {"changed": false, "msg": "Could not find or access '~/.ssh/id_rsa.pub' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+...ignoring
+
+TASK [Checking DNS] ************************************************************
+changed: [server1.netology]
+
+TASK [Installing tools] ********************************************************
+[DEPRECATION WARNING]: Invoking "apt" only once while using a loop via
+squash_actions is deprecated. Instead of using a loop to supply multiple items
+and specifying `package: "{{ item }}"`, please use `package: ['git', 'curl']`
+and remove the loop. This feature will be removed in version 2.11. Deprecation
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [server1.netology] => (item=['git', 'curl'])
+
+TASK [Installing docker] *******************************************************
+[WARNING]: Consider using the get_url or uri module rather than running 'curl'.
+If you need to use command because get_url or uri is insufficient you can add
+'warn: false' to this command task or set 'command_warnings=False' in
+ansible.cfg to get rid of this message.
+changed: [server1.netology]
+
+TASK [Add the current user to docker group] ************************************
+changed: [server1.netology]
+
+PLAY RECAP *********************************************************************
+server1.netology           : ok=7    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 ```
