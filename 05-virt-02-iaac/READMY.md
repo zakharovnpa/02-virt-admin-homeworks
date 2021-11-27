@@ -75,7 +75,7 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 docker ps
 ```
 **Ответ:**
-- ВМ создана на ПК с Windows 10, на котором установлен VirtualBox, Vagrant, запущен WSL (Windows-Service-Linux) и в нем запущена вторичная (витруальная) ОС Ubuntu-20.04. 
+- ВМ создана на ПК с Windows 10, на котором установлен VirtualBox, Vagrant, запущен WSL (Windows Subsystem for Linux) и в нем запущена вторичная (витруальная) ОС Ubuntu-20.04. 
   [Логи процесса инсталляции](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/install-wsl2%2Bvagrant/Install.md)
 - На виртуальной Ubuntu-20.04 установлены Vagrant, ansible, curl, git, docker
   [Логи процесса инсталляции](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/Install-ansible/Install-on-Ubuntu-20-ansible.md)
