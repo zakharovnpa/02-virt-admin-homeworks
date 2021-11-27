@@ -27,6 +27,31 @@
 
 **Ответ:**
 
+- Версия установенного VirtualBox
+```md
+C:\Program Files\Oracle\VirtualBox>virtualbox -help > vboxver.txt
+
+C:\Program Files\Oracle\VirtualBox>type vboxver.txt
+Oracle VM VirtualBox VM Selector v6.1.30
+(C) 2005-2021 Oracle Corporation
+All rights reserved.
+
+No special options.
+
+If you are looking for --startvm and related options, you need to use VirtualBoxVM.
+```
+
+- Версия установенного Vagrant
+```md
+C:\>vagrant -v
+Vagrant 2.2.19
+```
+
+- Версия установенного Ansible
+```md
+
+```
+
 ## Задача 4 (*)
 
 Воспроизвести практическую часть лекции самостоятельно.
