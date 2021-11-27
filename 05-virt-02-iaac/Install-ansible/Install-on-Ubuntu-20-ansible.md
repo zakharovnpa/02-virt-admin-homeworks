@@ -207,7 +207,7 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#source ~/.bashr
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#env
 ```
-#### Создаем директорию  ../ansible/ и создаем в ней файл inventory с содержимым:
+#### Создаем директорию  ` ../ansible/ ` и создаем в ней файл ` inventory ` с содержимым:
 ```bash
 [nodes:children]
 manager
@@ -215,7 +215,7 @@ manager
 [manager]
 server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
 ```
-#### В директории  ../ansible/ создаем файл provision.yml с содержимым:
+#### В директории  ` ../ansible/ ` создаем файл ` provision.yml ` с содержимым:
 ```yml
 - hosts: nodes
     become: yes
