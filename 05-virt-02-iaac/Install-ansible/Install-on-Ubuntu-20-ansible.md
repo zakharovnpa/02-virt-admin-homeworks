@@ -189,4 +189,62 @@ Vagrant.configure(2) do |config|
 end
 ```
 
+#### Проверяем какой дитсрибутив доступен для создания ВМ
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant box list
+bento/ubuntu-20.04 (virtualbox, 202107.28.0)
+```
 
+#### Добавляем переменную
+```bash
+echo 'export VAGRANT_DEFAULT_PROVIDER=virtualbox' >> ~/.bashrc
+```
+#### Перезапускаем bashrc
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#source ~/.bashrc
+```
+#### Проверяем окружение
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#env
+```
+#### Создаем директорию  ../ansible/ и создаем в ней файл inventory с содержимым:
+```bash
+[nodes:children]
+manager
+
+[manager]
+server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
+```
+#### В директории  ../ansible/ создаем файл provision.yml с содержимым:
+```yml
+- hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: vagrant
+
+    tasks:
+      - name: Create directory for ssh-keys
+        file: state=directory mode=0700 dest=/root/.ssh/
+
+      - name: Adding rsa-key in /root/.ssh/authorized_keys
+        copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
+        ignore_errors: yes
+
+      - name: Checking DNS
+        command: host -t A google.com
+
+      - name: Installing tools
+        apt: >
+          package={{ item }}
+          state=present
+          update_cache=yes
+        with_items:
+          - git
+          - curl
+
+      - name: Installing docker
+        shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
+
+      - name: Add the current user to docker group
+        user: name=vagrant append=yes groups=docker
+```
