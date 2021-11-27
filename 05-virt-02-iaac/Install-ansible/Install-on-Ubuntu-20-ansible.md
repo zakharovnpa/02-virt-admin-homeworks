@@ -361,7 +361,7 @@ then the machine is not created for that environment.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 ```
 
-#### Создаем директорию  ` ../ansible/ ` и создаем в ней файл ` inventory ` с содержимым:
+#### Создаем директорию` /ansible ` в директории с проектами Vagrant ` ../Vagrant-project/ansible/ ` и создаем в ней файл ` inventory ` с содержимым:
 ```bash
 [nodes:children]
 manager
@@ -369,7 +369,7 @@ manager
 [manager]
 server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
 ```
-#### В директории  ` ../ansible/ ` создаем файл ` provision.yml ` с содержимым. 
+#### В директории ` /ansible `, находящейся в дирктории с проектами Vagrant ` ../Vagrant-project/ansible/ ` создаем файл ` provision.yml ` с содержимым. 
 
 * Строго соблюдать отступы. точно как в этом файле.
 * Проверить директорию ` ~/.ssh/ ` на содержимое. Там должен быть файл ` id_rsa.pub `
@@ -407,7 +407,9 @@ server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
       - name: Add the current user to docker group
         user: name=vagrant append=yes groups=docker
 ```
-#### Пример неверно написанного файла. При этом после запуска провижион-вагрант появляются синтаксические ошибки:
+#### Пример неверно написанного файла. 
+#### При этом после запуска провижион-вагрант появляются синтаксические ошибки:
+* Ошибка 1:
 ```bash
 ERROR! Syntax Error while loading YAML.
   mapping values are not allowed in this context
@@ -422,10 +424,9 @@ The offending line appears to be:
           ^ here
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
-
-
---------------------------
-
+```
+* Ошибка 2:
+```bash
 ERROR! this task 'apt' has extra params, which is only allowed in the following modules: include_tasks, import_tasks, include, import_role, script, raw, shell, include_vars, add_host, win_command, command, group_by, set_fact, meta, win_shell, include_role
 
 The error appears to be in '/mnt/c/Users/serje/Vagrant-project/ansible/provision.yml': line 19, column 7, but may
@@ -438,12 +439,10 @@ The offending line appears to be:
       ^ here
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
+```
+* Ошибка 1:
+```bash
 
-------
-
-provisions the vagrant machine
-
---------
 ERROR! this task 'apt' has extra params, which is only allowed in the following modules: script, include, command, win_shell, include_role, raw, meta, win_command, include_tasks, group_by, include_vars, shell, import_role, add_host, import_tasks, set_fact
 
 The error appears to be in '/mnt/c/Users/serje/Vagrant-project/ansible/provision.yml': line 19, column 7, but may
@@ -456,9 +455,10 @@ The offending line appears to be:
       ^ here
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
-
-
--------
+```
+* Ошибка 3:
+```bash
+...
 he offending line appears to be:
 
 
@@ -466,8 +466,9 @@ he offending line appears to be:
  ^ here
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
-
----------------------------
+```
+* Ошибка 4:
+```bash
 The offending line appears to be:
 
   - name: Create directory for ssh-keys
@@ -475,8 +476,9 @@ The offending line appears to be:
    ^ here
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
-
------------------------------
+```
+* Ошибка 5:
+```bash
 The offending line appears to be:
 
   - name: Create directory for ssh-keys
@@ -484,17 +486,17 @@ The offending line appears to be:
           ^ here
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
-
------
-
+```
+* Ошибка 6:
+```bash
 he offending line appears to be:
 
       update_cache=yes
                   ^ here
 
-
-----------------
-
+```
+* Ошибка 7:
+```bash
 he offending line appears to be:
 
 
@@ -503,7 +505,7 @@ he offending line appears to be:
 Ansible failed to complete successfully. Any error output should be
 visible above. Please fix these errors and try again.
 ```
-
+#### Пример неверно расположенных отступов в синтаксисе файла?
 ```yml
 - hosts: nodes
     become: yes
@@ -580,4 +582,25 @@ PLAY RECAP *********************************************************************
 server1.netology           : ok=7    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
 
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
+```
+
+#### В итоге запущена новая ВМ и с помошью ansible playbook (provision.yml) установлены Curl, Git, Dicker
+```bash
+vagrant@server1:~$
+vagrant@server1:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+vagrant@server1:~$
+vagrant@server1:~$ vagrant --version
+-bash: vagrant: command not found
+vagrant@server1:~$
+vagrant@server1:~$
+vagrant@server1:~$ whereis docker
+docker: /usr/bin/docker /etc/docker /usr/libexec/docker /usr/share/man/man1/docker.1.gz
+vagrant@server1:~$
+vagrant@server1:~$ whereis curl
+curl: /usr/bin/curl /usr/share/man/man1/curl.1.gz
+vagrant@server1:~$
+vagrant@server1:~$ whereis git
+git: /usr/bin/git /usr/share/man/man1/git.1.gz
+vagrant@server1:~$
 ```
