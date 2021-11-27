@@ -82,6 +82,9 @@ docker ps
 
 - Установленный Docker в ВМ server1.netology
 ```md
+root@server1:~# docker --version
+Docker version 20.10.11, build dea9396
+
 root@server1:~# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
