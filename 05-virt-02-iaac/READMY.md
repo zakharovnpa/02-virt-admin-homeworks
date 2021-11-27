@@ -42,7 +42,7 @@ docker ps
 - На виртуальной Ubuntu-20.04 установлены Vagrant, ansible, curl, git, docker
   [Логи процесса инсталляции](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/Install-ansible/Install-on-Ubuntu-20-ansible.md)
 
-Установленный Docker в ВМ server1.netology
+- Установленный Docker в ВМ server1.netology
 ```md
 root@server1:~# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
