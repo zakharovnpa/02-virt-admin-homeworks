@@ -165,9 +165,9 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 
 #### Установка в Linux [vagrant](https://www.vagrantup.com/docs/other/wsl)
 
-[Установить Vagrant](https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/#:~:text=%D0%9C%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%20Microsoft-,%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C%20Vagrant,-%D0%92%D1%8B%20%D0%B4%D0%BE%D0%BB%D0%B6%D0%BD%D1%8B%20%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C)
+[Установить Vagrant](https://www.vagrantup.com/docs/other/wsl#vagrant-installation)
 
-Вы должны установить Vagrant внутри WSL. Итак, вы должны скачать версию для Linux.
+#### Вы должны установить Vagrant внутри WSL. Итак, вы должны скачать версию для Linux.
 Предполагая, что вы используете Ubuntu 20.04, запустите:
 ```bash
 # run inside WSL 2
@@ -176,10 +176,11 @@ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get update && sudo apt-get install vagrant
 ```
-
--------------------------------------------------------------------------------------
-
-
+#### Смотрим версию vagrant
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2/ansible# vagrant --version
+Vagrant 2.2.19
+```
 #### Запустили vagrant а он не находит путь до cmd.exe
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vagrant status
