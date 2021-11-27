@@ -41,9 +41,15 @@ No special options.
 If you are looking for --startvm and related options, you need to use VirtualBoxVM.
 ```
 
-- Версия установенного Vagrant
+- Версия установенного Vagrant в Windows 10
 ```md
 C:\>vagrant -v
+Vagrant 2.2.19
+```
+
+- Версия установенного Vagrant в Ubuntu-20.04 на WSL
+```md
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant --version
 Vagrant 2.2.19
 ```
 
