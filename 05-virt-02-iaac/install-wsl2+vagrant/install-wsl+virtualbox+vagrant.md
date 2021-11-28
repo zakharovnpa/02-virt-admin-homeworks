@@ -163,10 +163,10 @@ root@DESKTOP-FMD4BBS:~# cd /mnt/c/Users/serje/Vagrant-project/server-1/
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 ```
 
-#### Установка в Linux VAgrant по [мануалу](https://www.vagrantup.com/docs/other/wsl)
+#### Установка в Linux Vagrant по [мануалу](https://www.vagrantup.com/docs/other/wsl)
 
 
-#### Устанавливаем Vagrant внутри WSL
+#### Устанавливаем Vagrant внутри Linux на WSL
 ```bash
 # run inside WSL 2
 # check https://www.vagrantup.com/downloads for more info
