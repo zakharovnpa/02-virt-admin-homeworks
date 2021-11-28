@@ -408,7 +408,7 @@ server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
         user: name=vagrant append=yes groups=docker
 ```
 #### Пример неверно написанного файла. 
-#### При этом после запуска провижион-вагрант появляются синтаксические ошибки:
+#### При этом после запуска команды ` vagrant provision ` появляются синтаксические ошибки:
 * Ошибка 1:
 ```bash
 ERROR! Syntax Error while loading YAML.
