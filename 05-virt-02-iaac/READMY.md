@@ -89,9 +89,11 @@ docker ps
 **Ответ:**
 
 - ВМ создана на ОС Windows 10, на которой установлены VirtualBox, Vagrant, запущена среда WSL (Windows Subsystem for Linux). В среде WSL запущена вторичная (виртуальная) ОС Ubuntu-20.04, в которой установлены Vagrant и Ansible. И затем, при помощи них создана ВМ **server1.netology**, на которой в процессе создания ВМ были установлены Git, Curl, Docker.
-  [Описание процесса инсталляции виртуальной ОС Ubuntu-20.04 на WSL](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/install-wsl2%2Bvagrant/Install.md)
+- Тестовый [Запуск ВМ в VirtualBox с помощью Vagrant в среде WSL (Windows-Subsystem-Linux)](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/install-wsl2+vagrant/install-wsl+virtualbox+vagrant.md)
+- [Описание процесса инсталляции виртуальной ОС Ubuntu-20.04 на WSL](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/install-wsl2%2Bvagrant/Install.md)
 - На виртуальной Ubuntu-20.04 установлены Vagrant, ansible. Создана ВМ **server1.netology** и в ней запущены curl, git, docker
   [Описание процесса создания ВМ server1.netology и инсталляции curl, git, docker](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/Install-ansible/Install-on-Ubuntu-20-ansible.md)
+  [Установка ansible на Ubuntu-20.04 для возможности конфигурирования новых ВМ совместно с vagrant](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/05-virt-02-iaac/Install-ansible/Install-on-Ubuntu-20-ansible.md#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-ansible-%D0%BD%D0%B0-ubuntu-2004-%D0%B4%D0%BB%D1%8F-%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BD%D0%BE%D0%B2%D1%8B%D1%85-%D0%B2%D0%BC-%D1%81%D0%BE%D0%B2%D0%BC%D0%B5%D1%81%D1%82%D0%BD%D0%BE-%D1%81-vagrant)
 
 - Установленный Docker в ВМ server1.netology
 ```md
