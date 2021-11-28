@@ -85,7 +85,7 @@ PS C:\WINDOWS\system32> systeminfo
 PS C:\WINDOWS\system32>
 ```
 
-#### Запускаем WSL 1:
+#### Запускаем WSL:
 ```bash
 PS C:\WINDOWS\system32> wsl
 ```
