@@ -11,13 +11,13 @@
 Из [статьи](https://www.thomasmaurer.ch/2019/06/install-wsl-2-on-windows-10/) команды выполненные в PowerShell под администратором:
 
 ```bash
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+Enable-WindowsOptionalFeature-Online-FeatureName Microsoft-Windows-Subsystem-Linux
 ```
 ПК перезагрузится.
 
 Затем выполнить:
 ```bash
-Включить - WindowsOptionalFeature - Online - FeatureName VirtualMachinePlatform
+Enable-WindowsOptionalFeature-Online-FeatureName VirtualMachinePlatform
 ```
 ПК перезагрузится.
 
