@@ -163,12 +163,10 @@ root@DESKTOP-FMD4BBS:~# cd /mnt/c/Users/serje/Vagrant-project/server-1/
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 ```
 
-#### Установка в Linux [vagrant](https://www.vagrantup.com/docs/other/wsl)
+#### Установка в Linux VAgrant по [мануалу](https://www.vagrantup.com/docs/other/wsl)
 
-[Установить Vagrant](https://www.vagrantup.com/docs/other/wsl#vagrant-installation)
 
-#### Вы должны установить Vagrant внутри WSL. Итак, вы должны скачать версию для Linux.
-Предполагая, что вы используете Ubuntu 20.04, запустите:
+#### Устанавливаем Vagrant внутри WSL
 ```bash
 # run inside WSL 2
 # check https://www.vagrantup.com/downloads for more info
