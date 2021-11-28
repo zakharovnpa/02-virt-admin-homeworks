@@ -319,7 +319,7 @@ More information can be found at https://github.com/chef/bento
 vagrant@server1:~$
 vagrant@server1:~$
 ```
-#### Удаляем нлвую ВМ
+#### Удаляем новую ВМ
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2# vagrant status
