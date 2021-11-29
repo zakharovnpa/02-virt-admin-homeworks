@@ -57,8 +57,9 @@
 ---
 
 Ссылки из лекции:
-[1](https://selectel.ru/blog/extensions/)
-[2](https://postgrespro.ru/docs/postgresql/9.6/sql-createextension)
+* [1](https://selectel.ru/blog/extensions/)
+* [2](https://postgrespro.ru/docs/postgresql/9.6/sql-createextension)
+* [3](https://www.pgbouncer.org/)
 
 
 
