@@ -1,6 +1,6 @@
 ## Запуск ВМ в VirtualBox с помощью Vagrant в среде WSL (Windows-Subsystem-Linux)
 
-Основная [статья] с инчтрукцией (https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/)
+Основная [статья] с инструкцией (https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/)
 
 * Необходимо установить:
   - Windows 10 - версия +19042.928 (Версия 21H2)
@@ -195,7 +195,7 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell\v1.0"' >> ~/.bashrc
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/1.0"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 ```
