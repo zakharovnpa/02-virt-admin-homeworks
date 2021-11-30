@@ -1,6 +1,6 @@
 ## Запуск ВМ в VirtualBox с помощью Vagrant в среде WSL (Windows-Subsystem-Linux)
 
-Основная [статья] с инструкцией (https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/)
+Основная [статья](https://blog.thenets.org/how-to-run-vagrant-on-wsl-2/) с инструкцией
 
 * Необходимо установить:
   - Windows 10 - версия +19042.928 (Версия 21H2)
