@@ -573,7 +573,7 @@ Connection to localhost closed.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 ```
 ### Смотрим статус Vagrant
-``ps
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
 Current machine states:
@@ -585,5 +585,17 @@ shut it down forcefully, or you can run `vagrant suspend` to simply
 suspend the virtual machine. In either case, to restart it again,
 simply run `vagrant up`.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+###
+```vim
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant halt
+==> default: Attempting graceful shutdown of VM...
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
+Current machine states:
+
+default                   poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run `vagrant up`
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 ```
