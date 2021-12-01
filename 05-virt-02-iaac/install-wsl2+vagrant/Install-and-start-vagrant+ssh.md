@@ -129,6 +129,25 @@ Reading package lists... Done
 ```
 #### Установка Vagrant
 ```ps
+root@Sergey-PC:~# apt-get install vagrant
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  vagrant
+0 upgraded, 1 newly installed, 0 to remove and 88 not upgraded.
+Need to get 41.5 MB of archives.
+After this operation, 117 MB of additional disk space will be used.
+Get:1 https://apt.releases.hashicorp.com focal/main amd64 vagrant amd64 2.2.19 [41.5 MB]
+Fetched 41.5 MB in 43s (961 kB/s)
+Selecting previously unselected package vagrant.
+(Reading database ... 32223 files and directories currently installed.)
+Preparing to unpack .../vagrant_2.2.19_amd64.deb ...
+Unpacking vagrant (2.2.19) ...
+Setting up vagrant (2.2.19) ...
+```
+#### Когда Vagrant уже был установлен ранее
+```ps
 root@DESKTOP-FMD4BBS:~# apt-get install vagrant
 Reading package lists... Done
 Building dependency tree
