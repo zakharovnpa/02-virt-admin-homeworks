@@ -73,7 +73,7 @@ This message is shown once once a day. To disable it please create the
 /root/.hushlogin file.
 root@DESKTOP-FMD4BBS:~#
 ```
-### Смотрим что Vagrant уже бфл установлен
+### Смотрим что Vagrant уже был установлен
 ```ps
 root@DESKTOP-FMD4BBS:~# type vagrant
 vagrant is /usr/bin/vagrant
@@ -173,14 +173,107 @@ drwxrwxrwx 1 maestro maestro 4.0K Dec  1 09:33 .
 drwxrwxrwx 1 maestro maestro 4.0K Dec  1 09:31 ..
 -rwxrwxrwx 1 maestro maestro 3.0K Dec  1 09:33 Vagrantfile
 ```
-### Корректируем Vagrantfile
+### Смортим настройки SSH
 ```ps
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vim Vagrantfile
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant ssh-config
+Host default
+  HostName 192.168.1.1
+  User vagrant
+  Port 2222
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /mnt/c/Users/serje/.vagrant.d/insecure_private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
 ```
-###
+
+### Корректируем Vagrantfile, т.к. ` HostName 192.168.1.1 ` - неверный хост. Меняем его на ` HostName localhost `
+```ps
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vim Vagrantfile
+```
+#### Исправленный Vagrantfile
+```bash
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+  config.vm.box = "bento/ubuntu-20.04"
+  config.ssh.host = 'localhost' # Здесь меняем HostName  с 192.168.1.1 на 127.0.0.1 (localhost)
+end
+```
+#### Дефолтный Vagrantfile
+```bash
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# cat Vagrantfile
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "base"
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+  #   vb.memory = "1024"
+  # end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+end
+```
+### Проверяем окружение
 ```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# env
 SHELL=/bin/bash
@@ -206,10 +299,10 @@ SUDO_UID=1000
 MAIL=/var/mail/root
 _=/usr/bin/env
 OLDPWD=/mnt/c/Users/serje/Vagrant-project
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Смотрим версию Vagrant и заодно проверяем способность Vagrant запускаться
+```ps
+
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant --version
 Vagrant 2.2.19
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
@@ -224,9 +317,9 @@ default provider will be shown. So if a provider is not listed,
 then the machine is not created for that environment.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vim Vagrantfile
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Вариант неудачного запуска ВМ проекта по причине HostName 192.168.1.1. ВМ запустилась, но с ней нет связи по ssh и Vagrant не может к ней подключиться
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Box 'bento/ubuntu-20.04' could not be found. Attempting to find and install...
@@ -272,7 +365,9 @@ or on a per folder basis within the Vagrantfile:
 ^C==> default: Waiting for cleanup before exiting...
 Vagrant exited after cleanup due to external interrupt.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Статус Vagrant после неудачных попыток подключения к ВМ по ssh
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
 Current machine states:
 
@@ -360,6 +455,9 @@ Traceback (most recent call last):
          1: from /opt/vagrant/embedded/lib/ruby/2.7.0/socket.rb:1214:in `connect_nonblock'
 /opt/vagrant/embedded/lib/ruby/2.7.0/socket.rb:1214:in `__connect_nonblock': Operation already in progress - connect(2) for 192.168.1.1:2222 (Errno::EALREADY)
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Некорректный адрес HostName 
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant ssh-config
 Host default
   HostName 192.168.1.1
@@ -371,7 +469,9 @@ Host default
   IdentityFile /mnt/c/Users/serje/.vagrant.d/insecure_private_key
   IdentitiesOnly yes
   LogLevel FATAL
-
+  ```
+  ### Правим параметр ` HostName localhost ` Vagrantfile
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vim Vagrantfile
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
@@ -386,13 +486,18 @@ Host default
   IdentityFile /mnt/c/Users/serje/.vagrant.d/insecure_private_key
   IdentitiesOnly yes
   LogLevel FATAL
-
+  ```
+  ### 
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Остановка ВМ и в этот момент загрузка на нее ключа SSH
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant halt
 ==> default: Attempting graceful shutdown of VM...
     default:
@@ -404,6 +509,9 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant halt
     default: Key inserted! Disconnecting and reconnecting using new SSH key...
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+###
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
 Current machine states:
 
@@ -412,6 +520,9 @@ default                   poweroff (virtualbox)
 The VM is powered off. To restart the VM, simply run `vagrant up`
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Успешный запуск ВМ с параметром HostName localhost в Vagrantfile
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
@@ -434,7 +545,9 @@ Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
 ==> default: flag to force provisioning. Provisioners marked to run always will still run.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Успешное подключение к новой ВМ по SSH
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant ssh
 Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
 
@@ -458,6 +571,9 @@ vagrant@vagrant:~$ exit
 logout
 Connection to localhost closed.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Смотрим статус Vagrant
+``ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
 Current machine states:
