@@ -1,3 +1,7 @@
+## На ПК Elena-PC запуск ВМ на WSL Ubuntu и запуск в ней ВМ с помощью Vagrant и  VirtualBox
+
+### Входим в PowesrShell
+```ps
 Windows PowerShell
 (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
 
@@ -5,11 +9,17 @@ Windows PowerShell
 
 PS C:\Windows\system32>
 PS C:\Windows\system32>
+```
+### Проверяем статус WSL
+```ps
 PS C:\Windows\system32> wsl --status
 Распределение по умолчанию: Ubuntu-20.04
 Версия по умолчанию: 2
 Включите функцию Windows для платформы виртуальных машин и убедитесь в том, что в BIOS включена виртуализация.
 Дополнительные сведения см. на странице https://aka.ms/wsl2-install
+```
+### Запускаем ВМ командой wsl. Можно ` wsl -d <Distrib> `
+```ps
 PS C:\Windows\system32> wsl
 Welcome to Ubuntu 20.04 LTS (GNU/Linux 4.4.0-19041-Microsoft x86_64)
 
@@ -34,6 +44,9 @@ To see these additional updates run: apt list --upgradable
 
 This message is shown once once a day. To disable it please create the
 /home/maestro/.hushlogin file.
+```
+  ### Входим в УЗ администратора  
+```ps
 maestro@DESKTOP-FMD4BBS:/mnt/c/Windows/system32$ sudo -i
 [sudo] password for maestro:
 Welcome to Ubuntu 20.04 LTS (GNU/Linux 4.4.0-19041-Microsoft x86_64)
@@ -59,22 +72,20 @@ To see these additional updates run: apt list --upgradable
 This message is shown once once a day. To disable it please create the
 /root/.hushlogin file.
 root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~# mc
-
-root@DESKTOP-FMD4BBS:~# mc
-
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
+```
+### Смотрим что Vagrant уже бфл установлен
+```ps
 root@DESKTOP-FMD4BBS:~# type vagrant
 vagrant is /usr/bin/vagrant
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~# mc
-
+```
+### Команды для установки Vagrant
+#### Скачивание и установка ключа для подключения к репозиторию Hashicorp
+```ps
 root@DESKTOP-FMD4BBS:~# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 OK
+```
+#### Подключение репозитория Hashicorp
+```ps
 root@DESKTOP-FMD4BBS:~#
 root@DESKTOP-FMD4BBS:~# apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
@@ -105,8 +116,9 @@ Get:25 http://security.ubuntu.com/ubuntu focal-security/restricted Translation-e
 Get:26 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 c-n-f Metadata [528 B]
 Fetched 5784 kB in 12s (481 kB/s)
 Reading package lists... Done
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
+```
+#### Обновляем установщики
+```ps
 root@DESKTOP-FMD4BBS:~# apt-get update
 Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
 Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
@@ -114,56 +126,62 @@ Hit:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease
 Hit:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease
 Hit:5 https://apt.releases.hashicorp.com focal InRelease
 Reading package lists... Done
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
+```
+#### Установка Vagrant
+```ps
 root@DESKTOP-FMD4BBS:~# apt-get install vagrant
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
 vagrant is already the newest version (2.2.19).
 0 upgraded, 0 newly installed, 0 to remove and 251 not upgraded.
-root@DESKTOP-FMD4BBS:~#
-root@DESKTOP-FMD4BBS:~#
+```
+### Создаем новую директорию проекта Alfa.
+```ps
+
 root@DESKTOP-FMD4BBS:~# cd /mnt/c/Users/serje/Vagrant-project/
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project# ls -l
-total 0
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project# mkdir -p Alfa
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project# cd Alfa/
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# mc
-
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# ls -lha
 total 0
 drwxrwxrwx 1 maestro maestro 4.0K Dec  1 09:32 .
 drwxrwxrwx 1 maestro maestro 4.0K Dec  1 09:31 ..
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Проверяем статус Vagrant
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
 A Vagrant environment or target machine is required to run this
 command. Run `vagrant init` to create a new Vagrant environment. Or,
 get an ID of a target machine from `vagrant global-status` to run
 this command on. A final option is to change to a directory with a
 Vagrantfile and to try again.
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### Инициализируем в папке проекта конфигурацию для запуска новой ВМ
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant init
 A `Vagrantfile` has been placed in this directory. You are now
 ready to `vagrant up` your first virtual environment! Please read
 the comments in the Vagrantfile as well as documentation on
 `vagrantup.com` for more information on using Vagrant.
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+### В результате создан дефолтный Vagrantfile
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# ls -lha
 total 4.0K
 drwxrwxrwx 1 maestro maestro 4.0K Dec  1 09:33 .
 drwxrwxrwx 1 maestro maestro 4.0K Dec  1 09:31 ..
 -rwxrwxrwx 1 maestro maestro 3.0K Dec  1 09:33 Vagrantfile
+```
+### Корректируем Vagrantfile
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vim Vagrantfile
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
+###
+```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# env
 SHELL=/bin/bash
 SUDO_GID=1000
@@ -452,3 +470,4 @@ suspend the virtual machine. In either case, to restart it again,
 simply run `vagrant up`.
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
+```
