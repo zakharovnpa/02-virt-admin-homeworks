@@ -510,7 +510,7 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant halt
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa#
 ```
-###
+### Статус Vagrant
 ```ps
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/Alfa# vagrant status
 Current machine states:
