@@ -84,7 +84,18 @@ Kafka был разработан в компании LinkedIn в 2011 году 
 - [Apache Kafka: обзор](https://habr.com/ru/company/piter/blog/352978/)
 - [СОБЕННОСТИ КОРПОРАТИВНОЙ ИНТЕГРАЦИИ НА ESB И APACHE KAFKA](https://www.bigdataschool.ru/blog/kafka-esb-avito-case.html)
 
-- Elasticsearch кластер для реализации логирования продуктивного веб-приложения - три ноды elasticsearch, два logstash и две ноды kibana;
+5. Elasticsearch кластер для реализации логирования продуктивного веб-приложения - три ноды elasticsearch, два logstash и две ноды kibana
+Необходимо на кластере из трех серверов
+
+- [Развертывание отказоустойчивого кластера Elasticsearch в Linux](https://netpoint-dc.com/blog/elasticsearch-cluster-linux/)
+- [Что же такое Logstash? Зачем он нужен? Что он умеет?](https://habr.com/ru/post/165059/#:~:text=%D0%A7%D1%82%D0%BE%20%D0%B6%D0%B5%20%D1%82%D0%B0%D0%BA%D0%BE%D0%B5%20Logstash%3F%20%D0%97%D0%B0%D1%87%D0%B5%D0%BC%20%D0%BE%D0%BD%20%D0%BD%D1%83%D0%B6%D0%B5%D0%BD%3F%20%D0%A7%D1%82%D0%BE%20%D0%BE%D0%BD%20%D1%83%D0%BC%D0%B5%D0%B5%D1%82%3F)
+- []()
+- []()
+
+Elasticsearch — это масштабируемый полнотекстовый поисковый и аналитический поисковый движок с открытым исходным кодом, позволяющий хранить большие объемы данных, проводить среди них быстрый поиск и аналитику. Он является чрезвычайно мощным инструментом для поиска и анализа данных, благодаря его способности к масштабированию. Описание всех преимуществ этого движка доступно на [официальном сайте](https://www.elastic.co/products/elasticsearch).
+
+
+
 - Мониторинг-стек на базе Prometheus и Grafana;
 - MongoDB, как основное хранилище данных для java-приложения;
 - Gitlab сервер для реализации CI/CD процессов и приватный (закрытый) Docker Registry.
