@@ -381,7 +381,7 @@ PS C:\Windows\system32> systeminfo
 Требования Hyper-V:               Обнаружена низкоуровневая оболочка. Функции, необходимые для Hyper-V, отображены не будут.
 PS C:\Windows\system32>
 ```
-## Шаг 2. На ПК Sergey-PC установка на ОС Ubuntu-20.04 Vagrant
+## Шаг 2. На ПК Sergey-PC установка на ОС Ubuntu-20.04 утилит Vagrant и Midnight Commander
 ### Устанавливаем Vagrant внутри Linux на WSL по [мануалу](https://www.vagrantup.com/docs/other/wsl)
 ```yml
 # run inside WSL 2
@@ -501,4 +501,108 @@ root@DESKTOP-LTI9L04:~#
 ```yml
 root@DESKTOP-LTI9L04:~# vagrant --version
 Vagrant 2.2.19
+```
+### Устанавливаем утилиту Midnight Commander
+```yml
+apt install mc
+```
+```ps
+root@DESKTOP-LTI9L04:~# apt install mc
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  libssh2-1 mc-data unzip
+Suggested packages:
+  arj catdvi | texlive-binaries dbview djvulibre-bin epub-utils genisoimage gv imagemagick libaspell-dev links | w3m
+  | lynx odt2txt poppler-utils python python-boto python-tz xpdf | pdf-viewer zip
+The following NEW packages will be installed:
+  libssh2-1 mc mc-data unzip
+0 upgraded, 4 newly installed, 0 to remove and 251 not upgraded.
+Need to get 1986 kB of archives.
+After this operation, 8587 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu focal/universe amd64 libssh2-1 amd64 1.8.0-2.1build1 [75.4 kB]
+Get:2 http://archive.ubuntu.com/ubuntu focal/universe amd64 mc-data all 3:4.8.24-2ubuntu1 [1265 kB]
+Get:3 http://archive.ubuntu.com/ubuntu focal/universe amd64 mc amd64 3:4.8.24-2ubuntu1 [477 kB]
+Get:4 http://archive.ubuntu.com/ubuntu focal/main amd64 unzip amd64 6.0-25ubuntu1 [169 kB]
+Fetched 1986 kB in 1s (1622 kB/s)
+Selecting previously unselected package libssh2-1:amd64.
+(Reading database ... 38154 files and directories currently installed.)
+Preparing to unpack .../libssh2-1_1.8.0-2.1build1_amd64.deb ...
+Unpacking libssh2-1:amd64 (1.8.0-2.1build1) ...
+Selecting previously unselected package mc-data.
+Preparing to unpack .../mc-data_3%3a4.8.24-2ubuntu1_all.deb ...
+Unpacking mc-data (3:4.8.24-2ubuntu1) ...
+Selecting previously unselected package mc.
+Preparing to unpack .../mc_3%3a4.8.24-2ubuntu1_amd64.deb ...
+Unpacking mc (3:4.8.24-2ubuntu1) ...
+Selecting previously unselected package unzip.
+Preparing to unpack .../unzip_6.0-25ubuntu1_amd64.deb ...
+Unpacking unzip (6.0-25ubuntu1) ...
+Setting up unzip (6.0-25ubuntu1) ...
+Setting up mc-data (3:4.8.24-2ubuntu1) ...
+Setting up libssh2-1:amd64 (1.8.0-2.1build1) ...
+Setting up mc (3:4.8.24-2ubuntu1) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for mime-support (3.64ubuntu1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9) ...
+root@DESKTOP-LTI9L04:~#
+```
+### Шаг 3. Создание директории проектов для будущих ВМ, запускаемых с помощью Vagrant
+#### Переходим в домашнй каталог поьзователя Windows, в УЗ которого запущен WSL
+```cmd
+root@DESKTOP-LTI9L04:~# pwd
+/root
+root@DESKTOP-LTI9L04:~#
+root@DESKTOP-LTI9L04:~# cd /mnt/c/Users/serje/
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje#
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje# pwd
+/mnt/c/Users/serje
+```
+```cmd
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje# ls -lha
+total 3.7M
+drwxrwxrwx 1 root root  512 Dec  4 11:05  .
+dr-xr-xr-x 1 root root  512 Dec  4 00:20  ..
+drwxrwxrwx 1 root root  512 Dec  4 11:31  .VirtualBox
+drwxrwxrwx 1 root root  512 Dec  4 00:03 '3D Objects'
+drwxrwxrwx 1 root root  512 Dec  4 00:01  AppData
+lrwxrwxrwx 1 root root   34 Dec  4 00:01 'Application Data' -> /mnt/c/Users/serje/AppData/Roaming
+drwxrwxrwx 1 root root  512 Dec  4 00:03  Contacts
+lrwxrwxrwx 1 root root   62 Dec  4 00:01  Cookies -> /mnt/c/Users/serje/AppData/Local/Microsoft/Windows/INetCookies
+drwxrwxrwx 1 root root  512 Dec  4 00:05  Documents
+drwxrwxrwx 1 root root  512 Dec  4 11:10  Downloads
+drwxrwxrwx 1 root root  512 Dec  4 00:07  Favorites
+drwxrwxrwx 1 root root  512 Dec  4 00:03  Links
+lrwxrwxrwx 1 root root   32 Dec  4 00:01 'Local Settings' -> /mnt/c/Users/serje/AppData/Local
+drwxrwxrwx 1 root root  512 Dec  4 00:03  Music
+-rwxrwxrwx 1 root root 1.5M Dec  4 11:47  NTUSER.DAT
+-rwxrwxrwx 1 root root  64K Dec  4 00:01  NTUSER.DAT{53b39e88-18c4-11ea-a811-000d3aa4692b}.TM.blf
+-rwxrwxrwx 1 root root 512K Dec  4 00:01  NTUSER.DAT{53b39e88-18c4-11ea-a811-000d3aa4692b}.TMContainer00000000000000000001.regtrans-ms
+-rwxrwxrwx 1 root root 512K Dec  4 00:01  NTUSER.DAT{53b39e88-18c4-11ea-a811-000d3aa4692b}.TMContainer00000000000000000002.regtrans-ms
+lrwxrwxrwx 1 root root   70 Dec  4 00:01  NetHood -> '/mnt/c/Users/serje/AppData/Roaming/Microsoft/Windows/Network Shortcuts'
+drwxrwxrwx 1 root root  512 Dec  4 11:51  OneDrive
+drwxrwxrwx 1 root root  512 Dec  4 00:05  Pictures
+lrwxrwxrwx 1 root root   70 Dec  4 00:01  PrintHood -> '/mnt/c/Users/serje/AppData/Roaming/Microsoft/Windows/Printer Shortcuts'
+lrwxrwxrwx 1 root root   59 Dec  4 00:01  Recent -> /mnt/c/Users/serje/AppData/Roaming/Microsoft/Windows/Recent
+drwxrwxrwx 1 root root  512 Dec  4 00:03 'Saved Games'
+drwxrwxrwx 1 root root  512 Dec  4 00:04  Searches
+lrwxrwxrwx 1 root root   59 Dec  4 00:01  SendTo -> /mnt/c/Users/serje/AppData/Roaming/Microsoft/Windows/SendTo
+drwxrwxrwx 1 root root  512 Dec  4 00:03  Videos
+-rwxrwxrwx 1 root root 564K Dec  4 00:01  ntuser.dat.LOG1
+-rwxrwxrwx 1 root root 548K Dec  4 00:01  ntuser.dat.LOG2
+-rwxrwxrwx 1 root root   20 Dec  4 00:01  ntuser.ini
+lrwxrwxrwx 1 root root   28 Dec  4 00:01 'Мои документы' -> /mnt/c/Users/serje/Documents
+lrwxrwxrwx 1 root root   62 Dec  4 00:01  Шаблоны -> /mnt/c/Users/serje/AppData/Roaming/Microsoft/Windows/Templates
+lrwxrwxrwx 1 root root   63 Dec  4 00:01 'главное меню' -> '/mnt/c/Users/serje/AppData/Roaming/Microsoft/Windows/Start Menu'
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje#
+```
+#### Создаем в Linux директорию для проекта и файлов конфигурации нового сервера:
+
+```cmd
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje# mkdir -p Alfa && cd Alfa
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa#
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# pwd
+/mnt/c/Users/serje/Alfa
 ```
