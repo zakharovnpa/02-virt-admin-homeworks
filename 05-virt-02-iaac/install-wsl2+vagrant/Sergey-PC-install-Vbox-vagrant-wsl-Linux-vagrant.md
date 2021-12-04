@@ -663,7 +663,7 @@ echo 'export PATH="$PATH:/mnt/c/Windows/System32"' >> ~/.bashrc
 ```
 ##### Путь до исполняемого файла PowerShell
 ```yml
-echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/1.0"' >> ~/.bashrc
+echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0"' >> ~/.bashrc
 ```
 #### Перезапускаем ./bashrc
 ```yml
