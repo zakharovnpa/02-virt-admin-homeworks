@@ -223,3 +223,98 @@ PS C:\Windows\system32> wsl --status
         Вывод сведений об использовании.
 PS C:\Windows\system32>
 ```
+#### После перезагрузки Windows
+##### Запрос на создание пользователя в Ubuntu
+![создание пользователя в Ubuntu](/05-virt-02-iaac/install-wsl2+vagrant/img/Ubuntu-user-root-1.PNG)
+![Вход в систему Ubuntu](05-virt-02-iaac/install-wsl2+vagrant/img/Ubuntu-installing.PNG)
+##### Состояние службы WSL
+```ps
+PS C:\Windows\system32> wsl --status
+Распределение по умолчанию: Ubuntu-20.04
+Версия по умолчанию: 2
+
+Подсистема Windows для Linux в последний раз обновлена 04.12.2021
+Ядро подсистемы Windows для Linux можно обновить вручную с помощью команды wsl --update, но автоматическое обновление невозможно из-за параметров системы.
+Чтобы получать автоматические обновления ядра, включите параметр центра обновления Windows: «Получение обновлений для других продуктов Майкрософт при обновлении Windows».
+Дополнительные сведения см. на странице https://aka.ms/wsl2kernel.
+
+Версия ядра: 5.10.16
+PS C:\Windows\system32>
+PS C:\Windows\system32> wsl -l -v
+  NAME            STATE           VERSION
+* Ubuntu-20.04    Running         2
+PS C:\Windows\system32>
+PS C:\Windows\system32>
+```
+##### Состояние дополнительных компонентов Windows
+![Добавленные компоненты](/05-virt-02-iaac/install-wsl2+vagrant/img/windows-virtual-components-update.PNG)
+##### Системинфо
+```ps
+PS C:\Windows\system32>
+PS C:\Windows\system32> systeminfo
+
+Имя узла:                         DESKTOP-LTI9L04
+Название ОС:                      Майкрософт Windows 10 Домашняя
+Версия ОС:                        10.0.19044 Н/Д построение 19044
+Изготовитель ОС:                  Microsoft Corporation
+Параметры ОС:                     Изолированная рабочая станция
+Сборка ОС:                        Multiprocessor Free
+Зарегистрированный владелец:      serjent@yandex.ru
+Зарегистрированная организация:
+Код продукта:                     00326-10000-00000-AA293
+Дата установки:                   04.12.2021, 0:55:37
+Время загрузки системы:           04.12.2021, 11:49:26
+Изготовитель системы:             System manufacturer
+Модель системы:                   System Product Name
+Тип системы:                      x64-based PC
+Процессор(ы):                     Число процессоров - 1.
+                                  [01]: AMD64 Family 16 Model 10 Stepping 0 AuthenticAMD ~3000 МГц
+Версия BIOS:                      American Megatrends Inc. 3029   , 05.07.2012
+Папка Windows:                    C:\Windows
+Системная папка:                  C:\Windows\system32
+Устройство загрузки:              \Device\HarddiskVolume1
+Язык системы:                     ru;Русский
+Язык ввода:                       ru;Русский
+Часовой пояс:                     (UTC+04:00) Ижевск, Самара
+Полный объем физической памяти:   16 382 МБ
+Доступная физическая память:      12 495 МБ
+Виртуальная память: Макс. размер: 19 326 МБ
+Виртуальная память: Доступна:     15 363 МБ
+Виртуальная память: Используется: 3 963 МБ
+Расположение файла подкачки:      C:\pagefile.sys
+Домен:                            WORKGROUP
+Сервер входа в сеть:              \\DESKTOP-LTI9L04
+Исправление(я):                   Число установленных исправлений - 5.
+                                  [01]: KB5006365
+                                  [02]: KB5003791
+                                  [03]: KB5007186
+                                  [04]: KB5006753
+                                  [05]: KB5005699
+Сетевые адаптеры:                 Число сетевых адаптеров - 4.
+                                  [01]: Realtek PCIe GbE Family Controller
+                                        Имя подключения: Ethernet
+                                        Состояние:       Носитель отключен
+                                  [02]: Qualcomm Atheros AR922X Wireless Network Adapter
+                                        Имя подключения: Беспроводная сеть
+                                        DHCP включен:    Да
+                                        DHCP-сервер:     192.168.1.1
+                                        IP-адрес
+                                        [01]: 192.168.1.22
+                                        [02]: fe80::c0e0:64e8:1978:1dd8
+                                  [03]: VirtualBox Host-Only Ethernet Adapter
+                                        Имя подключения: VirtualBox Host-Only Network
+                                        DHCP включен:    Нет
+                                        IP-адрес
+                                        [01]: 192.168.56.1
+                                        [02]: fe80::8d07:337f:8722:1386
+                                  [04]: Hyper-V Virtual Ethernet Adapter
+                                        Имя подключения: vEthernet (WSL)
+                                        DHCP включен:    Нет
+                                        IP-адрес
+                                        [01]: 172.17.48.1
+                                        [02]: fe80::7144:2dce:6c37:462e
+Требования Hyper-V:               Обнаружена низкоуровневая оболочка. Функции, необходимые для Hyper-V, отображены не будут.
+PS C:\Windows\system32>
+
+
+```
