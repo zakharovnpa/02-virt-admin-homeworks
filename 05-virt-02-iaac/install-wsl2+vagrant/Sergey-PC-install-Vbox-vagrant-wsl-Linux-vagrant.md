@@ -1,4 +1,4 @@
-## Шаг 1. процесса установки на ПК Sergey-PC Virtualbox, Vagrant, запуска WSL и одновременно с ней запуск компонента ОС Linux.
+## Шаг 1. На ПК Sergey-PC установка Virtualbox, Vagrant, запуска WSL и одновременно с ней запуск компонента ОС Linux.
 
 ### . 
 ```yml
@@ -378,6 +378,31 @@ PS C:\Windows\system32> systeminfo
                                         [02]: fe80::7144:2dce:6c37:462e
 Требования Hyper-V:               Обнаружена низкоуровневая оболочка. Функции, необходимые для Hyper-V, отображены не будут.
 PS C:\Windows\system32>
-
-
+```
+## Шаг 2. На ПК Sergey-PC установка на ОС Ubuntu-20.04 Vagrant
+### Устанавливаем Vagrant внутри Linux на WSL по [мануалу](https://www.vagrantup.com/docs/other/wsl)
+```bash
+# run inside WSL 2
+# check https://www.vagrantup.com/downloads for more info
+```
+#### Устанавливаем ключ для подключеня репозитория Hasicorp
+```yml
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+```
+#### Подключаем репозиторий Hasicorp
+```yml
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+```
+#### Обновляем установщики
+```yml
+apt-get update
+```
+#### Запускаем установку Vagrant
+```yml
+apt-get install vagrant
+```
+#### Смотрим версию vagrant
+```yml
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2/ansible# vagrant --version
+Vagrant 2.2.19
 ```
