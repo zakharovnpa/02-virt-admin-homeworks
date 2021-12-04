@@ -874,7 +874,11 @@ The environment has not yet been created. Run `vagrant up` to
 create the environment. If a machine is not created, only the
 default provider will be shown. So if a provider is not listed,
 then the machine is not created for that environment.
-root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa#
+```
+```cmd
+Среда еще не создана. Запустите `vagrant up`, чтобы создать среду. 
+Если машина не создана, будет показан только поставщик по умолчанию. 
+Таким образом, если поставщика нет в списке, значит, машина не создана для этой среды.
 ```
 ```yml
 root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant ssh-config
@@ -888,15 +892,120 @@ you're using.
 root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa#
 ```
 ```cmd
-Среда еще не создана. Запустите `vagrant up`, чтобы создать среду. 
-Если машина не создана, будет показан только поставщик по умолчанию. 
-Таким образом, если поставщика нет в списке, значит, машина не создана для этой среды.
-```
-```cmd
 Поставщик этой машины под управлением Vagrant сообщает, что она еще не готова к SSH. 
 В зависимости от вашего провайдера это может иметь разное значение. Убедитесь, что 
 ваша машина создана и работает, и попробуйте еще раз. Кроме того, проверьте вывод 
 «vagrant status», чтобы убедиться, что машина находится в ожидаемом состоянии. 
 Если вы продолжаете получать это сообщение об ошибке, просмотрите документацию поставщика,
 которого вы используете.
+```
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant global-status
+id       name   provider state  directory
+--------------------------------------------------------------------
+There are no active Vagrant environments on this computer! Or,
+you haven't destroyed and recreated Vagrant environments that were
+started with an older version of Vagrant.
+```
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Box 'bento/ubuntu-20.04' could not be found. Attempting to find and install...
+    default: Box Provider: virtualbox
+    default: Box Version: >= 0
+==> default: Loading metadata for box 'bento/ubuntu-20.04'
+    default: URL: https://vagrantcloud.com/bento/ubuntu-20.04
+==> default: Adding box 'bento/ubuntu-20.04' (v202107.28.0) for provider: virtualbox
+    default: Downloading: https://vagrantcloud.com/bento/boxes/ubuntu-20.04/versions/202107.28.0/providers/virtualbox.box
+==> default: Successfully added box 'bento/ubuntu-20.04' (v202107.28.0) for 'virtualbox'!
+==> default: Importing base box 'bento/ubuntu-20.04'...
+==> default: Matching MAC address for NAT networking...
+==> default: Checking if box 'bento/ubuntu-20.04' version '202107.28.0' is up to date...
+==> default: Setting the name of the VM: Alfa_default_1638636885038_95987
+Vagrant is currently configured to create VirtualBox synced folders with
+the `SharedFoldersEnableSymlinksCreate` option enabled. If the Vagrant
+guest is not trusted, you may want to disable this option. For more
+information on this option, please refer to the VirtualBox manual:
+
+  https://www.virtualbox.org/manual/ch04.html#sharedfolders
+
+This option can be disabled globally with an environment variable:
+
+  VAGRANT_DISABLE_VBOXSYMLINKCREATE=1
+
+or on a per folder basis within the Vagrantfile:
+
+  config.vm.synced_folder '/host/path', '/guest/path', SharedFoldersEnableSymlinksCreate: false
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+==> default: Forwarding ports...
+    default: 22 (guest) => 2222 (host) (adapter 1)
+    default: 22 (guest) => 2222 (host) (adapter 1)
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: localhost:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+    default: Warning: Connection refused. Retrying...
+Timed out while waiting for the machine to boot. This means that
+Vagrant was unable to communicate with the guest machine within
+the configured ("config.vm.boot_timeout" value) time period.
+
+If you look above, you should be able to see the error(s) that
+Vagrant had when attempting to connect to the machine. These errors
+are usually good hints as to what may be wrong.
+
+If you're using a custom box, make sure that networking is properly
+working and you're able to connect to the machine. It is a common
+problem that networking isn't setup properly in these boxes.
+Verify that authentication configurations are also setup properly,
+as well.
+
+If the box appears to be booting properly, you may want to increase
+the timeout ("config.vm.boot_timeout") value.
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa#
+```
+```bash
+Истекло время ожидания загрузки машины. Это означает, что Vagrant не смог связаться с гостевой машиной 
+в течение настроенного (значение "config.vm.boot_timeout") периода времени.
+
+Если вы посмотрите выше, вы сможете увидеть ошибки, которые возникли у Vagrant при попытке подключиться 
+к машине. Эти ошибки обычно служат хорошим намеком на то, что может быть не так.
+
+Если вы используете настраиваемый ящик, убедитесь, что сеть работает правильно и вы можете подключиться 
+к машине. Это обычная проблема, когда сеть не настроена должным образом в этих ящиках. 
+Убедитесь, что конфигурации аутентификации также настроены правильно.
+
+Если кажется, что ящик загружается правильно, вы можете увеличить значение тайм-аута 
+("config.vm.boot_timeout").
 ```
