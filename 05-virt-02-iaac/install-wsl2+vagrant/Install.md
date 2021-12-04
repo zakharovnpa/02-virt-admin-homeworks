@@ -60,7 +60,7 @@ Expand-Archive ~/Ubuntu.zip C:\Distros\Ubuntu
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 ```
 
-``bash
+```bash
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 ```
 
