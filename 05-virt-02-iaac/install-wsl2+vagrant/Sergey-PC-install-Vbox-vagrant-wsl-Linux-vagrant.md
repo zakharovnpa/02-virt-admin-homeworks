@@ -669,5 +669,16 @@ echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/1.0"' >> ~/.b
 ```yml
 source ~/.bashrc
 ```
+### Установка плагина поддержки WSL
+```yml
+vagrant plugin install virtualbox_WSL2
+```
+#### Результат
+```cmd
+Installing the 'virtualbox_WSL2' plugin. This can take a few minutes...
+Fetching rake-13.0.6.gem
+Fetching virtualbox_WSL2-0.1.3.gem
+Installed the plugin 'virtualbox_WSL2 (0.1.3)'!
+```
 ```yml
 ```
