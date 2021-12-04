@@ -1,7 +1,7 @@
 ## Процесс установки на ПК Sergey-PC Virtualbox, Vagrant, запуска WSL и в ней запуск компонента ОС Linux & Vagrant
 
 ### 
-```ps
+```yml
 Windows PowerShell
 (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
 
@@ -46,7 +46,7 @@ PS C:\Windows\system32> wsl --version
 PS C:\Windows\system32>
 ```
 ### Доступные дистрибутивы
-```ps
+```yml
 PS C:\Windows\system32> wsl -l -o
 Ниже приведен список допустимых распределений, которые можно установить.
 Распределение по умолчанию помечено знаком «*».
@@ -65,7 +65,7 @@ PS C:\Windows\system32>
 PS C:\Windows\system32>
 ```
 ### Малый вариант вывода команды ` wsl -l -v `
-```ps
+```yml
 PS C:\Windows\system32> wsl -l -v
 
 (c) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
@@ -104,7 +104,7 @@ PS C:\Windows\system32> wsl -l -v
 PS C:\Windows\system32>
 ```
 ### Сбор сведений о системе
-```ps
+```yml
 PS C:\Windows\system32> systeminfo
 
 Имя узла:                         DESKTOP-LTI9L04
@@ -170,7 +170,7 @@ PS C:\Windows\system32>
 #### Запускаем и устанавливаем VirtualBox
 #### Скачиваем Vagrant [со страницы загрузки](https://www.vagrantup.com/downloads). Пока не устанавливаем.
 #### Запускаем установку WSL и дистрибутива Ubuntu-20.04
-```ps
+```yml
 PS C:\Windows\system32> wsl --install -d Ubuntu-20.04
 Выполняется установка: Платформа виртуальной машины
 Установка "Платформа виртуальной машины" выполнена.
@@ -185,7 +185,7 @@ PS C:\Windows\system32> wsl --install -d Ubuntu-20.04
 PS C:\Windows\system32>
 ```
 #### Статус WSL после установки до перезагрузки Windows
-```ps
+```yml
 PS C:\Windows\system32> wsl --status
 
 (c) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
@@ -224,10 +224,75 @@ PS C:\Windows\system32> wsl --status
 PS C:\Windows\system32>
 ```
 #### После перезагрузки Windows
-##### Авто атически открылось окно запроса на создание пользователя в Ubuntu
+##### Автоматически открылось окно запроса на создание пользователя в Ubuntu
+```yml
+Installing, this may take a few minutes...
+Please create a default UNIX user account. The username does not need to match your Windows username.
+For more information visit: https://aka.ms/wslusers
+Enter new UNIX username: maestro
+New password:
+Retype new password:
+passwd: password updated successfully
+Installation successful!
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.10.16.3-microsoft-standard-WSL2 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Dec  4 11:59:51 +04 2021
+
+  System load:  0.05               Processes:             8
+  Usage of /:   0.4% of 250.98GB   Users logged in:       0
+  Memory usage: 0%                 IPv4 address for eth0: 172.17.50.213
+  Swap usage:   0%
+
+0 updates can be installed immediately.
+0 of these updates are security updates.
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+
+This message is shown once once a day. To disable it please create the
+/home/maestro/.hushlogin file.
+maestro@DESKTOP-LTI9L04:~$ sudo -i
+[sudo] password for maestro:
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.10.16.3-microsoft-standard-WSL2 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Dec  4 12:01:17 +04 2021
+
+  System load:  0.05               Processes:             10
+  Usage of /:   0.4% of 250.98GB   Users logged in:       0
+  Memory usage: 0%                 IPv4 address for eth0: 172.17.50.213
+  Swap usage:   0%
+
+0 updates can be installed immediately.
+0 of these updates are security updates.
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+
+This message is shown once once a day. To disable it please create the
+/root/.hushlogin file.
+root@DESKTOP-LTI9L04:~#
+root@DESKTOP-LTI9L04:~# type mc
+-bash: type: mc: not found
+root@DESKTOP-LTI9L04:~#
+```
 ![Создание пользователя и вход в систему Ubuntu](/05-virt-02-iaac/install-wsl2+vagrant/img/Ubuntu-installing.PNG)
 ##### Состояние службы WSL
-```ps
+```yml
 PS C:\Windows\system32> wsl --status
 Распределение по умолчанию: Ubuntu-20.04
 Версия по умолчанию: 2
@@ -248,8 +313,7 @@ PS C:\Windows\system32>
 ##### Состояние дополнительных компонентов Windows
 ![Добавленные компоненты](/05-virt-02-iaac/install-wsl2+vagrant/img/windows-virtual-components-update.PNG)
 ##### Системинфо показывает изменения в разделе "Требования Hyper-V"
-```ps
-PS C:\Windows\system32>
+```yml
 PS C:\Windows\system32> systeminfo
 
 Имя узла:                         DESKTOP-LTI9L04
