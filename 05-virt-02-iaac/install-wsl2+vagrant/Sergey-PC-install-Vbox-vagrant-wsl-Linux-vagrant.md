@@ -224,9 +224,8 @@ PS C:\Windows\system32> wsl --status
 PS C:\Windows\system32>
 ```
 #### После перезагрузки Windows
-##### Запрос на создание пользователя в Ubuntu
-![создание пользователя в Ubuntu](/05-virt-02-iaac/install-wsl2+vagrant/img/Ubuntu-user-root-1.PNG)
-![Вход в систему Ubuntu](05-virt-02-iaac/install-wsl2+vagrant/img/Ubuntu-installing.PNG)
+##### Авто атически открылось окно запроса на создание пользователя в Ubuntu
+![Создание пользователя и вход в систему Ubuntu](/05-virt-02-iaac/install-wsl2+vagrant/img/Ubuntu-installing.PNG)
 ##### Состояние службы WSL
 ```ps
 PS C:\Windows\system32> wsl --status
@@ -248,7 +247,7 @@ PS C:\Windows\system32>
 ```
 ##### Состояние дополнительных компонентов Windows
 ![Добавленные компоненты](/05-virt-02-iaac/install-wsl2+vagrant/img/windows-virtual-components-update.PNG)
-##### Системинфо
+##### Системинфо показывает изменения в разделе "Требования Hyper-V"
 ```ps
 PS C:\Windows\system32>
 PS C:\Windows\system32> systeminfo
