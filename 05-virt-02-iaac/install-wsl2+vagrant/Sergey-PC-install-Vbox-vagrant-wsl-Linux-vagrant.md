@@ -1,6 +1,6 @@
 ## Шаг 1. На ПК Sergey-PC установка Virtualbox, Vagrant, запуска WSL и одновременно с ней запуск компонента ОС Linux.
 
-### . 
+### Запуск PowerShell и просмотр состояния WSL
 ```yml
 Windows PowerShell
 (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
@@ -8,6 +8,8 @@ Windows PowerShell
 Попробуйте новую кроссплатформенную оболочку PowerShell (https://aka.ms/pscore6)
 
 PS C:\Windows\system32>
+```
+```yml
 PS C:\Windows\system32> wsl --version
 
 (c) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
@@ -64,7 +66,7 @@ PS C:\Windows\system32> wsl -l -o
 PS C:\Windows\system32>
 PS C:\Windows\system32>
 ```
-### Малый вариант вывода команды ` wsl -l -v `
+### Малый вариант вывода команды ` wsl -l -v `, т.к. WSL не установлена
 ```yml
 PS C:\Windows\system32> wsl -l -v
 
