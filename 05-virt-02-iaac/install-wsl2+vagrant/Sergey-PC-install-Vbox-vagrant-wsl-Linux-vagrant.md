@@ -1117,3 +1117,49 @@ server1.netology ansible_host=127.0.0.1 ansible_port=20011 ansible_user=vagrant
       - name: Add the current user to docker group
         user: name=vagrant append=yes groups=docker
 ```
+### Шаг 6. Запуск создание новой ВМ с помощью Vagrant && Ansible с автоматической установкой Docker
+#### После неудачных попыток соединения по ssh из ОС Ubuntu WSL к новой ВМ, созданной Vagrant, было сделано следующее: WSL переведен на версию 1. Затем связь по  ssh появилась.
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant# vagrant provision
+==> server1.netology: Running provisioner: ansible...
+    server1.netology: Running ansible-playbook...
+
+PLAY [nodes] *******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server1.netology]
+
+TASK [Create directory for ssh-keys] *******************************************
+changed: [server1.netology]
+
+TASK [Adding rsa-key in /root/.ssh/authorized_keys] ****************************
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+fatal: [server1.netology]: FAILED! => {"changed": false, "msg": "Could not find or access '~/.ssh/id_rsa.pub' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+...ignoring
+
+TASK [Checking DNS] ************************************************************
+changed: [server1.netology]
+
+TASK [Installing tools] ********************************************************
+[DEPRECATION WARNING]: Invoking "apt" only once while using a loop via
+squash_actions is deprecated. Instead of using a loop to supply multiple items
+and specifying `package: "{{ item }}"`, please use `package: ['git', 'curl']`
+and remove the loop. This feature will be removed in version 2.11. Deprecation
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [server1.netology] => (item=['git', 'curl'])
+
+TASK [Installing docker] *******************************************************
+changed: [server1.netology]
+[WARNING]: Consider using the get_url or uri module rather than running 'curl'.
+If you need to use command because get_url or uri is insufficient you can add
+'warn: false' to this command task or set 'command_warnings=False' in
+ansible.cfg to get rid of this message.
+
+TASK [Add the current user to docker group] ************************************
+changed: [server1.netology]
+
+PLAY RECAP *********************************************************************
+server1.netology           : ok=7    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant#
+```
