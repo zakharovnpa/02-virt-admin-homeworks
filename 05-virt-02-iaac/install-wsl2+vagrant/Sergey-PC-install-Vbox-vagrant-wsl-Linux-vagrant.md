@@ -727,3 +727,139 @@ drwxrwxrwx 1 root root  512 Dec  4 19:15 ..
 -rwxrwxrwx 1 root root 3.0K Dec  4 19:37 Vagrantfile
 ```
 
+#### Содержимое файла Vagrantfile
+```yaml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# cat Vagrantfile
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "base"
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+  #   vb.memory = "1024"
+  # end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+end
+```
+```cmd
+Вся конфигурация Vagrant сделана ниже. «2» в Vagrant.configure настраивает версию конфигурации (мы поддерживаем старые стили для обратной совместимости). Пожалуйста, не меняйте его, если вы не знаете, что делаете.
+
+Vagrant.configure ("2") do | config |
+
+  Наиболее распространенные параметры конфигурации задокументированы и прокомментированы ниже. Полную справку см. В онлайн-документации по адресу https://docs.vagrantup.com.
+
+Каждая среда разработки Vagrant требует коробки. Вы можете искать ящики на https://vagrantcloud.com/search.
+ # config.vm.box = "base"
+
+  Отключить автоматическую проверку обновлений ящика. Если вы отключите это, флажки будут проверяться на наличие обновлений только тогда, когда пользователь запускает `vagrant box outdated`. Это не рекомендуется.
+  # config.vm.box_check_update = false
+
+ Создайте переадресацию портов, которая разрешает доступ к определенному порту внутри машины с порта на хост-машине. В приведенном ниже примере при доступе к localhost: 8080 будет получен доступ к порту 80 на гостевой машине.
+ПРИМЕЧАНИЕ: Это позволит общедоступному доступу к открытому порту.
+  # config.vm.network "forwarded_port", гость: 80, хост: 8080
+
+ Создайте перенаправленное сопоставление портов, которое разрешает доступ к определенному порту внутри машины с порта на хост-машине и разрешает доступ только через 127.0.0.1 для отключения общего доступа
+  # config.vm.network "forwarded_port", гость: 80, хост: 8080, host_ip: "127.0.0.1"
+
+ Создайте частную сеть, которая обеспечивает доступ к машине только для хоста с использованием определенного IP-адреса.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+Создайте общедоступную сеть, которая обычно соответствует мостовой сети.
+В мостовых сетях машина выглядит как другое физическое устройство в вашей сети.
+  # config.vm.network "public_network"
+
+ Поделитесь дополнительной папкой с гостевой виртуальной машиной. Первый аргумент - это путь на хосте к фактической папке. Второй аргумент - это гостевой путь для монтирования папки. И третий необязательный аргумент - это набор необязательных параметров.
+  # config.vm.synced_folder "../data", "/ vagrant_data"
+
+ Конфигурация для конкретного поставщика, чтобы вы могли точно настроить различных поставщиков поддержки для Vagrant. Они предоставляют параметры, зависящие от поставщика.
+ Пример для VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do | vb |
+  # # Отображение графического интерфейса VirtualBox при загрузке машины
+  # vb.gui = true
+  #
+Настройте объем памяти на виртуальной машине:
+  # vb.memory = "1024"
+  конец
+  #
+ См. Документацию к поставщику, которого вы используете, для получения дополнительных сведений о доступных параметрах.
+
+Включите подготовку с помощью сценария оболочки. Также доступны дополнительные провайдеры, такие как Ansible, Chef, Docker, Puppet и Salt. См. Документацию для получения дополнительной информации об их синтаксисе и использовании.
+  # config.vm.provision "shell", встроенный: << - SHELL
+  # apt-get update
+  # apt-get install -y apache2
+  # ОБОЛОЧКА
+конец
+```
+
+### Создаем свой файл Vagrantfile
+```yaml
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vim Vagrantfile
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+        config.vm.box = "bento/ubuntu-20.04"
+        config.ssh.host = 'localhost'
+ end
+```
