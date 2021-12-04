@@ -160,3 +160,7 @@ PS C:\Windows\system32> systeminfo
                                   Доступно предотвращение выполнения данных: Да
 PS C:\Windows\system32>
 ```
+### Отключенные компоненты Windows системы виртуализации
+
+![Отключенные компоненты Windows системы виртуализации](/05-virt-02-iaac/install-wsl2+vagrant/img/windows-virtual-components.PNG)
+
