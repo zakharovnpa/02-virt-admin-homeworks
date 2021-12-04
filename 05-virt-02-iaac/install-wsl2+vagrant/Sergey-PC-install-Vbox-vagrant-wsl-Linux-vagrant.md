@@ -854,7 +854,7 @@ Vagrant.configure ("2") do | config |
 
 ### Создаем свой файл Vagrantfile
 ```yaml
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# vim Vagrantfile
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vim Vagrantfile
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -862,4 +862,41 @@ Vagrant.configure("2") do |config|
         config.vm.box = "bento/ubuntu-20.04"
         config.ssh.host = 'localhost'
  end
+```
+
+```yaml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant status
+Current machine states:
+
+default                   not created (virtualbox)
+
+The environment has not yet been created. Run `vagrant up` to
+create the environment. If a machine is not created, only the
+default provider will be shown. So if a provider is not listed,
+then the machine is not created for that environment.
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa#
+```
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant ssh-config
+The provider for this Vagrant-managed machine is reporting that it
+is not yet ready for SSH. Depending on your provider this can carry
+different meanings. Make sure your machine is created and running and
+try again. Additionally, check the output of `vagrant status` to verify
+that the machine is in the state that you expect. If you continue to
+get this error message, please view the documentation for the provider
+you're using.
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa#
+```
+```cmd
+Среда еще не создана. Запустите `vagrant up`, чтобы создать среду. 
+Если машина не создана, будет показан только поставщик по умолчанию. 
+Таким образом, если поставщика нет в списке, значит, машина не создана для этой среды.
+```
+```cmd
+Поставщик этой машины под управлением Vagrant сообщает, что она еще не готова к SSH. 
+В зависимости от вашего провайдера это может иметь разное значение. Убедитесь, что 
+ваша машина создана и работает, и попробуйте еще раз. Кроме того, проверьте вывод 
+«vagrant status», чтобы убедиться, что машина находится в ожидаемом состоянии. 
+Если вы продолжаете получать это сообщение об ошибке, просмотрите документацию поставщика,
+которого вы используете.
 ```
