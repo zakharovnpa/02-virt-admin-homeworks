@@ -381,28 +381,122 @@ PS C:\Windows\system32>
 ```
 ## Шаг 2. На ПК Sergey-PC установка на ОС Ubuntu-20.04 Vagrant
 ### Устанавливаем Vagrant внутри Linux на WSL по [мануалу](https://www.vagrantup.com/docs/other/wsl)
-```bash
+```yml
 # run inside WSL 2
 # check https://www.vagrantup.com/downloads for more info
 ```
 #### Устанавливаем ключ для подключеня репозитория Hasicorp
-```yml
+```ps
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 ```
 #### Подключаем репозиторий Hasicorp
-```yml
+```ps
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+```
+##### Результат
+```ps
+root@DESKTOP-LTI9L04:~#
+root@DESKTOP-LTI9L04:~# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+OK
+root@DESKTOP-LTI9L04:~#
+root@DESKTOP-LTI9L04:~# apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+Get:1 http://archive.ubuntu.com/ubuntu focal InRelease [265 kB]
+Get:2 https://apt.releases.hashicorp.com focal InRelease [9495 B]
+Get:3 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+Get:4 https://apt.releases.hashicorp.com focal/main amd64 Packages [37.8 kB]
+Get:5 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Get:6 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+Get:7 http://archive.ubuntu.com/ubuntu focal/main amd64 Packages [970 kB]
+Get:8 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [1062 kB]
+Get:9 http://archive.ubuntu.com/ubuntu focal/main Translation-en [506 kB]
+Get:10 http://archive.ubuntu.com/ubuntu focal/main amd64 c-n-f Metadata [29.5 kB]
+Get:11 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages [8628 kB]
+Get:12 http://security.ubuntu.com/ubuntu focal-security/main Translation-en [196 kB]
+Get:13 http://security.ubuntu.com/ubuntu focal-security/main amd64 c-n-f Metadata [9076 B]
+Get:14 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [560 kB]
+Get:15 http://security.ubuntu.com/ubuntu focal-security/restricted Translation-en [80.2 kB]
+Get:16 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 c-n-f Metadata [528 B]
+Get:17 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [663 kB]
+Get:18 http://security.ubuntu.com/ubuntu focal-security/universe Translation-en [111 kB]
+Get:19 http://archive.ubuntu.com/ubuntu focal/universe Translation-en [5124 kB]
+Get:20 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [12.9 kB]
+Get:21 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [21.9 kB]
+Get:22 http://security.ubuntu.com/ubuntu focal-security/multiverse Translation-en [4948 B]
+Get:23 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 c-n-f Metadata [540 B]
+Get:24 http://archive.ubuntu.com/ubuntu focal/universe amd64 c-n-f Metadata [265 kB]
+Get:25 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [144 kB]
+Get:26 http://archive.ubuntu.com/ubuntu focal/multiverse Translation-en [104 kB]
+Get:27 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 c-n-f Metadata [9136 B]
+Get:28 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1386 kB]
+Get:29 http://archive.ubuntu.com/ubuntu focal-updates/main Translation-en [281 kB]
+Get:30 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [14.6 kB]
+Get:31 http://archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [606 kB]
+Get:32 http://archive.ubuntu.com/ubuntu focal-updates/restricted Translation-en [86.8 kB]
+Get:33 http://archive.ubuntu.com/ubuntu focal-updates/restricted amd64 c-n-f Metadata [528 B]
+Get:34 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [877 kB]
+Get:35 http://archive.ubuntu.com/ubuntu focal-updates/universe Translation-en [190 kB]
+Get:36 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [19.6 kB]
+Get:37 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [24.8 kB]
+Get:38 http://archive.ubuntu.com/ubuntu focal-updates/multiverse Translation-en [6928 B]
+Get:39 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 c-n-f Metadata [616 B]
+Get:40 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 Packages [41.2 kB]
+Get:41 http://archive.ubuntu.com/ubuntu focal-backports/main Translation-en [9732 B]
+Get:42 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 c-n-f Metadata [516 B]
+Get:43 http://archive.ubuntu.com/ubuntu focal-backports/restricted amd64 c-n-f Metadata [116 B]
+Get:44 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [18.9 kB]
+Get:45 http://archive.ubuntu.com/ubuntu focal-backports/universe Translation-en [7524 B]
+Get:46 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 c-n-f Metadata [644 B]
+Get:47 http://archive.ubuntu.com/ubuntu focal-backports/multiverse amd64 c-n-f Metadata [116 B]
+Fetched 22.7 MB in 8s (2763 kB/s)
+Reading package lists... Done
+root@DESKTOP-LTI9L04:~#
 ```
 #### Обновляем установщики
 ```yml
 apt-get update
 ```
+##### Результат
+```yml
+root@DESKTOP-LTI9L04:~#
+root@DESKTOP-LTI9L04:~# apt-get update
+Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
+Get:2 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Hit:3 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:4 https://apt.releases.hashicorp.com focal InRelease
+Get:5 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+Fetched 222 kB in 1s (266 kB/s)
+Reading package lists... Done
+```
 #### Запускаем установку Vagrant
 ```yml
 apt-get install vagrant
 ```
+##### Результат
+```yml
+root@DESKTOP-LTI9L04:~# apt-get install vagrant
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  vagrant
+0 upgraded, 1 newly installed, 0 to remove and 251 not upgraded.
+Need to get 41.5 MB of archives.
+After this operation, 117 MB of additional disk space will be used.
+Get:1 https://apt.releases.hashicorp.com focal/main amd64 vagrant amd64 2.2.19 [41.5 MB]
+71% [1 vagrant 37.0 MB/41.5 MB 89%]                                                                        2446 kB/s 1s
+```
+```yml
+Fetched 41.5 MB in 20s (2103 kB/s)
+Selecting previously unselected package vagrant.
+(Reading database ... 31836 files and directories currently installed.)
+Preparing to unpack .../vagrant_2.2.19_amd64.deb ...
+Unpacking vagrant (2.2.19) ...
+Setting up vagrant (2.2.19) ...
+root@DESKTOP-LTI9L04:~#
+
+```
 #### Смотрим версию vagrant
 ```yml
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-2/ansible# vagrant --version
+root@DESKTOP-LTI9L04:~# vagrant --version
 Vagrant 2.2.19
 ```
