@@ -669,16 +669,61 @@ echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0"' >> ~/.
 ```yml
 source ~/.bashrc
 ```
-### Установка плагина поддержки WSL
+#### Установка плагина поддержки WSL
 ```yml
 vagrant plugin install virtualbox_WSL2
 ```
-#### Результат
+##### Результат
 ```cmd
 Installing the 'virtualbox_WSL2' plugin. This can take a few minutes...
 Fetching rake-13.0.6.gem
 Fetching virtualbox_WSL2-0.1.3.gem
 Installed the plugin 'virtualbox_WSL2 (0.1.3)'!
 ```
+#### Проверяем статус  Vagrant
 ```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant status
+A Vagrant environment or target machine is required to run this
+command. Run `vagrant init` to create a new Vagrant environment. Or,
+get an ID of a target machine from `vagrant global-status` to run
+this command on. A final option is to change to a directory with a
+Vagrantfile and to try again.
 ```
+```bash
+Для выполнения этой команды требуется среда Vagrant или целевая машина. 
+Запустите `vagrant init`, чтобы создать новую среду Vagrant. Или получите идентификатор целевой машины из vagrant global-status, 
+чтобы запустить эту команду. Последний вариант - перейти в каталог с Vagrantfile и повторить попытку.
+```
+### Шаг 4. Инициализация Vagrant. Запуск тестовой ВМ для VirtualBox
+#### Инициализируем Vagrant
+##### В каталоге проекта Alfa выполняем инициализацию
+```ps
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# ls -lha
+total 0
+drwxrwxrwx 1 root root 512 Dec  4 18:29 .
+drwxrwxrwx 1 root root 512 Dec  4 19:15 ..
+```
+```yml
+vagrant init
+```
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# vagrant init
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+```
+```bash
+В этот каталог помещен файл `Vagrantfile`. 
+Теперь вы готовы «бродить» в своей первой виртуальной среде! 
+Пожалуйста, прочтите комментарии в Vagrantfile, а также документацию 
+на `vagrantup.com` для получения дополнительной информации об использовании Vagrant.
+```
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Alfa# ls -lha
+total 4.0K
+drwxrwxrwx 1 root root  512 Dec  4 19:37 .
+drwxrwxrwx 1 root root  512 Dec  4 19:15 ..
+-rwxrwxrwx 1 root root 3.0K Dec  4 19:37 Vagrantfile
+```
+
