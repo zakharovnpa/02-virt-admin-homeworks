@@ -195,7 +195,7 @@ root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 ```bash
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
-root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/1.0"' >> ~/.bashrc
+root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1# echo 'export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0"' >> ~/.bashrc
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 root@DESKTOP-FMD4BBS:/mnt/c/Users/serje/Vagrant-project/server-1#
 ```
