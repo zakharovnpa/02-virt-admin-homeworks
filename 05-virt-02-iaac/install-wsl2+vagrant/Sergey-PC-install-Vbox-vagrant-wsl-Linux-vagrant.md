@@ -1,6 +1,6 @@
 ## Процесс установки на ПК Sergey-PC Virtualbox, Vagrant, запуска WSL и в ней запуск компонента ОС Linux & Vagrant
 
-### 
+### Шаг 1. 
 ```yml
 Windows PowerShell
 (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
