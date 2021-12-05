@@ -612,13 +612,13 @@ root@PC-Ubuntu:/etc/apt# apt install mc
 
 ```
 #### Установка Vagrant
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# 
 root@PC-Ubuntu:/etc/apt# type vagrant
 -bash: type: vagrant: не найден
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 
 Команда «curl» не найдена, но может быть установлена с помощью:
@@ -631,7 +631,7 @@ See 'snap info curl' for additional versions.
 gpg: не найдено данных формата OpenPGP.
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# apt  install curl
 Чтение списков пакетов… Готово
 Построение дерева зависимостей       
@@ -651,12 +651,12 @@ root@PC-Ubuntu:/etc/apt# apt  install curl
 Обрабатываются триггеры для man-db (2.9.1-1) …
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 OK
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
 Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease                                                                 
@@ -670,7 +670,7 @@ root@PC-Ubuntu:/etc/apt# sudo apt-add-repository "deb [arch=amd64] https://apt.r
 Чтение списков пакетов… Готово
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# apt-get update
 Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
 Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease
@@ -684,7 +684,7 @@ root@PC-Ubuntu:/etc/apt# apt-get update
 root@PC-Ubuntu:/etc/apt# 
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# apt-get install vagrant
 Чтение списков пакетов… Готово
 Построение дерева зависимостей       
@@ -704,11 +704,11 @@ root@PC-Ubuntu:/etc/apt# apt-get install vagrant
 root@PC-Ubuntu:/etc/apt# 
 root@PC-Ubuntu:/etc/apt# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# type vagrant
 vagrant является /usr/bin/vagrant
 ```
-```yml
+```ps
 root@PC-Ubuntu:/etc/apt# cd
 root@PC-Ubuntu:~# 
 root@PC-Ubuntu:~# ls -l
@@ -716,7 +716,7 @@ root@PC-Ubuntu:~# ls -l
 drwxr-xr-x 3 root root 4096 дек  5 13:14 snap
 root@PC-Ubuntu:~# 
 ```
-```yml
+```ps
 root@PC-Ubuntu:~# mkdir -p vagrant-project && cd vagrant-project
 root@PC-Ubuntu:~/vagrant-project# 
 root@PC-Ubuntu:~/vagrant-project# ls -l
