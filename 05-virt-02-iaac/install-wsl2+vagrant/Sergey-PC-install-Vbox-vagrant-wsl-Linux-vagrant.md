@@ -1174,10 +1174,12 @@ The VM is running. To stop this VM, you can run `vagrant halt` to
 shut it down forcefully, or you can run `vagrant suspend` to simply
 suspend the virtual machine. In either case, to restart it again,
 simply run `vagrant up`.
-root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant#
+```
+```yml
 root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant# vagrant halt
 ==> server1.netology: Attempting graceful shutdown of VM...
-root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant#
+```
+```yml
 root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant# vagrant status
 Current machine states:
 
