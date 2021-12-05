@@ -611,3 +611,117 @@ root@PC-Ubuntu:/etc/apt# apt install mc
 Обрабатываются триггеры для gnome-menus (3.36.0-1ubuntu1) …
 
 ```
+#### Установка Vagrant
+```yml
+root@PC-Ubuntu:/etc/apt# 
+root@PC-Ubuntu:/etc/apt# type vagrant
+-bash: type: vagrant: не найден
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+
+Команда «curl» не найдена, но может быть установлена с помощью:
+
+snap install curl  # version 7.80.0, or
+apt  install curl  # version 7.68.0-1ubuntu2.7
+
+See 'snap info curl' for additional versions.
+
+gpg: не найдено данных формата OpenPGP.
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# apt  install curl
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Следующие НОВЫЕ пакеты будут установлены:
+  curl
+Обновлено 0 пакетов, установлено 1 новых пакетов, для удаления отмечено 0 пакетов, и 3 пакетов не обновлено.
+Необходимо скачать 161 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 412 kB.
+Пол:1 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 curl amd64 7.68.0-1ubuntu2.7 [161 kB]
+Получено 161 kB за 0с (447 kB/s)
+Выбор ранее не выбранного пакета curl.
+(Чтение базы данных … на данный момент установлено 195984 файла и каталога.)
+Подготовка к распаковке …/curl_7.68.0-1ubuntu2.7_amd64.deb …
+Распаковывается curl (7.68.0-1ubuntu2.7) …
+Настраивается пакет curl (7.68.0-1ubuntu2.7) …
+Обрабатываются триггеры для man-db (2.9.1-1) …
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+OK
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease                                                                 
+Сущ:3 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease                                                                                                         
+Пол:4 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]                                                                                                   
+Сущ:5 http://download.virtualbox.org/virtualbox/debian focal InRelease                                                                                                      
+Сущ:6 https://download.virtualbox.org/virtualbox/debian bionic InRelease                                                                
+Пол:7 https://apt.releases.hashicorp.com focal InRelease [9 495 B]                                    
+Пол:8 https://apt.releases.hashicorp.com focal/main amd64 Packages [37,8 kB]
+Получено 161 kB за 2с (84,3 kB/s)
+Чтение списков пакетов… Готово
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# apt-get update
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease
+Сущ:3 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease
+Пол:4 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]                                                                                                                                    
+Сущ:5 http://download.virtualbox.org/virtualbox/debian focal InRelease                                                                                                                                       
+Сущ:6 https://download.virtualbox.org/virtualbox/debian bionic InRelease                                                                                                                                    
+Сущ:7 https://apt.releases.hashicorp.com focal InRelease                                                                                                            
+Получено 114 kB за 2с (73,0 kB/s)                                          
+Чтение списков пакетов… Готово
+root@PC-Ubuntu:/etc/apt# 
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# apt-get install vagrant
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Следующие НОВЫЕ пакеты будут установлены:
+  vagrant
+Обновлено 0 пакетов, установлено 1 новых пакетов, для удаления отмечено 0 пакетов, и 3 пакетов не обновлено.
+Необходимо скачать 41,5 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 117 MB.
+Пол:1 https://apt.releases.hashicorp.com focal/main amd64 vagrant amd64 2.2.19 [41,5 MB]
+Получено 41,5 MB за 15с (2 810 kB/s)                                                                                                                                                                         
+Выбор ранее не выбранного пакета vagrant.
+(Чтение базы данных … на данный момент установлен 195991 файл и каталог.)
+Подготовка к распаковке …/vagrant_2.2.19_amd64.deb …
+Распаковывается vagrant (2.2.19) …
+Настраивается пакет vagrant (2.2.19) …
+root@PC-Ubuntu:/etc/apt# 
+root@PC-Ubuntu:/etc/apt# 
+```
+```yml
+root@PC-Ubuntu:/etc/apt# type vagrant
+vagrant является /usr/bin/vagrant
+```
+```yml
+root@PC-Ubuntu:/etc/apt# cd
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# ls -l
+итого 4
+drwxr-xr-x 3 root root 4096 дек  5 13:14 snap
+root@PC-Ubuntu:~# 
+```
+```yml
+root@PC-Ubuntu:~# mkdir -p vagrant-project && cd vagrant-project
+root@PC-Ubuntu:~/vagrant-project# 
+root@PC-Ubuntu:~/vagrant-project# ls -l
+итого 0
+root@PC-Ubuntu:~/vagrant-project# 
+root@PC-Ubuntu:~/vagrant-project# 
+
+```
