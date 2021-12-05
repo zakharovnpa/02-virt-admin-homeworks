@@ -1163,3 +1163,25 @@ server1.netology           : ok=7    changed=4    unreachable=0    failed=0    s
 
 root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant#
 ```
+### Шаг 7. Выключение ВМ
+```yml
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant# vagrant status
+Current machine states:
+
+server1.netology          running (virtualbox)
+
+The VM is running. To stop this VM, you can run `vagrant halt` to
+shut it down forcefully, or you can run `vagrant suspend` to simply
+suspend the virtual machine. In either case, to restart it again,
+simply run `vagrant up`.
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant#
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant# vagrant halt
+==> server1.netology: Attempting graceful shutdown of VM...
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant#
+root@DESKTOP-LTI9L04:/mnt/c/Users/serje/Betta/vagrant# vagrant status
+Current machine states:
+
+server1.netology          poweroff (virtualbox)
+
+The VM is powered off. To restart the VM, simply run `vagrant up`
+```
