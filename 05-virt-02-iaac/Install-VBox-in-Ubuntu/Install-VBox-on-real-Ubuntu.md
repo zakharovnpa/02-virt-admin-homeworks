@@ -550,3 +550,64 @@ root@PC-Ubuntu:/etc/apt#
 root@PC-Ubuntu:/etc/apt# 
 
 ```
+```yml
+oot@PC-Ubuntu:/etc/apt# 
+root@PC-Ubuntu:/etc/apt# type virtualbox
+virtualbox является /usr/bin/virtualbox
+```
+```yml
+root@PC-Ubuntu:/etc/apt# whereis virtualbox
+virtualbox: /usr/bin/virtualbox /usr/lib/virtualbox /usr/share/virtualbox
+```
+```yml
+root@PC-Ubuntu:/etc/apt# man virtualbox
+Нет справочной страницы для virtualbox
+```
+```yml
+root@PC-Ubuntu:/etc/apt# mc
+
+Команда «mc» не найдена, но может быть установлена с помощью:
+
+apt install mc
+
+```
+```yml
+root@PC-Ubuntu:/etc/apt# apt install mc
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Будут установлены следующие дополнительные пакеты:
+  libssh2-1 mc-data
+Предлагаемые пакеты:
+  arj catdvi | texlive-binaries dbview djvulibre-bin epub-utils gv imagemagick libaspell-dev links | w3m | lynx odt2txt python python-boto python-tz
+Следующие НОВЫЕ пакеты будут установлены:
+  libssh2-1 mc mc-data
+Обновлено 0 пакетов, установлено 3 новых пакетов, для удаления отмечено 0 пакетов, и 3 пакетов не обновлено.
+Необходимо скачать 1 817 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 7 994 kB.
+Хотите продолжить? [Д/н] y
+Пол:1 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 libssh2-1 amd64 1.8.0-2.1build1 [75,4 kB]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 mc-data all 3:4.8.24-2ubuntu1 [1 265 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 mc amd64 3:4.8.24-2ubuntu1 [477 kB]
+Получено 1 817 kB за 1с (2 202 kB/s)       
+Выбор ранее не выбранного пакета libssh2-1:amd64.
+(Чтение базы данных … на данный момент установлено 195585 файлов и каталогов.)
+Подготовка к распаковке …/libssh2-1_1.8.0-2.1build1_amd64.deb …
+Распаковывается libssh2-1:amd64 (1.8.0-2.1build1) …
+Выбор ранее не выбранного пакета mc-data.
+Подготовка к распаковке …/mc-data_3%3a4.8.24-2ubuntu1_all.deb …
+Распаковывается mc-data (3:4.8.24-2ubuntu1) …
+Выбор ранее не выбранного пакета mc.
+Подготовка к распаковке …/mc_3%3a4.8.24-2ubuntu1_amd64.deb …
+Распаковывается mc (3:4.8.24-2ubuntu1) …
+Настраивается пакет mc-data (3:4.8.24-2ubuntu1) …
+Настраивается пакет libssh2-1:amd64 (1.8.0-2.1build1) …
+Настраивается пакет mc (3:4.8.24-2ubuntu1) …
+Обрабатываются триггеры для libc-bin (2.31-0ubuntu9.2) …
+Обрабатываются триггеры для man-db (2.9.1-1) …
+Обрабатываются триггеры для desktop-file-utils (0.24-1ubuntu3) …
+Обрабатываются триггеры для mime-support (3.64ubuntu1) …
+Обрабатываются триггеры для hicolor-icon-theme (0.17-2) …
+Обрабатываются триггеры для gnome-menus (3.36.0-1ubuntu1) …
+
+```
