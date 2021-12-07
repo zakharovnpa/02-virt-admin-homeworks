@@ -210,7 +210,7 @@ https://www.weave.works/docs/net/latest/install/plugin/plugin-v2/
 22
 
 #### Архитектура Docker
-![Архитектура Docker]()
+![Архитектура Docker](/05-virt-03-docker/img/architectura-docker.png)
 Подробнее https://docs.docker.com/get-started/overview
 23
 
