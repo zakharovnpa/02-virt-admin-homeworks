@@ -9,12 +9,11 @@ Architect DevOps, компания crif.com
 ### Предисловие
 
 На этом занятии мы:
-● Познакомимся с базовыми понятиями в контексте применения Docker.
-● Узнаем состав и назначение компонентов экосистемы Docker.
-● Рассмотрим базовую архитектуру Docker.
-● Рассмотрим пример жизненного цикла Docker-контейнера.
-● Научимся упаковывать приложения в Docker!
-3
+- Познакомимся с базовыми понятиями в контексте применения Docker.
+- Узнаем состав и назначение компонентов экосистемы Docker.
+- Рассмотрим базовую архитектуру Docker.
+- Рассмотрим пример жизненного цикла Docker-контейнера.
+- Научимся упаковывать приложения в Docker!
 
 
 ### План занятия
@@ -27,60 +26,38 @@ Architect DevOps, компания crif.com
 6. Итоги
 7. Домашнее задание
 ```
-4
-
 ### Введение в Docker
-5
-
 #### Контейнер
 
-Контейнер — это способ упаковать приложение и все его зависимости в единый образ. 
+**Контейнер** — это способ упаковать приложение и все его зависимости в единый образ. 
 Этот образ запускается в изолированной среде, не влияющей на основную операционную систему.
 
 Контейнеры позволяют отделить приложение от инфраструктуры: разработчики просто создают приложение, 
 упаковывают все зависимости и настройки в единый образ. 
 Затем этот образ можно запускать на других системах, не беспокоясь, что приложение не запустится.
 
-6
-
 #### Docker
-
-Docker — это платформа для разработки, доставки и запуска
-контейнерных приложений.
+Docker — это платформа для разработки, доставки и запуска контейнерных приложений.
 Docker позволяет:
-● создавать контейнеры,
-● автоматизировать их запуск и развертывание,
-● управлять жизненным циклом,
-● запускать множество контейнеров на одной хост-машине.
-Контейнеризация похожа на виртуализацию, но это не одно и то
-же.
+- создавать контейнеры,
+- автоматизировать их запуск и развертывание,
+- управлять жизненным циклом,
+- запускать множество контейнеров на одной хост-машине.
 
-7
-
-#### Docker
-
+Контейнеризация похожа на виртуализацию, но это не одно и то же.
 Виртуализация работает как отдельный компьютер со своим виртуальным оборудованием и операционной системой. 
 При этом внутри одной ОС можно запустить другую ОС.
-В случае контейнеризации, виртуальная среда запускается прямо из ядра основной операционной системы 
-и не виртуализирует оборудование.
+В случае контейнеризации, виртуальная среда запускается прямо из ядра основной операционной системы и не виртуализирует оборудование.
 При этом, так как контейнеры не виртуализируют оборудование, они потребляют намного меньше ресурсов.
 
-8
-
 #### Преимущества использования Docker
-
-Контейнеры в целом упрощают работу как программистам, так и инженерам, которые развертывают эти приложения.
-
-Docker решает проблемы зависимостей и рабочего окружения.
-
-Контейнеры позволяют упаковать в единый образ приложение и все его зависимости: библиотеки, системные утилиты 
+- Контейнеры в целом упрощают работу как программистам, так и инженерам, которые развертывают эти приложения.
+- Docker решает проблемы зависимостей и рабочего окружения.
+- Контейнеры позволяют упаковать в единый образ приложение и все его зависимости: библиотеки, системные утилиты 
 и файлы конфигурации.
 
-9
-
 #### Преимущества использования Docker
-
-Docker упрощает перенос приложения на другую инфраструктуру.
+**Docker упрощает перенос приложения на другую инфраструктуру.**
 
 Например, разработчики создают приложение в системе, там все настроено и приложение работает. 
 Когда приложение готово, его нужно перенести в систему тестирования и затем в продуктивную среду. 
@@ -88,20 +65,14 @@ Docker упрощает перенос приложения на другую и
 В этом случае программистам придется отвлечься от разработки и совместно с командой поддержки разбираться в ситуации.
 Контейнеры позволяют избежать такой проблемы, потому что они содержат в себе все необходимое для запуска приложения.
 
-10
-
 #### Изоляция и безопасность Docker
-
-Контейнер — это набор процессов, изолированных от основной операционной системы.
+**Контейнер Docker** — это набор процессов, изолированных от основной операционной системы.
 Приложения работают только внутри контейнеров, и не имеют доступа к основной операционной системе.
 Это повышает безопасность приложений, потому что они не смогут случайно или умышленно навредить основной системе.
 
 Если приложение в контейнере завершится с ошибкой или зависнет, это никак не затронет основную ОС.
 
-11
-
 ### Экосистема Docker
-
 #### Компоненты экосистемы Docker
 
 1. **Docker Daemon** (Docker демон) — сервер контейнеров, входящий в состав программных средств Docker. 
@@ -115,12 +86,13 @@ Docker упрощает перенос приложения на другую и
 1. **Docker Image** (Docker образ) — файл, включающий зависимости, сведения, конфигурацию для дальнейшего
 развертывания и инициализации контейнера.
 
-1. **Dockerﬁle** (Docker файл) — описание правил (манифест) сборки образа, в котором первая строка указывает на базовый образ.
+1. **Dockerﬁle** (Docker файл) — описание правил (манифест) сборки образа (Docker контейнер?), в котором первая строка указывает на базовый образ.
 Последующие команды выполняют копирование файлов и установку программ для создания определенной среды разработки со
 своим набором переменных окружения и прочих параметров.
 
 1. **Docker Container** (Docker контейнер) — это легкий, автономный исполняемый пакет программного обеспечения, который
 включает в себя все необходимое для запуска приложения: код, среду выполнения, системные инструменты, системные библиотеки и настройки.
+
 1. **Volume** (Том хранения данных) — эмуляция файловой системы для осуществления операций чтения и записи. 
 Она создается автоматически с контейнером, поскольку некоторые приложения осуществляют персистентное хранение данных.
 
@@ -129,31 +101,41 @@ Docker упрощает перенос приложения на другую и
 1. **Docker Trusted Registry** (Доверенный реестр Docker или DTR) — служба docker-реестра для инсталляции на локальном компьютере или сети компании.
 
 1. **Docker Hub** (Docker Хаб) — общедоступный и бесплатный репозиторий, предназначенный для хранения образов с различным программным обеспечением. Доступен по https://hub.docker.com
+
 1. **Docker Host** (Docker хост) — среда, на которой запускается Docker Engine в виде системного демона для запуска
 контейнеров с программным обеспечением, указанным в Docker файле.
+
 1. **Docker Networks** (Docker сети) — применяются для рганизации сетевого взаимодействия между приложениями,
 развернутыми в контейнерах.
+#### Dicker сети
 Существует несколько режимов работы Docker сети.
-Например: bridge, host, overlay, macvlan и none.
+Например: 
+- bridge,
+- host, 
+- overlay, 
+- macvlan и 
+- none.
 ##### Типы режимов работы сети в Docker
 1. **Bridge** (Мост) — сетевой драйвер по умолчанию. Если вы не укажете драйвер, этот тип сети, инициализируется
 автоматически. Мостовые сети обычно используются, когда ваши приложения работают в автономных контейнерах,
 которым необходимо обмениваться данными.
+
 1. **Host** (Хост) — применяется для автономных контейнеров, этот тип сети удаляет слой изоляции между контейнером и Docker
 хостом и напрямую использует сеть хоста.
-1. **Overlay** (Оверлей) — оверлейные сети соединяют вместе несколько демонов Docker и позволяют службам Docker
-Swarm взаимодействовать друг с другом в режиме кластера.
+
+1. **Overlay** (Оверлей) — оверлейные сети соединяют вместе несколько демонов Docker и позволяют службам Docker Swarm взаимодействовать друг с другом в режиме кластера.
 Это общий случай логической сети, создаваемой поверх другой сети. 
 Узлы оверлейной сети могут быть связаны либо физическим соединением, либо логическим, для которого в
 основной сети существуют один или несколько соответствующих маршрутов из физических соединений. 
 Эта стратегия устраняет необходимость выполнять маршрутизацию на уровне ОС между этими контейнерами.
+
 1. **Macvlan** — сети Macvlan позволяют назначать MAC-адрес контейнеру, чтобы он отображался как физическое 
-устройство в вашей сети. 
-Демон Docker направляет трафик в контейнеры по их MAC-адресам. 
+устройство в вашей сети. Демон Docker направляет трафик в контейнеры по их MAC-адресам. 
 
 Использование драйвера macvlan иногда является лучшим выбором при работе с устаревшими
 приложениями, которые ожидают прямого подключения к физической сети, а не маршрутизации через 
 сетевой стек Docker хоста .
+
 1. **None** — в этом режиме работы отключаются все сети. 
 Такой режим работы сети обычно используется вместе с сторонними сетевыми драйверами.
 None недоступен для служб Docker Swarm. 
@@ -166,12 +148,13 @@ https://www.weave.works/docs/net/latest/install/plugin/plugin-v2/
 ![Архитектура Docker](/05-virt-03-docker/img/architectura-docker.png)
 Подробнее https://docs.docker.com/get-started/overview
 
-### Жизненный цикл Docker-контейнера
-#### Docker CLI (Command Line Interface)
-● docker pull
-Загрузить образ из Docker реестра на Docker хост.
+### Жизненный цикл Docker-контейнера в командах Docker CLI (Command Line Interface)
+#### 1. Загрузка образа из Docker реестра на Docker хост. 
+
+Команда ` docker pull `
 ```bash
-# Загрузка образа Docker контейнера из публичного репозитория hub.docker.com
+# Пример загрузки образа Docker контейнера "hello-world" из публичного репозитория hub.docker.com
+
 $ docker pull hello-world
 Using default tag: latest
 latest: Pulling from library/hello-world
@@ -184,10 +167,12 @@ $ docker image ls
 REPOSITORY    TAG   IMAGE ID    CREATED       SIZE
 hello-world latest d1165f221234 6 months ago  13.3kB
 ```
-● docker run
-Запуск Docker контейнера из локально реестра на Docker хосте.
+
+#### 2. Запуск Docker контейнера из локально реестра на Docker хосте.
+Команда ` docker run `
 ```bash
-# Загрузка образа Docker контейнера из публичного репозитория hub.docker.com
+# Пример запуска образа Docker контейнера "hello-world"
+
 $ docker run hello-world
 Hello from Docker!
 This message shows that your installation appears to be working correctly.
@@ -199,18 +184,21 @@ To generate this message, Docker took the following steps:
 executable that produces the output you are currently reading.
 4. The Docker daemon streamed that output to the Docker client, which sent it
 to your terminal.
-To try something more ambitious, you can run an Ubuntu container with:
 
+To try something more ambitious, you can run an Ubuntu container with:
 $ docker run -it ubuntu bash
+
 Share images, automate workflows, and more with a free Docker ID:
 https://hub.docker.com/
 For more examples and ideas, visit:
 https://docs.docker.com/get-started/
 ```
-● docker run [в интерактивном режиме]
-Запуск Docker контейнера из локально реестра на Docker хосте.
+
+#### 3. Запуск Docker контейнера из локально реестра на Docker хосте.
+Команда ` docker run -it ` [в интерактивном режиме]
+
 ```bash
-# Запуск образа ubuntu из публичного репозитория hub.docker.com
+# Запуск в интерактивном режиме образа "ubuntu" из публичного репозитория hub.docker.com
 $ docker run -it ubuntu bash
 Unable to find image 'ubuntu:latest' locally
 latest: Pulling from library/ubuntu
@@ -237,114 +225,43 @@ VERSION_CODENAME=focal
 UBUNTU_CODENAME=focal
 root@b65a0676dd1d:/# exit
 ```
-
-
-● docker exec
-Запуск команды в запущенном Docker контейнере.
+#### 4. Запуск какой-либо команды в запущенном Docker контейнере.
+Команда ` docker exec `
 ```bash
 # Запуск команды в запущенном контейнере
 $ docker run -d nginx
 ba2a5dfd1b05dc380765c877722ac56932376abad4d8bb85927ae35bf101bf98
 $ docker ps
-CONTAINER ID
-ba2a5dfd1b05
-IMAGE
-nginx
-COMMAND
-"/docker-entrypoint.…"
-CREATED
-4 seconds ago
-STATUS
-Up 3 seconds
-PORTS
-80/tcp
-NAMES
-objective_yalow
+CONTAINER ID    IMAGE  COMMAND                CREATED       STATUS        PORTS   NAMES
+ba2a5dfd1b05    nginx  "/docker-entrypoint.…" 4 seconds ago Up 3 seconds  80/tcp  objective_yalow
+
 $ docker exec -it objective_yalow nginx -v
 nginx version: nginx/1.21.3
 ```
-28
-
-#### Docker CLI (Command Line Interface)
+#### 5. Остановка запущенного Docker контейнера.
+Команда ` docker stop `
 ```bash
-● docker stop
-Остановка запущенного Docker контейнера.
-# Остановка запущенного Docker контейнера.
-$ docker stop objective_yalow
-objective_yalow
+# Остановка запущенного Docker контейнера с именем "objective_yalow".
+$ docker stop 
+
 $ docker ps
-CONTAINER ID
-IMAGE
-COMMAND
-$ docker ps -a
-CONTAINER ID
-IMAGE
-ba2a5dfd1b05
-nginx
-objective_yalow
-b65a0676dd1d
-ubuntu
-flamboyant_gates
-c052919f6d04
-hello-world
-practical_mirzakhani
-CREATED
-STATUS
-PORTS
-NAMES
-COMMAND
-"/docker-entrypoint.…" CREATED
-12 minutes ago STATUS
-Exited (0) 4 minutes ago
-"bash" 18 minutes ago Exited (0) 15 minutes ago
-"/hello" 26 minutes ago Exited (0) 26 minutes ago
-PORTS
-NAMES
-```
-29
 
-#### Docker CLI (Command Line Interface)
+$ docker ps -a
+```
+#### 6. Удаление остановленного Docker контейнера.
+Команда ` docker rm `
 ```bash
-● docker rm
-Удаление остановленного Docker контейнера.
 # Удаление остановленного Docker контейнера.
 $ docker rm objective_yalow
 objective_yalow
-$ docker ps
-CONTAINER ID
-IMAGE
-COMMAND
-$ docker ps -a
-CONTAINER ID
-IMAGE
-b65a0676dd1d
-ubuntu
-c052919f6d04
-hello-world
-CREATED
-COMMAND
-"bash"
-"/hello"
-STATUS
-PORTS
-NAMES
-CREATED
-18 minutes ago
-26 minutes ago
-STATUS
-Exited (0) 15 minutes ago
-Exited (0) 26 minutes ago
-PORTS
-NAMES
-flamboyant_gates
-practical_mirzakhani
-```
-30
 
-#### Docker CLI (Command Line Interface)
+$ docker ps
+
+$ docker ps -a
+```
+#### 7. Удаление образа Docker контейнера.
+Команда ` docker rmi `
 ```bash
-● docker rmi
-Удаление образа Docker контейнера.
 # Удаление образа Docker контейнера.
 $ docker rmi nginx
 Untagged: nginx:latest
@@ -356,29 +273,14 @@ Deleted: sha256:13184aa93ccd585fade03704e048828c29eed86090e7399b208edbe022aaf563
 Deleted: sha256:3161f310d154031dbd57f90c07715335a25a31bcf20a4abf3e040ab86bcac633
 Deleted: sha256:88f95677408c5f02b15064ad1f41a2c74e40e1800cd3536f8fb45b9e6939704b
 Deleted: sha256:d000633a56813933cb0ac5ee3246cf7a4c0205db6290018a169d7cb096581046
-$ docker images
-REPOSITORY
-TAG
-ubuntu
-latest
-hello-world
-latest
-IMAGE ID
-fb52e22af1b0
-d1165f221234
-CREATED
-2 weeks ago
-6 months ago
-SIZE
-72.8MB
-13.3kB
-```
-31
 
-#### Docker CLI (Command Line Interface)
+$ docker images
+REPOSITORY    TAG
+```
+
+#### 8. Удаление неиспользуемых Docker образов.
+Команда ` docker system prune `
 ```bash
-● docker system prune
-Удаление неиспользуемых Docker образов.
 # Удаление неиспользуемых Docker образов.
 $ docker system prune
 WARNING! This will remove:
@@ -394,30 +296,14 @@ c0522f9fd4e146844b425246418bf2814072d457aafd151d7f9f3d76d5750412
 d824b31993e9f31770a5acbd90061ba435e5eca5b42ce8e216ea5754dbd54e56
 c052919f6d049ad559a2d2faac5309f1aa28ac932b8cdfc3258fa532f8bf9fd1
 Total reclaimed space: 40B
-$ docker image ls
-REPOSITORY
-TAG
-ubuntu
-latest
-hello-world
-latest
-IMAGE ID
-fb52e22af1b0
-d1165f221234
-CREATED
-2 weeks ago
-6 months ago
-SIZE
-72.8MB
-13.3kB
-```
-32
 
-#### Docker CLI (Command Line Interface)
+$ docker image ls
+```
+#### 9. Удаление всех Docker образов.
+Команда ` ocker system prune -a -f ` (ключ -a использовать с осторожностью)
 ```bash
-● docker system prune -a -f (ключ -a использовать с осторожностью)
-Удаление всех Docker образов.
 # Удаление всех Docker образов.
+
 $ docker system prune -a -f
 Deleted Images:
 untagged: hello-world:latest
@@ -429,14 +315,9 @@ untagged: ubuntu@sha256:9d6a8699fb5c9c39cf08a0871bd6219f0400981c570894cd8cbea30d
 deleted: sha256:fb52e22af1b01869e23e75089c368a1130fa538946d0411d47f964f8b1076180
 deleted: sha256:4942a1abcbfa1c325b1d7ed93d3cf6020f555be706672308a4a4a6b6d631d2e7
 Total reclaimed space: 72.79MB
+
 $ docker image ls
-REPOSITORY
-TAG
-IMAGE ID
-CREATED
-SIZE
 ```
-33
 
 #### Docker Exec vs Docker Run
 ```bash
