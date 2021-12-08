@@ -117,6 +117,7 @@ Elasticsearch — это масштабируемый полнотекстовы
 Соберите Docker образ с Ansible, загрузите на Docker Hub и пришлите ссылку вместе с остальными ответами к задачам.
 
 **Ответ:**
+[Ссылка на Docker образ с Ansible](https://hub.docker.com/repository/docker/zakharovnpa/ansible)
 
 ---
 
