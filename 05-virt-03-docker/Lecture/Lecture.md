@@ -391,11 +391,12 @@ CONTAINER ID  IMAGE COMMAND CREATED STATUS  PORTS NAMES
 - Теги Docker образов схожи с Git-тегами. Они представляют собой указатель на образ с соответствующим идентификатором.
 - Добавление тега не переименовывает образ, а исключительно добавляет тег.
 
-Пример: при использовании собственного реестра:
-docker.mycompany.com/jenkins/jenkins-ant:1.10.5 где
-docker.mycompany.com/jenkins/jenkins-ant — это изначальное имя
-образа, а 1.10.5 — версия. Чтобы выполнить docker pull с
-указанием тега, нужно указать так:
+Пример: при использовании собственного реестра **docker.mycompany.com/jenkins/jenkins-ant:1.10.5**
+- где:
+  - docker.mycompany.com/jenkins/jenkins-ant — это изначальное имя образа, а 
+  - 1.10.5 — версия. 
+
+Чтобы выполнить docker pull с указанием тега, нужно указать так:
 
 ```bash
 # Загрузка Docker образа из частного реестра.
@@ -484,42 +485,45 @@ $ docker network connect network-name container-name
 
 ### Собираем первый Docker-контейнер
 #### Dockerﬁle
+Манифест **Docker** образа в котором **будет выполнятся Ansible**.
 ```bash
-Манифест Docker образа в котором будет выполнятся Ansible.
 # Манифест Docker образа.
+
 FROM alpine:3.14
+
 RUN CARGO_NET_GIT_FETCH_WITH_CLI=1 && \
-apk --no-cache add \
-sudo python3 py3-pip openssl ca-certificates sshpass openssh-client rsync git && \
-apk --no-cache add
---virtual build-dependencies python3-dev libffi-dev musl-dev gcc cargo openssl-dev \
-libressl-dev \
-build-base && \
-pip install --upgrade pip wheel && \
-pip install --upgrade cryptography cffi && \
-pip install ansible==2.9.24 && \2
-pip install mitogen ansible-lint jmespath && \
-pip install --upgrade pywinrm && \
-apk del build-dependencies && \
-rm -rf /var/cache/apk/* && \
-rm -rf /root/.cache/pip && \
-rm -rf /root/.cargo
-RUN
-mkdir /ansible && \
-mkdir -p /etc/ansible && \
-echo 'localhost' > /etc/ansible/hosts
+    apk --no-cache add \
+    sudo python3 py3-pip openssl ca-certificates sshpass openssh-client rsync git && \
+    apk --no-cache add
+    --virtual build-dependencies python3-dev libffi-dev musl-dev gcc cargo openssl-dev \
+    libressl-dev \
+    build-base && \
+    pip install --upgrade pip wheel && \
+    pip install --upgrade cryptography cffi && \
+    pip install ansible==2.9.24 && \2
+    pip install mitogen ansible-lint jmespath && \
+    pip install --upgrade pywinrm && \
+    apk del build-dependencies && \
+    rm -rf /var/cache/apk/* && \    
+    rm -rf /root/.cache/pip && \
+    rm -rf /root/.cargo
+
+RUN mkdir /ansible && \
+    mkdir -p /etc/ansible && \
+    echo 'localhost' > /etc/ansible/hosts
+
 WORKDIR /ansible
-CMD
-[ "ansible-playbook", "--version" ]
+
+CMD [ "ansible-playbook", "--version" ]
 ```
-47
 
 #### Собираем Docker образ
-```bash
 Собираем Docker образ, в котором будет выполнятся Ansible.
+```bash
 # Сборка Docker образа.
-$ cd
-/Users/olegbukatchuk/git/netology.ru/virt-homeworks/05-virt-03-docker-usage/src/build/ansible
+
+$ cd /Users/olegbukatchuk/git/netology.ru/virt-homeworks/05-virt-03-docker-usage/src/build/ansible
+
 $ docker build -t olegbukatchuk/ansible:2.9.24 .
 ... more output strings)))
 OK: 98 MiB in 69 packages
@@ -540,18 +544,23 @@ Removing intermediate container 81d1f8ad28af
 Successfully built b5878eb55f00
 Successfully tagged olegbukatchuk/ansible:2.9.24
 echo 'localhost' >
+
 # !!! Lifehack: verbose mode !!!
 $ DOCKER_BUILDKIT=0 docker build -t olegbukatchuk/ansible:2.9.24 .
 ```
-48
 
-#### Загрузка в публичный реестр
+#### Загрузка в публичный реестр. Выгружаем Docker образ в публичный реестр
+Команда ` docker push `
 ```bash
-Выгружаем Docker образ в публичный реестр
 # Авторизация в публичном реестре Docker Hub.
 $ docker login -u olegbukatchuk
 Password:
 Login Succeeded
+```
+
+#### Выгружаем Docker образ в публичный ![реестр](http://hub.docker.com)
+Команда ` docker push `
+```bash
 $ docker push olegbukatchuk/ansible:2.9.24
 The push refers to repository [docker.io/olegbukatchuk/ansible]
 444dd64430d4: Pushed
@@ -559,30 +568,23 @@ fb7eb8195ff4: Pushed
 e2eb06d8af82: Mounted from library/alpine
 2.9.24: digest: sha256:01460d9c51dddfe785859c5968e1b33a467a5d5a6d0176dbc2e5b73f5c98fc8e size:
 947
-Теперь этот Docker образ находится в публичный реестре и
-доступен для использования всем по адресу.
-# Загрузка из публичного реестра Docker Hub.
-$ docker push olegbukatchuk/ansible:2.9.24
 ```
-49
-
-### Итоги
-50
-
-### Что мы узнали?
+Теперь этот Docker образ находится в публичном реестре и доступен для использования всем по ![адресу](https://hub.docker.com/repository/docker/olegbukatchuk/ansible).
 ```bash
-● Рассмотрели, компоненты экосистемы Docker;
-● Узнали о преимуществах, использования контейнеров;
-● Рассмотрели базовый набор Docker CLI для управления
-жизненным циклом контейнеров;
-● Научились загружать, собирать, запускать,
-переименовывать, удалять контейнеры, а также очищать
-локальный реестр от ненужных Docker образов;
-● Поняли, как можно использовать Docker в контексте
-Continuous integration, Continuous delivery и Continuous
-deployment.
+# Загрузка из публичного реестра Docker Hub.
+$ docker pull olegbukatchuk/ansible:2.9.24
 ```
-51
+### Итоги
+#### Что мы узнали?
+
+- Рассмотрели, компоненты экосистемы Docker;
+- Узнали о преимуществах, использования контейнеров;
+- Рассмотрели базовый набор Docker CLI для управления жизненным циклом контейнеров;
+- Научились загружать, собирать, запускать, переименовывать, удалять контейнеры, а также очищать локальный реестр от ненужных Docker образов;
+- Поняли, как можно использовать Docker в контексте 
+  - Continuous integration, 
+  - Continuous delivery
+  - Continuous deployment.
 
 ### Домашнее задание
 ```bash
