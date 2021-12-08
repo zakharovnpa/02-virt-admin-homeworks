@@ -168,7 +168,7 @@ REPOSITORY    TAG   IMAGE ID    CREATED       SIZE
 hello-world latest d1165f221234 6 months ago  13.3kB
 ```
 
-#### 2. Запуск Docker контейнера из локально реестра на Docker хосте.
+#### 2. Запуск Docker контейнера из локального реестра на Docker хосте.
 Команда ` docker run `
 ```bash
 # Пример запуска образа Docker контейнера "hello-world"
@@ -194,11 +194,12 @@ For more examples and ideas, visit:
 https://docs.docker.com/get-started/
 ```
 
-#### 3. Запуск Docker контейнера из локально реестра на Docker хосте.
+#### 3. Запуск образа в интерактивном режиме из публичного репозитория hub.docker.com
 Команда ` docker run -it ` [в интерактивном режиме]
 
 ```bash
 # Запуск в интерактивном режиме образа "ubuntu" из публичного репозитория hub.docker.com
+
 $ docker run -it ubuntu bash
 Unable to find image 'ubuntu:latest' locally
 latest: Pulling from library/ubuntu
@@ -319,20 +320,14 @@ Total reclaimed space: 72.79MB
 $ docker image ls
 ```
 
-#### Docker Exec vs Docker Run
-```bash
+#### Сравнение команд ` Docker exec ` и` Docker Run `
+
 docker exec — yourContainerName bash
 docker run — yourImageName bash
+
 Ключевые различия:
-● docker exec — предназначен для выполнения бинарного файла,
-отличного от указанного в ENTRYPOINT (если он существует в
-манифесте образа) в работающем контейнере.
-● docker run — предварительно скачивает образ (если образ не
-обнаружен в локальном реестре) и запускает контейнер из образа.
-Без дополнительных параметров запускается бинарный файл,
-указанный в качестве точки входа для выполнения.
-```
-34
+- docker exec — предназначен для выполнения бинарного файла, отличного от указанного в ENTRYPOINT (если он существует в манифесте образа) в работающем контейнере.
+- docker run — предварительно скачивает образ (если образ не обнаружен в локальном реестре) и запускает контейнер из образа. Без дополнительных параметров запускается бинарный файл, указанный в качестве точки входа для выполнения.
 
 #### Вывод диагностической информации
 ```bash
