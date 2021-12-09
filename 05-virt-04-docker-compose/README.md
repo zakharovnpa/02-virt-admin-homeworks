@@ -8,6 +8,10 @@
 - Скриншот страницы, как на слайде из презентации (слайд 37).
 
 **Ответ:**
+Создан новый [образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
+<p align="center">
+  <img width="2500" height="600" src="./img/new-images-in-yandex-cloud.png">
+</p>
 
 ## Задача 2
 
