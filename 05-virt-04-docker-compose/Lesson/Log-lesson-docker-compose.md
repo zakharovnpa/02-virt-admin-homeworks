@@ -733,6 +733,15 @@ Build 'yandex' finished after 4 minutes 5 seconds.
 root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
 ```
 [Результат](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# yc compute image list
++----------------------+---------------+--------+----------------------+--------+
+|          ID          |     NAME      | FAMILY |     PRODUCT IDS      | STATUS |
++----------------------+---------------+--------+----------------------+--------+
+| fd87ftkus6nii1k3epnu | centos-7-base | centos | f2e1me997vtfd7aa3hb3 | READY  |
++----------------------+---------------+--------+----------------------+--------+
+
+```
 #### Ошибки при создании образа
 - нет авторизации платного аккаунта
 - утилита yc должна быть доступна из папки, где запускается Packer
