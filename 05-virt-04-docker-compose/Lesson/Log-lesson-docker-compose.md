@@ -538,6 +538,7 @@ The configuration is valid.
 ```
 #### Запускаем сборку образа
 Перед началом сборки образа убедиться в том, что появились необходимые новые папки и подсети в сервисе Yandex.Cloud
+А так же в конфигурационный файл добавить ID папки и подсети
 ```bash
 root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# packer build centos-7-base.json
 yandex: output will be in this color.
@@ -991,7 +992,156 @@ Build 'yandex' errored after 6 seconds 854 milliseconds: Error create instance: 
 root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
 
 ```
-- неверно указаны ID папки и подсети
+##### неверно указаны ID папки и подсети
 ```bash
+
+```
+### Terraform 1 час 48 сек. от начала лекции
+#### Установка Terraform
+https://www.terraform.io/docs/cli/install/apt.html
+##### Добавляем ключ для репозитория
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+OK
+
+```
+##### Добавляем репозиторий
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
+Пол:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]                                                                                                               
+Сущ:3 http://download.virtualbox.org/virtualbox/debian focal InRelease                                                                                                                                       
+Пол:4 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]                                                                                                                                 
+Сущ:5 https://dl.google.com/linux/chrome/deb stable InRelease                                                                                                                                       
+Сущ:6 https://download.virtualbox.org/virtualbox/debian bionic InRelease                                                                                                                          
+Пол:7 https://apt.releases.hashicorp.com focal InRelease [9 495 B]                                                        
+Пол:8 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]                                                 
+Пол:9 http://ru.archive.ubuntu.com/ubuntu focal-updates/main i386 Packages [572 kB]
+Пол:10 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1 391 kB]
+Пол:11 https://apt.releases.hashicorp.com focal/main amd64 Packages [38,2 kB]
+Пол:12 http://ru.archive.ubuntu.com/ubuntu focal-updates/main Translation-en [282 kB]                      
+Пол:13 http://ru.archive.ubuntu.com/ubuntu focal-updates/main amd64 DEP-11 Metadata [278 kB]               
+Пол:14 http://security.ubuntu.com/ubuntu focal-security/main amd64 DEP-11 Metadata [35,7 kB]                 
+Пол:15 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [881 kB]                        
+Пол:16 http://security.ubuntu.com/ubuntu focal-security/universe i386 Packages [523 kB]                          
+Пол:17 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe i386 Packages [652 kB]
+Пол:18 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [665 kB]     
+Пол:19 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe Translation-en [191 kB]    
+Пол:20 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 DEP-11 Metadata [361 kB]   
+Пол:21 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [19,6 kB]          
+Пол:22 http://ru.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 DEP-11 Metadata [940 B]            
+Пол:23 http://ru.archive.ubuntu.com/ubuntu focal-backports/main amd64 DEP-11 Metadata [7 988 B]            
+Пол:24 http://ru.archive.ubuntu.com/ubuntu focal-backports/universe amd64 DEP-11 Metadata [11,3 kB]               
+Пол:25 http://security.ubuntu.com/ubuntu focal-security/universe Translation-en [111 kB]                       
+Пол:26 http://security.ubuntu.com/ubuntu focal-security/universe amd64 DEP-11 Metadata [64,6 kB]
+Пол:27 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [12,9 kB]
+Пол:28 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 DEP-11 Metadata [2 464 B]
+Получено 6 445 kB за 4с (1 542 kB/s)                                       
+Чтение списков пакетов… Готово
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+N: Пропускается получение настроенного файла «main/binary-i386/Packages», так как репозиторий «https://dl.google.com/linux/chrome/deb stable InRelease» не поддерживает архитектуру «i386»
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+
+```
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# dpkg --print-architecture 
+amd64
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+```
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# lsb_release -cs
+focal
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+```
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# apt update
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu focal InRelease
+Сущ:2 http://ru.archive.ubuntu.com/ubuntu focal-updates InRelease                                                                                                                                            
+Сущ:3 http://download.virtualbox.org/virtualbox/debian focal InRelease                                                                                                                                       
+Сущ:4 http://ru.archive.ubuntu.com/ubuntu focal-backports InRelease                                                                                                                                          
+Пол:5 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]                                                                                                                                    
+Сущ:6 https://dl.google.com/linux/chrome/deb stable InRelease                                                                                                                                
+Сущ:7 https://apt.releases.hashicorp.com focal InRelease                                                                                                                           
+Сущ:8 https://download.virtualbox.org/virtualbox/debian bionic InRelease                                           
+Получено 114 kB за 2с (59,8 kB/s)                                          
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Может быть обновлено 13 пакетов. Запустите «apt list --upgradable» для их показа.
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+N: Пропускается получение настроенного файла «main/binary-i386/Packages», так как репозиторий «https://dl.google.com/linux/chrome/deb stable InRelease» не поддерживает архитектуру «i386»
+W: Цель Packages (main/binary-amd64/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Packages (main/binary-all/Packages) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru_RU) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-ru) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель Translations (main/i18n/Translation-en) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-amd64.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11 (main/dep11/Components-all.yml) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-small (main/dep11/icons-48x48.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons (main/dep11/icons-64x64.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель DEP-11-icons-hidpi (main/dep11/icons-64x64@2.tar) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-amd64) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+W: Цель CNF (main/cnf/Commands-all) настроена несколько раз: в /etc/apt/sources.list.d/google-chrome.list:3 и в /etc/apt/sources.list.d/google.list:1
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+```
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# apt install terraform
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Следующие НОВЫЕ пакеты будут установлены:
+  terraform
+Обновлено 0 пакетов, установлено 1 новых пакетов, для удаления отмечено 0 пакетов, и 13 пакетов не обновлено.
+Необходимо скачать 18,7 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 61,9 MB.
+Пол:1 https://apt.releases.hashicorp.com focal/main amd64 terraform amd64 1.1.0 [18,7 MB]
+Получено 18,7 MB за 12с (1 571 kB/s)                                                                                                                                                                         
+Выбор ранее не выбранного пакета terraform.
+(Чтение базы данных … на данный момент установлено 218879 файлов и каталогов.)
+Подготовка к распаковке …/terraform_1.1.0_amd64.deb …
+Распаковывается terraform (1.1.0) …
+Настраивается пакет terraform (1.1.0) …
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+```
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# terraform --version
+Terraform v1.1.0
+on linux_amd64
 
 ```
