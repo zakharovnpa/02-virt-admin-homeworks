@@ -265,3 +265,203 @@ root@PC-Ubuntu:~#
 root@PC-Ubuntu:~# source .bashrc
 
 ```
+#### Проверяем версию утилиты yc
+```bash
+root@PC-Ubuntu:~# yc --version
+Yandex.Cloud CLI 0.85.0 linux/amd64
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# docker --verson
+
+Команда «docker» не найдена, но может быть установлена с помощью:
+
+snap install docker     # version 20.10.8, or
+apt  install docker.io  # version 20.10.7-0ubuntu5~20.04.2
+
+See 'snap info docker' for additional versions.
+
+root@PC-Ubuntu:~# 
+```
+#### Помощь по работе утилиты
+```ps
+root@PC-Ubuntu:~# yc --help
+Command line interface helps you interact with Yandex.Cloud services
+
+Usage:
+  yc <group|command>
+
+Groups:
+  iam                       Manage Yandex Identity and Access Manager resources
+  resource-manager          Manage Yandex Resource Manager resources
+  compute                   Manage Yandex Compute Cloud resources
+  vpc                       Manage Yandex Virtual Private Cloud resources
+  dns                       Manage Yandex DNS resources
+  managed-kubernetes        Manage Kubernetes clusters.
+  ydb                       Manage YDB databases.
+  kms                       Manage Yandex Key Management Service resources
+  cdn                       Manage CDN resources
+  certificate-manager       Manage Certificate Manager resources
+  managed-clickhouse        Manage ClickHouse clusters, hosts, databases, backups, users and ml-models.
+  managed-mongodb           Manage MongoDB clusters, hosts, databases, backups and users.
+  managed-mysql             Manage MySQL clusters, hosts, databases, backups and users.
+  managed-sqlserver         Manage SQLServer clusters, databases, backups and users.
+  managed-postgresql        Manage PostgreSQL clusters, hosts, databases, backups and users.
+  managed-redis             Manage Redis clusters, hosts, databases, backups and users.
+  managed-elasticsearch     Manage ElasticSearch clusters, hosts, indexes and backups.
+  managed-kafka             Manage Apache Kafka clusters, brokers, topics and users.
+  container                 Manage Container resources.
+  load-balancer             Manage Yandex Load Balancer resources
+  datatransfer              Manage Data Transfer endpoints and transfers
+  operation                 Manage operations
+  config                    Manage Yandex.Cloud CLI configuration
+  components                Manage installed components
+  serverless                Manage Serverless resources.
+  iot                       Manage Yandex IoT Core resources
+  dataproc                  Manage data processing clusters.
+  application-load-balancer [PREVIEW] Manage Yandex Application Load Balancer resources
+  logging                   [PREVIEW] Manage Yandex Cloud Logging
+  lockbox                   [PREVIEW] Manage Yandex Lockbox resources
+  organization-manager      Manage Yandex Organization Manager resources
+
+Commands:
+  init                      CLI initialization
+  version                   Display Yandex.Cloud CLI version.
+  help                      Help about any command
+
+Flags:
+      --profile string 
+              Set the custom configuration file. 
+
+      --debug 
+              Debug logging. 
+
+      --debug-grpc 
+              Debug gRPC logging. Very verbose, used for debugging connection problems. 
+
+      --no-user-output 
+              Disable printing user intended output to stderr. 
+
+      --retry int 
+              Enable gRPC retries. By default, retries are enabled with maximum 5 attempts. 
+
+              Pass 0 to disable retries. Pass any negative value for infinite retries. 
+
+              Even infinite retries are capped with 2 minutes timeout. 
+
+      --cloud-id string 
+              Set the ID of the cloud to use. 
+
+      --folder-id string 
+              Set the ID of the folder to use. 
+
+      --folder-name string 
+              Set the name of the folder to use (will be resolved to id). 
+
+      --token string 
+              Set the OAuth token to use. 
+
+      --format string 
+              Set the output format: text (default), yaml, json, json-rest. 
+
+  -h, --help 
+              Display help for the command. 
+
+  -v, --version 
+              Display Yandex.Cloud CLI version.
+
+root@PC-Ubuntu:~# 
+
+```
+
+### Регистрация в сервисе Cloud.Yandex
+- создание аккаунта
+- создание платежного аккаунта
+- использование промокода от Нетологии
+#### Инициализация сервиса Cloud.Yandex
+```bash
+root@PC-Ubuntu:~# yc init
+Welcome! This command will take you through the configuration process.
+Please go to https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb in order to obtain OAuth token.
+
+Please enter OAuth token: ^C
+root@PC-Ubuntu:~# 
+```
+##### Неудачная инициализация, т.к. не был создан платедный аакаунт насервисе Cloud.Yandex
+```bash
+root@PC-Ubuntu:~# yc init
+Welcome! This command will take you through the configuration process.
+Pick desired action:
+ [1] Re-initialize this profile 'default' with new settings 
+ [2] Create a new profile
+Please enter your numeric choice: 2
+Enter profile name. Names start with a lower case letter and contain only lower case letters a-z, digits 0-9, and hyphens '-': netology
+Please go to https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb in order to obtain OAuth token.
+
+Please enter OAuth token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+You have one cloud available: 'cloud-serjent' (id = b1g220k55v5cktv4kfki). It is going to be used by default.
+Please choose folder to use:
+ [1] default (id = b1ggdhpqn2g4ts7rsvfj)
+ [2] Create a new folder
+Please enter your numeric choice: 2
+Please enter a folder name: netology
+ERROR: Folder creation failed: rpc error: code = PermissionDenied desc = Permission denied
+
+
+client-trace-id: dfe9e8c2-6931-4709-8c72-b0ba860c0f50
+
+Use client-trace-id for investigation of issues in cloud support
+If you are going to ask for help of cloud support, please send the following trace file: /root/.config/yandex-cloud/logs/2021-12-09T18-04-38.110-yc_init.txt
+root@PC-Ubuntu:~# 
+```
+#### Успешная инициализация утилиты "yc" от Cloud.Yandex
+```bash
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# yc init
+Welcome! This command will take you through the configuration process.
+Pick desired action:
+ [1] Re-initialize this profile 'netology' with new settings 
+ [2] Create a new profile
+ [3] Switch to and re-initialize existing profile: 'default'
+Please enter your numeric choice: 1
+Please go to https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb in order to obtain OAuth token.
+
+Please enter OAuth token: [AQAAAAACD*********************jdhr2jd4s] AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+You have one cloud available: 'cloud-serjent' (id = b1g220k55v5cktv4kfki). It is going to be used by default.
+Please choose folder to use:
+ [1] default (id = b1ggdhpqn2g4ts7rsvfj)
+ [2] Create a new folder
+Please enter your numeric choice: 2
+Please enter a folder name: netology-alfa
+Your current folder has been set to 'netology-alfa' (id = b1gd3hm4niaifoa8dahm).
+Do you want to configure a default Compute zone? [Y/n] y
+Which zone do you want to use as a profile default?
+ [1] ru-central1-a
+ [2] ru-central1-b
+ [3] ru-central1-c
+ [4] Don't set default zone
+Please enter your numeric choice: 1
+Your profile default Compute zone has been set to 'ru-central1-a'.
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+```
+#### Конфигурация
+```bash
+root@PC-Ubuntu:~# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+```
+#### Список доступных образов
+```bash
+root@PC-Ubuntu:~# yc compute image list
++----+------+--------+-------------+--------+
+| ID | NAME | FAMILY | PRODUCT IDS | STATUS |
++----+------+--------+-------------+--------+
++----+------+--------+-------------+--------+
+
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+```
+```
