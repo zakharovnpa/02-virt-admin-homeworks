@@ -732,8 +732,256 @@ Build 'yandex' finished after 4 minutes 5 seconds.
 --> yandex: A disk image was created: centos-7-base (id: fd87ftkus6nii1k3epnu) with family name centos
 root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
 ```
-[Результат](/)
+[Результат](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
 #### Ошибки при создании образа
+- нет авторизации платного аккаунта
+- утилита yc должна быть доступна из папки, где запускается Packer
+```bash
+root@PC-Ubuntu:~# packer build /root/netology-project/Docker-Compose/src/packer/centos-7-base.json
+yandex: output will be in this color.
+
+==> yandex: Creating temporary ssh key for instance...
+==> yandex: Error getting source image for instance creation: client-request-id = 90dc131f-8281-4403-b1e4-f6d4f2d9c1ee client-trace-id = 7a9e53fa-1860-43ab-b5d2-741128428173 rpc error: code = Unauthenticated desc = iam token create failed: failed to get compute instance service account token from instance metadata service: GET http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token: Get "http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token": dial tcp 169.254.169.254:80: i/o timeout.
+==> yandex: Are you inside compute instance?
+Build 'yandex' errored after 1 second 863 milliseconds: Error getting source image for instance creation: client-request-id = 90dc131f-8281-4403-b1e4-f6d4f2d9c1ee client-trace-id = 7a9e53fa-1860-43ab-b5d2-741128428173 rpc error: code = Unauthenticated desc = iam token create failed: failed to get compute instance service account token from instance metadata service: GET http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token: Get "http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token": dial tcp 169.254.169.254:80: i/o timeout.
+Are you inside compute instance?
+
+==> Wait completed after 1 second 864 milliseconds
+
+==> Some builds didn't complete successfully and had errors:
+--> yandex: Error getting source image for instance creation: client-request-id = 90dc131f-8281-4403-b1e4-f6d4f2d9c1ee client-trace-id = 7a9e53fa-1860-43ab-b5d2-741128428173 rpc error: code = Unauthenticated desc = iam token create failed: failed to get compute instance service account token from instance metadata service: GET http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token: Get "http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token": dial tcp 169.254.169.254:80: i/o timeout.
+Are you inside compute instance?
+
+==> Builds finished but no artifacts were created.
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# packer validate /root/netology-project/Docker-Compose/src/packer/centos-7-base.json
+The configuration is valid.
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# cd /root/netology-project/Docker-Compose/src
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# cd
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# packer validate /root/netology-project/Docker-Compose/src/packer/centos-7-base.json
+The configuration is valid.
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# packer build /root/netology-project/Docker-Compose/src/packer/centos-7-base.json
+yandex: output will be in this color.
+
+==> yandex: Creating temporary ssh key for instance...
+==> yandex: Using as source image: fd84cmtk4glnq12cso0d (name: "centos-7-v20211206", family: "centos-7")
+==> yandex: Use provided subnet id enpcnmun2o4c2u90824e
+==> yandex: Creating disk...
+==> yandex: Error creating disk: server-request-id = ffe308ad-51bd-46ee-bccf-e9c643513fd6 server-trace-id = 65e26a491ddfa19d:fc50504e6b9540cc:65e26a491ddfa19d:1 client-request-id = 4b444301-e435-4b4d-8411-15df2dd75d2e client-trace-id = 1c3798d1-b296-4185-a914-d1ac3ef420a9 rpc error: code = PermissionDenied desc = Permission denied to folder b1gaec42k169jqpo02f7
+Build 'yandex' errored after 1 second 339 milliseconds: Error creating disk: server-request-id = ffe308ad-51bd-46ee-bccf-e9c643513fd6 server-trace-id = 65e26a491ddfa19d:fc50504e6b9540cc:65e26a491ddfa19d:1 client-request-id = 4b444301-e435-4b4d-8411-15df2dd75d2e client-trace-id = 1c3798d1-b296-4185-a914-d1ac3ef420a9 rpc error: code = PermissionDenied desc = Permission denied to folder b1gaec42k169jqpo02f7
+
+==> Wait completed after 1 second 339 milliseconds
+
+==> Some builds didn't complete successfully and had errors:
+--> yandex: Error creating disk: server-request-id = ffe308ad-51bd-46ee-bccf-e9c643513fd6 server-trace-id = 65e26a491ddfa19d:fc50504e6b9540cc:65e26a491ddfa19d:1 client-request-id = 4b444301-e435-4b4d-8411-15df2dd75d2e client-trace-id = 1c3798d1-b296-4185-a914-d1ac3ef420a9 rpc error: code = PermissionDenied desc = Permission denied to folder b1gaec42k169jqpo02f7
+
+==> Builds finished but no artifacts were created.
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# packer --version
+1.7.8
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# packer build /root/netology-project/Docker-Compose/src/packer/centos-7-base.json
+yandex: output will be in this color.
+
+==> yandex: Creating temporary ssh key for instance...
+==> yandex: Using as source image: fd84cmtk4glnq12cso0d (name: "centos-7-v20211206", family: "centos-7")
+==> yandex: Use provided subnet id enpcnmun2o4c2u90824e
+==> yandex: Creating disk...
+==> yandex: Creating instance...
+==> yandex: Error create instance: server-request-id = edf0f295-6ea2-454e-9cb9-9eed15e977f6 server-trace-id = dacfc8c2b701566:22107c63e0ea79e2:dacfc8c2b701566:1 client-request-id = 10724ebc-7bbc-4260-91e0-a5f6fd731d25 client-trace-id = 6f1687e7-a802-489f-bc96-b01897039020 rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+==> yandex: Destroying boot disk...
+    yandex: Disk has been deleted!
+Build 'yandex' errored after 13 seconds 918 milliseconds: Error create instance: server-request-id = edf0f295-6ea2-454e-9cb9-9eed15e977f6 server-trace-id = dacfc8c2b701566:22107c63e0ea79e2:dacfc8c2b701566:1 client-request-id = 10724ebc-7bbc-4260-91e0-a5f6fd731d25 client-trace-id = 6f1687e7-a802-489f-bc96-b01897039020 rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+
+==> Wait completed after 13 seconds 918 milliseconds
+
+==> Some builds didn't complete successfully and had errors:
+--> yandex: Error create instance: server-request-id = edf0f295-6ea2-454e-9cb9-9eed15e977f6 server-trace-id = dacfc8c2b701566:22107c63e0ea79e2:dacfc8c2b701566:1 client-request-id = 10724ebc-7bbc-4260-91e0-a5f6fd731d25 client-trace-id = 6f1687e7-a802-489f-bc96-b01897039020 rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+
+==> Builds finished but no artifacts were created.
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# type yc
+для yc вычислен хэш (/root/yandex-cloud/bin/yc)
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# cd /root/netology-project/Docker-Compose/src/
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# type yc
+для yc вычислен хэш (/root/yandex-cloud/bin/yc)
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# cd packer/
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# type yc
+для yc вычислен хэш (/root/yandex-cloud/bin/yc)
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# packer build centos-7-base.json
+yandex: output will be in this color.
+
+==> yandex: Creating temporary ssh key for instance...
+==> yandex: Using as source image: fd84cmtk4glnq12cso0d (name: "centos-7-v20211206", family: "centos-7")
+==> yandex: Use provided subnet id enpcnmun2o4c2u90824e
+==> yandex: Creating disk...
+==> yandex: Creating instance...
+==> yandex: Error create instance: server-request-id = ec54555b-18d4-45a9-b28e-22f866cd02e2 server-trace-id = 84d5356d8d6fccf4:6d0f8e4f119e18bb:84d5356d8d6fccf4:1 client-request-id = d00ebdf5-4260-446f-9af5-4e363537f48a client-trace-id = 7f42886f-8893-4453-9b0d-4620a2db5073 rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+==> yandex: Destroying boot disk...
+    yandex: Disk has been deleted!
+Build 'yandex' errored after 8 seconds 201 milliseconds: Error create instance: server-request-id = ec54555b-18d4-45a9-b28e-22f866cd02e2 server-trace-id = 84d5356d8d6fccf4:6d0f8e4f119e18bb:84d5356d8d6fccf4:1 client-request-id = d00ebdf5-4260-446f-9af5-4e363537f48a client-trace-id = 7f42886f-8893-4453-9b0d-4620a2db5073 rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+
+==> Wait completed after 8 seconds 201 milliseconds
+
+==> Some builds didn't complete successfully and had errors:
+--> yandex: Error create instance: server-request-id = ec54555b-18d4-45a9-b28e-22f866cd02e2 server-trace-id = 84d5356d8d6fccf4:6d0f8e4f119e18bb:84d5356d8d6fccf4:1 client-request-id = d00ebdf5-4260-446f-9af5-4e363537f48a client-trace-id = 7f42886f-8893-4453-9b0d-4620a2db5073 rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+
+==> Builds finished but no artifacts were created.
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# cd ..
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc init
+Welcome! This command will take you through the configuration process.
+Pick desired action:
+ [1] Re-initialize this profile 'netology' with new settings 
+ [2] Create a new profile
+ [3] Switch to and re-initialize existing profile: 'default'
+Please enter your numeric choice: 1
+Please go to https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb in order to obtain OAuth token.
+
+Please enter OAuth token: [AQAAAAACD*********************jdhr2jd4s] AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+You have one cloud available: 'cloud-serjent' (id = b1g220k55v5cktv4kfki). It is going to be used by default.
+Please choose folder to use:
+ [1] default (id = b1ggdhpqn2g4ts7rsvfj)
+ [2] netology-alfa (id = b1gd3hm4niaifoa8dahm)
+ [3] Create a new folder
+Please enter your numeric choice: 2
+Your current folder has been set to 'netology-alfa' (id = b1gd3hm4niaifoa8dahm).
+Do you want to configure a default Compute zone? [Y/n] n
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc init
+Welcome! This command will take you through the configuration process.
+Pick desired action:
+ [1] Re-initialize this profile 'netology' with new settings 
+ [2] Create a new profile
+ [3] Switch to and re-initialize existing profile: 'default'
+Please enter your numeric choice: 1
+Please go to https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb in order to obtain OAuth token.
+
+Please enter OAuth token: [AQAAAAACD*********************jdhr2jd4s] AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+You have one cloud available: 'cloud-serjent' (id = b1g220k55v5cktv4kfki). It is going to be used by default.
+Please choose folder to use:
+ [1] default (id = b1ggdhpqn2g4ts7rsvfj)
+ [2] netology-alfa (id = b1gd3hm4niaifoa8dahm)
+ [3] Create a new folder
+Please enter your numeric choice: 2
+Your current folder has been set to 'netology-alfa' (id = b1gd3hm4niaifoa8dahm).
+Do you want to configure a default Compute zone? [Y/n] y
+Which zone do you want to use as a profile default?
+ [1] ru-central1-a
+ [2] ru-central1-b
+ [3] ru-central1-c
+ [4] Don't set default zone
+Please enter your numeric choice: 1
+Your profile default Compute zone has been set to 'ru-central1-a'.
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
+ERROR: rpc error: code = ResourceExhausted desc = Quota limit vpc.networks.count exceeded
+
+
+server-request-id: bc79c486-5ca1-43e6-a705-05049076805f
+client-request-id: fd7e2c80-e621-4cf2-bf69-8266245863c8
+server-trace-id: 7cdbd258622e1b94:9fefaa671d0491c1:7cdbd258622e1b94:1
+client-trace-id: 86f0ead6-d044-4f14-a0b3-ce6edc1e3d73
+
+Use server-request-id, client-request-id, server-trace-id, client-trace-id for investigation of issues in cloud support
+If you are going to ask for help of cloud support, please send the following trace file: /root/.config/yandex-cloud/logs/2021-12-09T20-40-44.533-yc_vpc_network_create.txt
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
+ERROR: rpc error: code = ResourceExhausted desc = Quota limit vpc.networks.count exceeded
+
+
+server-request-id: dda1c014-2186-44aa-beea-f69f705e3d24
+client-request-id: ed7fa22e-e2ba-442a-abf1-8530977fb408
+server-trace-id: ef45ee6560f658bf:864b2a74e38c18f3:ef45ee6560f658bf:1
+client-trace-id: e6ec0629-3723-4750-ab57-148a89221f4f
+
+Use server-request-id, client-request-id, server-trace-id, client-trace-id for investigation of issues in cloud support
+If you are going to ask for help of cloud support, please send the following trace file: /root/.config/yandex-cloud/logs/2021-12-09T20-44-47.925-yc_vpc_network_create.txt
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# packer build centos-7-base.json
+"centos-7-base.json": stat centos-7-base.json: no such file or directory
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src# cd packer/
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# packer build centos-7-base.json
+yandex: output will be in this color.
+
+==> yandex: Creating temporary ssh key for instance...
+==> yandex: Using as source image: fd84cmtk4glnq12cso0d (name: "centos-7-v20211206", family: "centos-7")
+==> yandex: Use provided subnet id enpcnmun2o4c2u90824e
+==> yandex: Creating disk...
+==> yandex: Creating instance...
+==> yandex: Error create instance: server-request-id = 2d0f6d77-86c6-4eaa-9bf2-a30cfc878c70 server-trace-id = 430b45d6e3eef866:bbfbf554734bbbe1:430b45d6e3eef866:1 client-request-id = 16dda504-6620-4368-9d65-a6c6e57286b8 client-trace-id = 431e0521-6e01-47d1-be7d-c5bbd275436a rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+==> yandex: Destroying boot disk...
+    yandex: Disk has been deleted!
+Build 'yandex' errored after 6 seconds 854 milliseconds: Error create instance: server-request-id = 2d0f6d77-86c6-4eaa-9bf2-a30cfc878c70 server-trace-id = 430b45d6e3eef866:bbfbf554734bbbe1:430b45d6e3eef866:1 client-request-id = 16dda504-6620-4368-9d65-a6c6e57286b8 client-trace-id = 431e0521-6e01-47d1-be7d-c5bbd275436a rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+
+==> Wait completed after 6 seconds 854 milliseconds
+
+==> Some builds didn't complete successfully and had errors:
+--> yandex: Error create instance: server-request-id = 2d0f6d77-86c6-4eaa-9bf2-a30cfc878c70 server-trace-id = 430b45d6e3eef866:bbfbf554734bbbe1:430b45d6e3eef866:1 client-request-id = 16dda504-6620-4368-9d65-a6c6e57286b8 client-trace-id = 431e0521-6e01-47d1-be7d-c5bbd275436a rpc error: code = NotFound desc = Subnet enpcnmun2o4c2u90824e not found
+
+==> Builds finished but no artifacts were created.
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# 
+
+```
 - неверно указаны ID папки и подсети
 ```bash
 
