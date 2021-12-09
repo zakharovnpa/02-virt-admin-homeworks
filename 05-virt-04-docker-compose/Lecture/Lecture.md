@@ -40,7 +40,7 @@ Docker Compose предназначен для решения задач, свя
 Этот инструмент предлагает те же возможности, что и Docker, но позволяет работать с более сложными конфигурациями.
 
 #### Разница между Docker и Docker Compose
-![Разница_между_Docker_и_Docker_Compose](./img/Docker-vs-Docker-Compose.png)
+![Разница_между_Docker_и_Docker_Compose](/05-virt-04-docker-compose/img/Docker-vs-Docker-Compose.png)
 
 ### Структура Docker Compose
 #### Структура Docker Compose файла
