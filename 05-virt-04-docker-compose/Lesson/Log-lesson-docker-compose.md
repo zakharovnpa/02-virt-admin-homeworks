@@ -464,4 +464,79 @@ root@PC-Ubuntu:~# yc compute image list
 root@PC-Ubuntu:~# 
 root@PC-Ubuntu:~# 
 ```
+### Создание сети. 42 минуты 04 сек. от начала лекции
+Чтобы начать сборку образа Парекром надо в ручном режиме создать сеть и подсеть
+Аргументами задаем имя сети, лейбл сети, дескрипшен сети
+```bash
+root@PC-Ubuntu:~# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
+id: enpcnmun2o4c2u90824e
+folder_id: b1gd3hm4niaifoa8dahm
+created_at: "2021-12-09T14:55:15Z"
+name: net
+description: my first network via yc
+labels:
+  my-label: netology
+```
+#### Создание подсети 
+```bash
+root@PC-Ubuntu:~# yc vpc subnet create --name my-subnet-a --zone ru-central1-a --range 10.1.2.0/24 --network-name net --description "my first subnet via yc"
+id: e9bd698br4kj49sf418j
+folder_id: b1gd3hm4niaifoa8dahm
+created_at: "2021-12-09T14:57:35Z"
+name: my-subnet-a
+description: my first subnet via yc
+network_id: enpcnmun2o4c2u90824e
+zone_id: ru-central1-a
+v4_cidr_blocks:
+- 10.1.2.0/24
+
+```
+### Создание образа ОС в Yandex.Cloud
+#### Установка утилиты Packer
+```bash
+root@PC-Ubuntu:~# packer --version
+
+Команда «packer» не найдена, но может быть установлена с помощью:
+
+snap install packer  # version 1.0.0-2, or
+apt  install packer  # version 1.3.4+dfsg-4
+
+See 'snap info packer' for additional versions.
+
+root@PC-Ubuntu:~# 
+```
+```bash
+root@PC-Ubuntu:~# apt  install packer
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Следующие НОВЫЕ пакеты будут установлены:
+  packer
+Обновлено 0 пакетов, установлено 1 новых пакетов, для удаления отмечено 0 пакетов, и 11 пакетов не обновлено.
+Необходимо скачать 31,8 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 149 MB.
+Пол:1 https://apt.releases.hashicorp.com focal/main amd64 packer amd64 1.7.8 [31,8 MB]
+Получено 31,8 MB за 41с (772 kB/s)                                                                                                                                                                           
+Выбор ранее не выбранного пакета packer.
+(Чтение базы данных … на данный момент установлено 218876 файлов и каталогов.)
+Подготовка к распаковке …/packer_1.7.8_amd64.deb …
+Распаковывается packer (1.7.8) …
+Настраивается пакет packer (1.7.8) …
+root@PC-Ubuntu:~# 
+```
+```bash
+root@PC-Ubuntu:~# packer --version
+1.7.8
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# 
+```
+### Создание образа ОС в Yandex.Cloud 44 минуты 43 сек. от начала лекции
+#### Проверяем валидность конфигурации файла ` /src/packer/centos-7-base.json ` для создания образа
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/packer# packer validate centos-7-base.json
+The configuration is valid.
+```
+#### Запускаем сборку образа
+```bash
+
 ```
