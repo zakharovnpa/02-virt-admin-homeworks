@@ -1,6 +1,8 @@
 ## Лекция по теме "Оркестрация группой Docker контейнеров на примере Docker Compose"
 
 Олег Букатчук
+[1](/05-virt-04-docker-compose/Lecture/png/Images-in-Yandex-Cloud.png)
+
 Software Architect DevOps, crif.com
 ### Предисловие
 На этом занятии мы:
