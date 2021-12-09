@@ -284,6 +284,7 @@ $ yc compute image list
 
 #### Образ ОС доступен в UI: Yandex.Cloud
 [Images-in-Yandex-Cloud](/05-virt-04-docker-compose/img/Images-in-Yandex-Cloud.png)
+[1](/05-virt-04-docker-compose/img/Images-in-Yandex-Cloud.png)
 
 ### Создание ВМ в Yandex.Cloud
 ```bash
