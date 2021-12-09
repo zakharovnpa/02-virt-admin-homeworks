@@ -103,94 +103,65 @@ docker-compose up -d (--detach)
 контейнеры останавливаются, а код выхода равен — 0.
 [Ссылка на команду](https://docs.docker.com/engine/reference/commandline/compose_up/)
 
+#### Вывод в STDOUT логов контейнеров
+Команда ` docker-compose logs (-f) ` выводит в STDOUT логи контейнеров на основе указанных в **stanza** service: запущенных контейнеров.
+Команда ` docker-compose logs -f (--follow) ` запускает непрерывный вывод логов в STDOUT, всех запущенных контейнеров.
+Команда ` docker-compose logs -f service_name ` запускает непрерывный вывод логов в STDOUT, **service_name** контейнера.
+[Ссылка на команду](https://docs.docker.com/engine/reference/commandline/compose_logs/)
 
-#### выводит в STDOUT логи контейнеров
-● docker-compose logs (-f) выводит в STDOUT логи контейнеров
-на основе указанных в stanza service: запущенных
-контейнеров.
-Команда запускает непрерывный вывод логов в STDOUT, всех
-запущенных контейнеров.
-Команда запускает непрерывный вывод логов в STDOUT,
-service_name контейнера.
-https://docs.docker.com/engine/reference/commandline/compose_logs/
-22
-docker-compose logs -f (--follow)
-docker-compose logs -f service_name
- Базовые команды Docker Compose
-● docker-compose ps (-a) выводит список запущенных
-контейнеров на основе указанных в stanza service: в
-docker-compose файле.
-Команда выводит список всех, даже остановленных контейнеров
-на основе указанных в stanza service: в docker-compose файле.
-https://docs.docker.com/compose/reference/ps/
-23
-docker-compose ps -a (--all)
- Базовые команды Docker Compose
-● docker-compose top выводит список запущенных процессов
-внутри контейнеров на основе указанных в stanza service: в
-docker-compose файле.
-Удобно использовать при отладке взаимодействия нескольких
-контейнеров. Позволяет посмотреть от какого пользователя
-запущен процесс, его PID, а также потребление CPU каждого
-контейнера, но лучше использовать утилиту ctop.
-24
+#### Вывод списка запущенных контейнеров
+Команда ` docker-compose ps (-a) ` выводит список запущенных контейнеров на основе указанных в **stanza** service: в **docker-compose** файле.
+Команда ` docker-compose ps -a (--all) ` выводит список всех, даже остановленных контейнеров на основе указанных в **stanza** service: в docker-compose файле.
+[Ссылка на команду](https://docs.docker.com/compose/reference/ps/)
+
+#### Вывод списка апущенных процессов внутри контейнеров 
+Команда ` docker-compose top  ` выводит список запущенных процессов внутри контейнеров на основе указанных в **stanza** service: в docker-compose файле. Удобно использовать при отладке взаимодействия нескольких контейнеров. Позволяет посмотреть от какого пользователя запущен процесс, его PID, а также потребление CPU каждого контейнера, но лучше использовать утилиту **ctop**.
+```bash
 # Установка утилиты ctop
 $ curl -L
 https://github.com/bcicen/ctop/releases/download/0.7.6/ctop-0.7.6-li
 nux-amd64 -O /usr/bin/ctop && chmod +x /usr/bin/ctop
 https://docs.docker.com/compose/reference/ps/
- Базовые команды Docker Compose
-● docker-compose down останавливает все запущенные
-контейнеры на основе указанных в stanza service: в
-docker-compose файле.
-Удаляет все контейнеры, сети, тома и образы, созданные с
-помощью up (-d). По умолчанию удаляются только следующие
-элементы:
-● Контейнеры для сервисов, определенных в Compose файле.
-● Сети, определенные в разделе сетей Compose файла.
-● Сеть по умолчанию, если таковая используется.
-Важно: Сети и тома, определенные как внешние, никогда не
-удаляются!
-https://docs.docker.com/engine/reference/commandline/compose_down/ 25
-Вводная часть про Облака:
-Packer, Terraform
-26
-Packer
-Packer — это инструмент для создания одинаковых образов ОС
-для различных платформ из одного описания.
-Он отлично дружит и со всеми крупными облачными
-провайдерами, вроде AWS, GCE, Azure и Digital Ocean, и даже с
-локальными гипервизорами, вроде VMWare и VirtualBox.
+```
+
+#### Остановка всех запущенных контейнеров
+Команда ` docker-compose down  ` останавливает все запущенные контейнеры на основе указанных в **stanza** service: в docker-compose файле.
+Удаляет все контейнеры, сети, тома и образы, созданные с помощью up (-d). По умолчанию удаляются только следующие элементы:
+- Контейнеры для сервисов, определенных в Compose файле.
+- Сети, определенные в разделе сетей Compose файла.
+- Сеть по умолчанию, если таковая используется.
+
+**Важно**: Сети и тома, определенные как внешние, никогда не удаляются!
+[Ссылка на команду](https://docs.docker.com/engine/reference/commandline/compose_down/)
+
+### Вводная часть про Облака: Packer, Terraform
+#### Packer
+[Packer](https://www.packer.io) — это инструмент для создания одинаковых образов ОС для различных платформ из одного описания.
+Он отлично дружит и со всеми крупными облачными провайдерами, вроде **AWS, GCE, Azure и Digital Ocean**, и даже с локальными гипервизорами, вроде **VMWare** и **VirtualBox**.
 Создавать образы можно как для Linux, так и для Windows.
 https://www.packer.io/
-27
-Terraform
-Terraform — это инструмент помогающий декларативно управлять
-инфраструктурой.
-Используя Terraform не приходится (в консоли вашего облачного
-провайдера) вручную создавать диски, инстансы, учётные записи,
-сети и т.д.
-Так реализуется важнейший IaaC принцип: инфраструктура
-хранится в системе контроля версий точно так же, как исходный
-код, следовательно её можно рецензировать или откатывать к
-более раннему состоянию.
+
+#### Terraform
+[Terraform](https://www.terraform.io) — это инструмент помогающий декларативно управлять инфраструктурой.
+**Используя Terraform** не приходится (в консоли вашего облачного провайдера) вручную создавать диски, инстансы, учётные записи, сети и т.д.
+Так реализуется важнейший IaaC принцип: инфраструктура хранится в **системе контроля версий** точно так же, как **исходный код**, следовательно её можно **рецензировать** или **откатывать** к более раннему состоянию.
 https://www.terraform.io/
-28
-Развертывание стека
-микросервисов
-29
-Авторизация в Yandex.Cloud
-Для работы с Яндекс Облаком вам потребуется установить
-утилиту ус.
-30
+
+### Развертывание стека микросервисов
+#### Авторизация в Yandex.Cloud 
+Для работы с Яндекс Облаком вам потребуется установить [утилиту ус](https://cloud.yandex.ru/docs/cli/quickstart).
+```bash
 # Актуальная версия для macOS (на момент подготовки презентации).
 $ yc --version
 Yandex.Cloud CLI 0.82.0 darwin/amd64
+
 # Справка по командам утилиты yc
 $ yc --help
+```
 https://cloud.yandex.ru/docs/cli/quickstart
-Авторизация в Yandex.Cloud
-31
+
+#### Авторизация в Yandex.Cloud
+```bash
 # Инициализация профиля
 $ yc init
 Welcome! This command will take you through the configuration
@@ -204,9 +175,7 @@ only lower case letters a-z, digits 0-9, and hyphens '-': netology
 Please go to
 https://oauth.yandex.ru/authorize?response_type=token&client_id=1a69
 40aa636648e9b2ef845d27bec2ec in order to obtain OAuth token.
-Авторизация в Yandex.Cloud
-32
-# Инициализация профиля
+
 Please enter OAuth token: AQTAAAWXO0wAATuкvqUL29UBkxhnH-lGv22qUw
 You have one cloud available: 'cloud-bukatchuk' (id =
 b1gu1gt5nqi6lqgu3t7s). It is going to be used by default.
@@ -225,21 +194,22 @@ Which zone do you want to use as a profile default?
  [4] Don't set default zone
 Please enter your numeric choice: 1
 Your profile default Compute zone has been set to 'ru-central1-a'.
-Авторизация в Yandex.Cloud
-33
-# Инициализация профиля
+
 $ yc config list
 token: AQTAAAWXO0wAATuкvqUL29UBkxhnH-lGv22qUw
 cloud-id: b1gu1gt5nqi6lqgu3t7s
 folder-id: b1gaec42k169jqpo02f7
 compute-default-zone: ru-central1-a
+
 $ yc compute image list
 +----+------+--------+-------------+--------+
 | ID | NAME | FAMILY | PRODUCT IDS | STATUS |
 +----+------+--------+-------------+--------+
 +----+------+--------+-------------+--------+
-Создание сети в Yandex.Cloud
-34
+```
+#### Создание сети в Yandex.Cloud
+```bash
+
 # Инициализация сети
 $ yc vpc network create \
 > --name net \
@@ -252,8 +222,7 @@ name: net
 description: my first network via yc
 labels:
  my-label: netology
-Создание подсети в Yandex.Cloud
-35
+ 
 # Инициализация подсети
 $ yc vpc subnet create \
 > --name my-subnet-a \
@@ -270,8 +239,9 @@ network_id: enp6o83r23jge62evv45
 zone_id: ru-central1-a
 v4_cidr_blocks:
 - 10.1.2.0/24
-Создание образа ОС в Yandex.Cloud
-36
+```
+#### Создание образа ОС в Yandex.Cloud
+```bash
 # Проверка версии Packer, корректности конфигурации и запуск сборки
 $ packer --version
 1.6.1
@@ -291,8 +261,6 @@ become active...
 ==> yandex: Connected to SSH!
 ==> yandex: Provisioning with shell script:
 ...
-Создание образа ОС в Yandex.Cloud
-37
 # Завершение сборки
 ...
 ==> yandex: Stopping instance...
@@ -312,10 +280,13 @@ $ yc compute image list
 +----------------------+---------------+--------+----------------------+--------+
 | fd8eam19jsb479spvg7o | centos-7-base | centos | f2entd2q3vii79nbabck | READY |
 +----------------------+---------------+--------+----------------------+--------+
-Образ ОС доступен в UI: Yandex.Cloud
-38
-Создание ВМ в Yandex.Cloud
-39
+```
+
+#### Образ ОС доступен в UI: Yandex.Cloud
+[Images-in-Yandex-Cloud](/05-virt-04-docker-compose/img/Images-in-Yandex-Cloud.png)
+
+### Создание ВМ в Yandex.Cloud
+```bash
 # Проверка версии Terraform и инициализация конфигурации.
 $ terraform --version
 Terraform v1.0.8
@@ -332,8 +303,8 @@ If you'd like to know more about provider signing, you can read
 about it here:
 https://www.terraform.io/docs/cli/plugins/signing.html
 ...
-Создание ВМ в Yandex.Cloud
-40
+```
+```bash
 # Проверка версии Terraform и инициализация конфигурации.
 …
 Terraform has created a lock file .terraform.lock.hcl to record the
@@ -353,8 +324,8 @@ If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget,
 other
 commands will detect it and remind you to do so if necessary.
-Создание ВМ в Yandex.Cloud
-41
+```
+```bash
 # Запуск проверки плана Terraform
 $ terraform plan
 Terraform used the selected providers to generate the following
@@ -368,8 +339,8 @@ Plan: 3 to add, 0 to change, 0 to destroy.
 Changes to Outputs:
  + external_ip_address_node01_yandex_cloud = (known after apply)
  + internal_ip_address_node01_yandex_cloud = (known after apply)
-Создание ВМ в Yandex.Cloud
-42
+```
+```bash
 # Применение Terraform плана
 $ terraform apply
 Plan: 3 to add, 0 to change, 0 to destroy.
@@ -389,9 +360,9 @@ Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 Outputs:
 external_ip_address_node01_yandex_cloud = "178.154.205.74"
 internal_ip_address_node01_yandex_cloud = "192.168.101.20"
-Деплой ПО и стека микросервисов на
-виртуальную машину в Yandex.Cloud
-43
+```
+#### Деплой ПО и стека микросервисов на виртуальную машину в Yandex.Cloud
+```bash
 # Подготовка ПО и запуск стека микросервисов
 $ ansible-playbook provision.yml
 PLAY [nodes] ************************************************************************
@@ -408,9 +379,8 @@ TASK [Checking DNS] ************************************************************
 changed: [node01.netology.cloud]
 TASK [Installing tools] *************************************************************
 changed: [node01.netology.cloud] => (item=['git', 'curl'])
-Деплой ПО и стека микросервисов на
-виртуальную машину в Yandex.Cloud
-44
+```
+```bash
 # Подготовка ПО и запуск стека микросервисов
 TASK [Add docker repository] ********************************************************
 changed: [node01.netology.cloud]
@@ -423,9 +393,8 @@ TASK [Install docker-compose] **************************************************
 changed: [node01.netology.cloud]
 TASK [Synchronization] **************************************************************
 changed: [node01.netology.cloud]
-Деплой ПО и стека микросервисов на
-виртуальную машину в Yandex.Cloud
-45
+```
+```bash
 # Подготовка ПО и запуск стека микросервисов
 TASK [Pull all images in compose]
 ***************************************************
@@ -438,41 +407,26 @@ PLAY RECAP
 *
 node01.netology.cloud : ok=12 changed=10 unreachable=0
 failed=0 skipped=0 rescued=0 ignored=0
-Теперь можно перейти по адресу:
-http://внешний_ip_адрес_вашей_вм:3000
-и авторизоваться в Grafana c логином/паролем (admin/admin)
-Packer + Terraform + Ansible +
-Docker
-46
-Packer + Terraform + Ansible + Docker
-Packer собирает образ на временной ВМ, которую создаёт сам
-для сборки образа, и затем загружает собранный образ ВМ в S3
-хранилище этого облака.
-Terraform использует этот образ, как отправную точку с которой
-начинает строить план создания инстанса виртуальной машины в
-этом облаке на основе манифеста, оформленного в виде
-исходного кода на языке HCL.
-Ansible по факту доступности виртуальной машины начинает
-подготовку операционной системы созданной ВМ, его цель —
-подготовка окружения (установка всех зависимостей, для того
-чтобы запустить Docker контейнеры.)
-47
-Итоги
-48
-Итоги
-49
+```
+Теперь можно перейти по адресу: **http://внешний_ip_адрес_вашей_вм:3000** и авторизоваться в Grafana c логином/паролем (admin/admin)
+
+### Packer + Terraform + Ansible + Docker
+#### Packer + Terraform + Ansible + Docker
+- Packer **собирает образ** на временной ВМ, которую создаёт сам
+  для сборки образа, и затем **загружает собранный образ ВМ в S3 хранилище** этого облака.
+- Terraform **использует этот образ**, как отправную точку с которой начинает строить **план создания** инстанса виртуальной машины в
+  этом облаке на основе манифеста, оформленного в виде исходного кода на языке **HCL**.
+- Ansible **по факту доступности виртуальной машины** начинает подготовку операционной системы созданной ВМ, его цель — подготовка окружения (установка всех    зависимостей, для того чтобы запустить Docker контейнеры.)
+
+### Итоги
 Сегодня мы
-● узнали о преимуществах, использования Docker Compose;
-● научились собирать образы ОС с помощью Packer для
-использования их в Яндекс.Облаке;
-● научились создавать ВМ в облаке с помощью Terraform
-используя свой собственный образ ОС;
-● поняли, как можно использовать Docker, Docker Compose,
-Packer, Terraform и Ansible.
-● реализовали полный цикл создания Production сервиса на
-примере Prometheus, Grafana, Alert manager, Push gateway,
-Node exporter, cAdvicor, Caddy.
-Домашнее задание
+- узнали о преимуществах, использования Docker Compose;
+- научились собирать образы ОС с помощью Packer для использования их в Яндекс.Облаке;
+- научились создавать ВМ в облаке с помощью Terraform используя свой собственный образ ОС;
+- поняли, как можно использовать Docker, Docker Compose, Packer, Terraform и Ansible.
+- реализовали полный цикл создания Production сервиса на примере Prometheus, Grafana, Alert manager, Push gateway, Node exporter, cAdvicor, Caddy.
+
+### Домашнее задание
 Давайте посмотрим ваше домашнее задание.
 ● Вопросы по домашней работе задавайте в чате мессенджера
 Slack.
