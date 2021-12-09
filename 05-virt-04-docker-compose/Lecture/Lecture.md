@@ -167,7 +167,9 @@ $ yc --help
 ```
 https://cloud.yandex.ru/docs/cli/quickstart
 
-#### Авторизация в Yandex.Cloud
+#### Авторизация в Yandex.Cloud. 39 минут от начала лекции.
+Передначалом инициализации утилиты необходимо быть авторизованным в Yandex.Cloud
+https://cloud.yandex.ru/
 ```bash
 # Инициализация профиля
 $ yc init
