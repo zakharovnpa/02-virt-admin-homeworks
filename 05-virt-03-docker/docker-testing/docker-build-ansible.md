@@ -1,4 +1,5 @@
-## Создание на ВМ Vagrant-Betta на ОС Ubuntu
+## Создание на ВМ Vagrant-Betta на ОС Ubuntu Манифеста Dockerfile и создание контейнера
+#### 
 ```ps
 agrant@server1:~$ sudo -i
 root@server1:~# 
@@ -8,6 +9,7 @@ root@server1:~/build/ansible#
 root@server1:~/build/ansible# vim Dockerfile
 root@server1:~/build/ansible# 
 ```
+#### Создаем Манифест - Dockerfile
 ```yml
 root@server1:~/build/ansible# cat Dockerfile 
 FROM alpine:3.14
@@ -61,6 +63,7 @@ Usage:  docker build [OPTIONS] PATH | URL | -
 
 Build an image from a Dockerfile
 ```
+#### Запускаем создание образа
 ```ps
 root@server1:~/build/ansible# docker build -t zakharovnpa/ansible:8.12.21 .
 Sending build context to Docker daemon   2.56kB
@@ -366,4 +369,48 @@ root@server1:~/build/ansible# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 root@server1:~/build/ansible# 
 root@server1:~/build/ansible# 
+```
+#### Используем LifeHack
+```ps
+root@server1:~/build/ansible# DOCKER_BUILDKIT=0 docker build -t zakharovnpa/ansible:8.12.21 .
+Sending build context to Docker daemon   2.56kB
+Step 1/5 : FROM alpine:3.14
+ ---> 0a97eee8041e
+Step 2/5 : RUN CARGO_NET_GIT_FETCH_WITH_CLI=1 &&     apk --no-cache add         sudo         python3        py3-pip         openssl         ca-certificates         sshpass         openssh-client         rsync         git &&     apk --no-cache add --virtual build-dependencies         python3-dev         libffi-dev         musl-dev         gcc         cargo         openssl-dev         libressl-dev         build-base &&     pip install --upgrade pip wheel &&     pip install --upgrade cryptography cffi &&     pip install ansible==2.9.24 &&     pip install mitogen ansible-lint jmespath &&     pip install --upgrade pywinrm &&     apk del build-dependencies &&     rm -rf /var/cache/apk/* &&     rm -rf /root/.cache/pip &&     rm -rf /root/.cargo
+ ---> Using cache
+ ---> d55071ab9183
+Step 3/5 : RUN mkdir /ansible &&     mkdir -p /etc/ansible &&     echo 'localhost' > /etc/ansible/hosts
+ ---> Using cache
+ ---> 9ad748879290
+Step 4/5 : WORKDIR /ansible
+ ---> Using cache
+ ---> 6cf05edbd0b6
+Step 5/5 : CMD [ "ansible-playbook", "--version" ]
+ ---> Using cache
+ ---> 06b6ca73286e
+Successfully built 06b6ca73286e
+Successfully tagged zakharovnpa/ansible:8.12.21
+
+```
+#### Логинимся на Docker Hub
+```ps
+root@server1:~/build/ansible# docker login -u zakharovnpa
+Password: 
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+root@server1:~/build/ansible# 
+```
+#### Загружаем образ на Docker Hub
+```ps
+root@server1:~/build/ansible# docker push zakharovnpa/ansible:8.12.21
+The push refers to repository [docker.io/zakharovnpa/ansible]
+6a5bdf93c342: Pushed 
+51d6d16b63e4: Pushed 
+1a058d5342cc: Mounted from library/alpine 
+8.12.21: digest: sha256:f48001cc499c344a8c95119bb736c38c56adf770cdac072b6e615e12d4b674cd size: 947
+root@server1:~/build/ansible# 
+
 ```
