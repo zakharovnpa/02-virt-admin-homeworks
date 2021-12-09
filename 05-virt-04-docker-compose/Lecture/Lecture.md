@@ -17,6 +17,14 @@ Software Architect DevOps, crif.com
     - cAdvicor, 
     - Caddy.
 
+А также:
+- узнаем о преимуществах, использования Docker Compose;
+- научимся собирать образы ОС с помощью Packer для использования их в Яндекс.Облаке;
+- научимся создавать ВМ в облаке с помощью Terraform используя свой собственный образ ОС;
+- поймем, как можно использовать Docker, Docker Compose, Packer, Terraform и Ansible.
+- реализуем полный цикл создания Production сервиса на примере Prometheus, Grafana, Alert manager, Push gateway, Node exporter, cAdvicor, Caddy.
+
+
 ### План занятия
 1. Введение в Docker Compose
 2. Структура Docker Compose
