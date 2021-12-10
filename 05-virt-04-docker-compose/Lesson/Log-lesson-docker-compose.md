@@ -1614,3 +1614,147 @@ CentOS Linux release 7.9.2009 (Core)
 -bash: type: docker: не найден
 
 ```
+### Запускаем Деплой ПО и стека микросервисов на виртуальную машину в Yandex.Cloud 1 час 9 минут 10 сек. от начала лекции
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/ansible# ansible-playbook provision.yml 
+
+PLAY [nodes] *************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Create directory for ssh-keys] *************************************************************************************************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Adding rsa-key in /root/.ssh/authorized_keys] **********************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Checking DNS] ******************************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Installing tools] **************************************************************************************************************************************************************************************
+changed: [node01.netology.cloud] => (item=['git', 'curl'])
+
+TASK [Add docker repository] *********************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Installing docker package] *****************************************************************************************************************************************************************************
+changed: [node01.netology.cloud] => (item=['docker-ce', 'docker-ce-cli', 'containerd.io'])
+
+TASK [Enable docker daemon] **********************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Install docker-compose] ********************************************************************************************************************************************************************************
+fatal: [node01.netology.cloud]: FAILED! => {"changed": true, "msg": "non-zero return code", "rc": 6, "stderr": "Shared connection to 51.250.0.11 closed.\r\n", "stderr_lines": ["Shared connection to 51.250.0.11 closed."], "stdout": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\r\n                                 Dload  Upload   Total   Spent    Left  Speed\r\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   664  100   664    0     0   1453      0 --:--:-- --:--:-- --:--:--  1456\r\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100 23.5M  100 23.5M    0     0  19.4M      0  0:00:01  0:00:01 --:--:-- 34.4M\r\ncurl: (6) Could not resolve host: Linux-x86_64; Неизвестная ошибка\r\n", "stdout_lines": ["  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current", "                                 Dload  Upload   Total   Spent    Left  Speed", "", "  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0", "100   664  100   664    0     0   1453      0 --:--:-- --:--:-- --:--:--  1456", "", "  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0", "100 23.5M  100 23.5M    0     0  19.4M      0  0:00:01  0:00:01 --:--:-- 34.4M", "curl: (6) Could not resolve host: Linux-x86_64; Неизвестная ошибка"]}
+
+PLAY RECAP ***************************************************************************************************************************************************************************************************
+node01.netology.cloud      : ok=8    changed=6    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/ansible# 
+```
+##### Ошибка связана с лишним пробелом в файле privision.yml
+```yml
+- name: Install docker-compose
+        raw: $(curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose)
+
+# Лишний пробел был здесь: "d/1.29.2/docker-compose-[должно быть без пробелов]`uname -s`-`uname -m"
+```
+#### Снова запускаем ansible-playbook
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/ansible# ansible-playbook provision.yml 
+
+PLAY [nodes] *************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Create directory for ssh-keys] *************************************************************************************************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Adding rsa-key in /root/.ssh/authorized_keys] **********************************************************************************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Checking DNS] ******************************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Installing tools] **************************************************************************************************************************************************************************************
+ok: [node01.netology.cloud] => (item=['git', 'curl'])
+
+TASK [Add docker repository] *********************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Installing docker package] *****************************************************************************************************************************************************************************
+ok: [node01.netology.cloud] => (item=['docker-ce', 'docker-ce-cli', 'containerd.io'])
+
+TASK [Enable docker daemon] **********************************************************************************************************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Install docker-compose] ********************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Synchronization] ***************************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Pull all images in compose] ****************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Up all services in compose] ****************************************************************************************************************************************************************************
+changed: [node01.netology.cloud]
+
+PLAY RECAP ***************************************************************************************************************************************************************************************************
+node01.netology.cloud      : ok=12   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+```
+#### Заходим на созданую ВМ
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# ssh centos@51.250.0.11
+
+```
+#### Видим запущенные микросервисы
+```bash
+[centos@node01 ~]$ 
+[centos@node01 ~]$ sudo -i
+[root@node01 ~]# 
+[root@node01 ~]# docker ps
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED         STATUS                   PORTS                                                                              NAMES
+473b67a997a9   gcr.io/google-containers/cadvisor:v0.34.0   "/usr/bin/cadvisor -…"   8 minutes ago   Up 7 minutes (healthy)   8080/tcp                                                                           cadvisor
+7e79c03f2570   prom/prometheus:v2.17.1                     "/bin/prometheus --c…"   8 minutes ago   Up 7 minutes             9090/tcp                                                                           prometheus
+5ab790676236   grafana/grafana:7.4.2                       "/run.sh"                8 minutes ago   Up 7 minutes             3000/tcp                                                                           grafana
+19c1819338f1   stefanprodan/caddy                          "/sbin/tini -- caddy…"   8 minutes ago   Up 7 minutes             0.0.0.0:3000->3000/tcp, 0.0.0.0:9090-9091->9090-9091/tcp, 0.0.0.0:9093->9093/tcp   caddy
+43d02e782a70   prom/pushgateway:v1.2.0                     "/bin/pushgateway"       8 minutes ago   Up 7 minutes             9091/tcp                                                                           pushgateway
+882fa1562926   prom/alertmanager:v0.20.0                   "/bin/alertmanager -…"   8 minutes ago   Up 7 minutes             9093/tcp                                                                           alertmanager
+cd2c9ce3a5cb   prom/node-exporter:v0.18.1                  "/bin/node_exporter …"   8 minutes ago   Up 7 minutes             9100/tcp                                                                           nodeexporter
+[root@node01 ~]# 
+
+```
+#### Проверяем чинхронизацию дирктории со стеком микросервисов
+```bash
+[root@node01 ~]# cd /opt/stack
+[root@node01 stack]# 
+[root@node01 stack]# ls -lha
+итого 8,0K
+drwxr-xr-x. 7 root root  128 дек 10 17:45 .
+drwxr-xr-x. 4 root root   37 дек 10 17:45 ..
+drwxr-xr-x. 2 root root   24 дек 10 17:45 alertmanager
+drwxr-xr-x. 2 root root   23 дек 10 17:45 caddy
+-rw-r--r--. 1 root root 3,0K дек 10 17:45 docker-compose.yaml
+-rw-r--r--. 1 root root   38 дек 10 17:45 .env
+drwxr-xr-x. 2 root root   43 дек 10 17:45 exporters
+drwxr-xr-x. 3 root root   26 дек 10 17:45 grafana
+drwxr-xr-x. 2 root root   47 дек 10 17:45 prometheus
+[root@node01 stack]# 
+
+```
+#### Проверяем запущенные процессы Docker-compose
+```bash
+[root@node01 stack]# docker-compose ps
+NAME                COMMAND                  SERVICE             STATUS              PORTS
+alertmanager        "/bin/alertmanager -…"   alertmanager        running             9093/tcp
+caddy               "/sbin/tini -- caddy…"   caddy               running             0.0.0.0:3000->3000/tcp, 0.0.0.0:9090-9091->9090-9091/tcp, 0.0.0.0:9093->9093/tcp
+cadvisor            "/usr/bin/cadvisor -…"   cadvisor            running (healthy)   8080/tcp
+grafana             "/run.sh"                grafana             running             3000/tcp
+nodeexporter        "/bin/node_exporter …"   nodeexporter        running             9100/tcp
+prometheus          "/bin/prometheus --c…"   prometheus          running             9090/tcp
+pushgateway         "/bin/pushgateway"       pushgateway         running             9091/tcp
+[root@node01 stack]# 
+```
