@@ -228,20 +228,18 @@ root@PC-Ubuntu:~#
 ```
 ### Устанавливаем docker-compose
 ```bash
-root@PC-Ubuntu:~# curl -L https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-linux-x86_64 `uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose
+root@PC-Ubuntu:~# curl -L https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   664  100   664    0     0   1185      0 --:--:-- --:--:-- --:--:--  1185
-100 23.5M  100 23.5M    0     0  1442k      0  0:00:16  0:00:16 --:--:-- 1922k
-curl: (6) Could not resolve host: Linux-x86_64
+100   664  100   664    0     0   2563      0 --:--:-- --:--:-- --:--:--  2563
+100 23.5M  100 23.5M    0     0   764k      0  0:00:31  0:00:31 --:--:-- 1051k
 root@PC-Ubuntu:~# 
 root@PC-Ubuntu:~# type docker-compose
-docker-compose является /usr/bin/docker-compose
+для docker-compose вычислен хэш (/usr/bin/docker-compose)
 root@PC-Ubuntu:~# 
 root@PC-Ubuntu:~# whereis docker-compose
 docker-compose: /usr/bin/docker-compose
-root@PC-Ubuntu:~# 
-root@PC-Ubuntu:~# 
+
 ```
 ### Устанавливаем утилиту "yc" Yandex.Cloud
 ```bash
