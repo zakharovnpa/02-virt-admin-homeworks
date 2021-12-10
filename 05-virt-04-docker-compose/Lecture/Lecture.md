@@ -373,7 +373,7 @@ Outputs:
 external_ip_address_node01_yandex_cloud = "178.154.205.74"
 internal_ip_address_node01_yandex_cloud = "192.168.101.20"
 ```
-#### Деплой ПО и стека микросервисов на виртуальную машину в Yandex.Cloud
+#### Деплой ПО и стека микросервисов на виртуальную машину в Yandex.Cloud 1 час 9 минут 10 сек. от начала лекции
 ```bash
 # Подготовка ПО и запуск стека микросервисов
 $ ansible-playbook provision.yml
