@@ -297,7 +297,7 @@ $ yc compute image list
 [2](/05-virt-04-docker-compose/Lecture/png/Images-in-Yandex-Cloud.png)
 
 
-### Создание ВМ в Yandex.Cloud
+### Создание ВМ в Yandex.Cloud. 1 час 00 минут 45 сек. от начала лекции
 ```bash
 # Проверка версии Terraform и инициализация конфигурации.
 $ terraform --version
@@ -438,7 +438,7 @@ failed=0 skipped=0 rescued=0 ignored=0
 - поняли, как можно использовать Docker, Docker Compose, Packer, Terraform и Ansible.
 - реализовали полный цикл создания Production сервиса на примере Prometheus, Grafana, Alert manager, Push gateway, Node exporter, cAdvicor, Caddy.
 
-### Домашнее задание
+### Домашнее задание. 1 час 33 минуты 15 секунд от начала лекции
 Давайте посмотрим ваше домашнее задание.
 ● Вопросы по домашней работе задавайте в чате мессенджера
 Slack.
