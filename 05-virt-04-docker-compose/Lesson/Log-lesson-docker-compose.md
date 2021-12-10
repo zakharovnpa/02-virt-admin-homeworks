@@ -1299,6 +1299,7 @@ Success! The configuration is valid.
 ```
 Успешно!
 #### Проверяем план создания ВМ
+ С плюсами - это все то, что Терраформ собирается создать
 ```tf
 root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform plan
 
