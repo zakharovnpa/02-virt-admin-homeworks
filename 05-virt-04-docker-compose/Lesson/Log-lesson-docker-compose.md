@@ -1145,3 +1145,268 @@ Terraform v1.1.0
 on linux_amd64
 
 ```
+## Запуск создания ВМ в облаке на основе ранее созданного образа с помощью Teraform
+### Запуск Teraform
+#### Инициализация Terraform
+```ps
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of yandex-cloud/yandex...
+- Installing yandex-cloud/yandex v0.67.0...
+- Installed yandex-cloud/yandex v0.67.0 (self-signed, key ID E40F590B50BB8E40)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+```
+#### Проерка валидности конфигурации
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform validate
+╷
+│ Error: JSON in "key.json" are not valid: invalid character 'k' looking for beginning of value
+│ 
+│   with provider["registry.terraform.io/yandex-cloud/yandex"],
+│   on provider.tf line 11, in provider "yandex":
+│   11:   service_account_key_file = "key.json"
+│ 
+╵
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# 
+```
+Вышла ошибка о том, что нет файла "key.json" с ключем для подключения к провайдеру Яндекс.
+Решение: в файле "privider.tf" место это строки записано  "token = "AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s"
+Источник решения: [В начале конфигурационного файла необходимо задать настройки провайдера.](https://cloud.yandex.ru/docs/solutions/infrastructure-management/terraform-quickstart#configure-provider)
+#### Взяли параметры токена из конфика яндекс облака
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# yc config list
+token: AQAAAAACDSBNAATuwbWrT28RHkWyvGjdhr2jd4s
+cloud-id: b1g220k55v5cktv4kfki
+folder-id: b1gd3hm4niaifoa8dahm
+compute-default-zone: ru-central1-a
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# 
+```
+#### Второй запуск валидации конфигурации Terraform
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform validate
+╷
+│ Error: Invalid function argument
+│ 
+│   on node01.tf line 27, in resource "yandex_compute_instance" "node01":
+│   27:     ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
+│ 
+│ Invalid value for "path" parameter: no file exists at ~/.ssh/id_rsa.pub; this function works only with files that are distributed as part of the configuration source code, so if this file will be created
+│ by a resource in this configuration you must instead obtain this result from an attribute of that resource.
+╵
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# 
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# 
+
+```
+Вышла ошибка о том, что отстутствует файл с ключем SSH на локальной системе
+Решение: сгенерировать ключи SSH.
+Источник решения: [1](https://tyapk.ru/blog/post/copy-ssh-public-key-to-server), [2](https://firstvds.ru/technology/dobavit-ssh-klyuch)
+```bash
+root@PC-Ubuntu:~# ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa
+Your public key has been saved in /root/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:yZBUNVTE6Lhpup9vUFOoo7gpNkKpc8FQAFm+2ZY2Frc root@PC-Ubuntu
+The key's randomart image is:
++---[RSA 3072]----+
+|++.   ...o+*o    |
+|...  . .  o.o    |
+| .. . +  + .     |
+|.  + + ++.+      |
+| o+ B.E.S= .     |
+| oo+... =        |
+|o  . o o .       |
+|+ = o .  ..      |
+| = o  .ooo.      |
++----[SHA256]-----+
+root@PC-Ubuntu:~# 
+```
+##### Ключ готов и находится в директории "~/.ssh"
+```bash
+root@PC-Ubuntu:~# ls -l
+итого 20
+drwxr-xr-x 5 root root 4096 дек  9 15:51  netology-project
+drwxr-xr-x 3 root root 4096 дек  5 13:14  snap
+drwxr-xr-x 4 root root 4096 дек  5 15:48  vagrant-project
+drwx------ 5 root root 4096 дек  5 18:20 'VirtualBox VMs'
+drwxr-xr-x 4 root root 4096 дек  9 16:49  yandex-cloud
+root@PC-Ubuntu:~# ls -lha
+итого 104K
+drwx------ 15 root root 4,0K дек  9 22:10  .
+drwxr-xr-x 20 root root 4,0K дек  5 13:06  ..
+drwxr-xr-x  4 root root 4,0K дек  5 16:23  .ansible
+-rw-------  1 root root 5,1K дек 10 12:32  .bash_history
+-rw-r--r--  1 root root 3,4K дек  9 16:49  .bashrc
+drwx------  4 root root 4,0K дек 10 14:54  .cache
+drwx------  8 root root 4,0K дек  9 19:01  .config
+-rw-r--r--  1 root root   62 дек  9 15:45  .gitconfig
+drwx------  3 root root 4,0K дек  5 14:22  .local
+drwxr-xr-x  5 root root 4,0K дек  9 15:51  netology-project
+-rw-r--r--  1 root root  161 дек  5  2019  .profile
+-rw-r--r--  1 root root   72 дек  9 19:58  .selected_editor
+drwxr-xr-x  3 root root 4,0K дек  5 13:14  snap
+drwx------  2 root root 4,0K дек 10 15:56  .ssh
+drwxr-xr-x  2 root root 4,0K дек  9 22:10  .terraform.d
+drwxr-xr-x  7 root root 4,0K дек  8 20:11  .vagrant.d
+drwxr-xr-x  4 root root 4,0K дек  5 15:48  vagrant-project
+-rw-------  1 root root  16K дек  5 18:20  .viminfo
+drwx------  5 root root 4,0K дек  5 18:20 'VirtualBox VMs'
+-rw-r--r--  1 root root  173 дек  5 13:41  .wget-hsts
+drwxr-xr-x  4 root root 4,0K дек  6 21:37  .wine
+drwxr-xr-x  4 root root 4,0K дек  9 16:49  yandex-cloud
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# cd .ssh/
+root@PC-Ubuntu:~/.ssh# 
+root@PC-Ubuntu:~/.ssh# ls -l
+итого 8
+-rw------- 1 root root 2602 дек 10 15:56 id_rsa
+-rw-r--r-- 1 root root  568 дек 10 15:56 id_rsa.pub
+root@PC-Ubuntu:~/.ssh# cat id_rsa.pub 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+9Ei9PdBgvkzoZaKFwoy9mDeug4UUkdibC3r9CRxn2ml0qka0W3JrldqzFj2sZ3N9g3W5LRcVFN0aw42hMxgTvN5OJrP46AnOtuF7JXp3rndq1zsKf1C6fxfV94erFBaJHxtYqRIgfcMxNrqCFs3t6aoc6Rvo6s80Pq+mxwbHUV3z/Rih4xUycnjzmwJOE28NTtRsysdRZoV7KaOTZ3nVgnrjlf/oQRgsyZXQYA6sW4rYMd6UjSXd3dB1N3kOZeyE8zaTjqKQwuwwL1d1JuKrefxrigt+DxAMwq6mIe7eu0SYBcjFAkhglTjuIblo0xrgxbL389MOW/fe2CLqygAb66QZlc85sj1SMuVASlwOliLKU8W7uEJT/1U4zQkAwuEPKZexSNGu0XMOKpByW2A9bPTcKJGRoOUZcRwTp9bVPxHTlfRRtheKVHm3eSzLEt0AN2hbTQmPapaKorcME8FWFr0PLG4Ic3VLwSOX/lWB1Gq5Va+ozsnbZBYfJE7+FMs= root@PC-Ubuntu
+root@PC-Ubuntu:~/.ssh# 
+
+```
+#### В третий раз запускаем валидацию конфогурации Terraform
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform validate
+Success! The configuration is valid.
+
+```
+Успешно!
+#### Проверяем план создания ВМ
+```tf
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # yandex_compute_instance.node01 will be created
+  + resource "yandex_compute_instance" "node01" {
+      + allow_stopping_for_update = true
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "node01.netology.cloud"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                centos:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+9Ei9PdBgvkzoZaKFwoy9mDeug4UUkdibC3r9CRxn2ml0qka0W3JrldqzFj2sZ3N9g3W5LRcVFN0aw42hMxgTvN5OJrP46AnOtuF7JXp3rndq1zsKf1C6fxfV94erFBaJHxtYqRIgfcMxNrqCFs3t6aoc6Rvo6s80Pq+mxwbHUV3z/Rih4xUycnjzmwJOE28NTtRsysdRZoV7KaOTZ3nVgnrjlf/oQRgsyZXQYA6sW4rYMd6UjSXd3dB1N3kOZeyE8zaTjqKQwuwwL1d1JuKrefxrigt+DxAMwq6mIe7eu0SYBcjFAkhglTjuIblo0xrgxbL389MOW/fe2CLqygAb66QZlc85sj1SMuVASlwOliLKU8W7uEJT/1U4zQkAwuEPKZexSNGu0XMOKpByW2A9bPTcKJGRoOUZcRwTp9bVPxHTlfRRtheKVHm3eSzLEt0AN2hbTQmPapaKorcME8FWFr0PLG4Ic3VLwSOX/lWB1Gq5Va+ozsnbZBYfJE7+FMs= root@PC-Ubuntu
+            EOT
+        }
+      + name                      = "node01"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + description = (known after apply)
+              + image_id    = "fd8ft6norj68lo29qlpi"
+              + name        = "root-node01"
+              + size        = 50
+              + snapshot_id = (known after apply)
+              + type        = "network-nvme"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + placement_group_id = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 8
+          + memory        = 8
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_vpc_network.default will be created
+  + resource "yandex_vpc_network" "default" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = "net"
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.default will be created
+  + resource "yandex_vpc_subnet" "default" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.101.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_ip_address_node01_yandex_cloud = (known after apply)
+  + internal_ip_address_node01_yandex_cloud = (known after apply)
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# 
+
+```
