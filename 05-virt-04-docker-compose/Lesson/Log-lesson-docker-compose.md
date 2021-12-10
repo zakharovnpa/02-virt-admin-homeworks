@@ -1756,3 +1756,10 @@ prometheus          "/bin/prometheus --c…"   prometheus          running      
 pushgateway         "/bin/pushgateway"       pushgateway         running             9091/tcp
 [root@node01 stack]# 
 ```
+#### Можно зайти по адресу ВМ и номеру порта и посмотреть запущенные сервисы
+
+### Удаление ВМ
+```bash
+# В директории ./terraform выполнить
+terraform destroy -auto-approve
+```
