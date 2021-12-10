@@ -1411,3 +1411,206 @@ Note: You didn't use the -out option to save this plan, so Terraform can't guara
 root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# 
 
 ```
+#### Редактируем файл "variables.tf"
+```bash
+# Заменить на ID своего облака
+# https://console.cloud.yandex.ru/cloud?section=overview
+variable "yandex_cloud_id" {
+  default = "b1g220k55v5cktv4kfki" # - Здесь
+}
+
+# Заменить на Folder своего облака
+# https://console.cloud.yandex.ru/cloud?section=overview
+variable "yandex_folder_id" {
+  default = "b1gd3hm4niaifoa8dahm" # - Здесь
+}
+
+# Заменить на ID своего образа
+# ID можно узнать с помощью команды yc compute image list
+variable "centos-7-base" {
+  default = "fd87ftkus6nii1k3epnu" # - Здесь
+}
+
+```
+#### Проверяем доступные ресурсы
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# yc resource-manager folder list
++----------------------+---------------+--------+--------+
+|          ID          |     NAME      | LABELS | STATUS |
++----------------------+---------------+--------+--------+
+| b1ggdhpqn2g4ts7rsvfj | default       |        | ACTIVE |
+| b1gd3hm4niaifoa8dahm | netology-alfa |        | ACTIVE |
++----------------------+---------------+--------+--------+
+
+
+```
+#### Создавался сервисный аккаунт и новый профиль для создания ВМ. НО этот вариант не помог нормально запустить Терраформ
+```bash
+
+```
+### Запускаем создание ВМ
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# terraform apply -auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # yandex_compute_instance.node01 will be created
+  + resource "yandex_compute_instance" "node01" {
+      + allow_stopping_for_update = true
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "node01.netology.cloud"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                centos:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+9Ei9PdBgvkzoZaKFwoy9mDeug4UUkdibC3r9CRxn2ml0qka0W3JrldqzFj2sZ3N9g3W5LRcVFN0aw42hMxgTvN5OJrP46AnOtuF7JXp3rndq1zsKf1C6fxfV94erFBaJHxtYqRIgfcMxNrqCFs3t6aoc6Rvo6s80Pq+mxwbHUV3z/Rih4xUycnjzmwJOE28NTtRsysdRZoV7KaOTZ3nVgnrjlf/oQRgsyZXQYA6sW4rYMd6UjSXd3dB1N3kOZeyE8zaTjqKQwuwwL1d1JuKrefxrigt+DxAMwq6mIe7eu0SYBcjFAkhglTjuIblo0xrgxbL389MOW/fe2CLqygAb66QZlc85sj1SMuVASlwOliLKU8W7uEJT/1U4zQkAwuEPKZexSNGu0XMOKpByW2A9bPTcKJGRoOUZcRwTp9bVPxHTlfRRtheKVHm3eSzLEt0AN2hbTQmPapaKorcME8FWFr0PLG4Ic3VLwSOX/lWB1Gq5Va+ozsnbZBYfJE7+FMs= root@PC-Ubuntu
+            EOT
+        }
+      + name                      = "node01"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + description = (known after apply)
+              + image_id    = "fd87ftkus6nii1k3epnu"
+              + name        = "root-node01"
+              + size        = 50
+              + snapshot_id = (known after apply)
+              + type        = "network-nvme"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + placement_group_id = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 8
+          + memory        = 8
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_vpc_network.default will be created
+  + resource "yandex_vpc_network" "default" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = "net"
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.default will be created
+  + resource "yandex_vpc_subnet" "default" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet"
+      + network_id     = "enpe24e1imt3pnl2hepl"
+      + v4_cidr_blocks = [
+          + "192.168.101.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_ip_address_node01_yandex_cloud = (known after apply)
+  + internal_ip_address_node01_yandex_cloud = (known after apply)
+yandex_vpc_network.default: Creating...
+yandex_vpc_subnet.default: Creating...
+yandex_vpc_subnet.default: Creation complete after 1s [id=e9bjuh1beitbgp5q3fb5]
+yandex_compute_instance.node01: Creating...
+yandex_vpc_network.default: Creation complete after 1s [id=enpg408972efls369k28]
+yandex_compute_instance.node01: Still creating... [10s elapsed]
+yandex_compute_instance.node01: Still creating... [20s elapsed]
+yandex_compute_instance.node01: Still creating... [30s elapsed]
+yandex_compute_instance.node01: Still creating... [40s elapsed]
+yandex_compute_instance.node01: Creation complete after 45s [id=fhmklokig6f0516hc354]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_ip_address_node01_yandex_cloud = "51.250.0.11"
+internal_ip_address_node01_yandex_cloud = "192.168.101.27"
+
+```
+Виртуальная машина создалась. На нее можно посмотреть:
+[Новая ВМ Centos](/)
+##### Можно зайти на ВМ по IP адресу
+```bash
+root@PC-Ubuntu:~/netology-project/Docker-Compose/src/terraform# ssh centos@51.250.0.11
+The authenticity of host '51.250.0.11 (51.250.0.11)' can't be established.
+ECDSA key fingerprint is SHA256:rhfZA3xNuBhDU3UC6PDTBBQMwEKDUNBNYfrYo3eMgAQ.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '51.250.0.11' (ECDSA) to the list of known hosts.
+[centos@node01 ~]$ 
+[centos@node01 ~]$ 
+[centos@node01 ~]$ cat /etc/*release
+CentOS Linux release 7.9.2009 (Core)
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+CentOS Linux release 7.9.2009 (Core)
+CentOS Linux release 7.9.2009 (Core)
+[centos@node01 ~]$ 
+
+```
+```bash
+[centos@node01 ~]$ uptime
+ 17:14:53 up 21 min,  1 user,  load average: 0,00, 0,01, 0,02
+[centos@node01 ~]$ 
+[centos@node01 ~]$ type docker
+-bash: type: docker: не найден
+
+```
