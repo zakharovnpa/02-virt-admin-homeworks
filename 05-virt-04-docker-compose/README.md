@@ -8,10 +8,7 @@
 - Скриншот страницы, как на слайде из презентации (слайд 37).
 
 **Ответ:**
-Создан новый [образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
-<p align="center">
-  <img width="2500" height="600" src="./img/new-images-in-yandex-cloud.png">
-</p>
+Создан новый ![образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
 
 ## Задача 2
 
@@ -20,11 +17,16 @@
 Для получения зачета, вам необходимо предоставить:
 - Скриншот страницы свойств созданной ВМ, как на примере ниже:
 
+
 <p align="center">
   <img width="1200" height="600" src="./img/yc_01.png">
 </p>
 
 **Ответ:**
+
+![yc-compute-image-list](/05-virt-04-docker-compose/img/yc-compute-image-list.png)
+![running-node01](/05-virt-04-docker-compose/img/running-node01.png)
+
 
 ## Задача 3
 
@@ -37,6 +39,9 @@
 </p>
 
 **Ответ:**
+![running-grafana](/05-virt-04-docker-compose/img/running-grafana.png)
+
+![running-prometheus](/05-virt-04-docker-compose/img/running-prometheus.png)
 
 ## Задача 4 (*)
 
