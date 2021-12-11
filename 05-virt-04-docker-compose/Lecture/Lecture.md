@@ -44,8 +44,8 @@ Docker Compose предназначен для решения задач, свя
 файле и управлять набором микросервисов, как единым набором сущностей!**
 
 #### Разница между Docker и Docker Compose
-**Docker** применяется для управления **каждым отдельным контейнером** (сервисом), из которых состоит приложение.
-**Docker Compose** используется для одновременного управления **сразу несколькими контейнерами, входящими в состав приложения**.
+- **Docker** применяется для управления **каждым отдельным контейнером** (сервисом), из которых состоит приложение.
+- **Docker Compose** используется для одновременного управления **сразу несколькими контейнерами, входящими в состав приложения**.
 Этот инструмент предлагает те же возможности, что и Docker, но позволяет работать с более сложными конфигурациями.
 ![Разница_между_Docker_и_Docker_Compose](/05-virt-04-docker-compose/img/Docker-vs-Docker-Compose.png)
 
@@ -73,12 +73,11 @@ services:
  ```
  
 #### Как установить Docker Compose
-● Актуальную версию можно найти по [ссылке:](https://github.com/docker/compose/releases/)
+- Актуальную версию можно найти по [ссылке:](https://github.com/docker/compose/releases/)
 ```bash
 # Установка docker-compose
 curl -L
-https://github.com/docker/compose/releases/download/1.29.2/docker-compose
--`uname -s`-`uname -m` -o /usr/bin/docker-compose \
+https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose \
 && chmod +x /usr/bin/docker-compose
 ```
 ### Базовые команды Docker Compose
