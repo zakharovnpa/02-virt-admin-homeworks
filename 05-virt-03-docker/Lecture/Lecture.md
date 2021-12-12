@@ -541,8 +541,8 @@ $ docker run -d --name=container-name --net=network-name image-name
 $ docker network connect network-name container-name
 ```
 
-### Собираем первый Docker-контейнер
-#### Dockerﬁle. 1 час 11 мнут.
+### Собираем первый Docker-контейнер 1:10:50
+#### Dockerﬁle. 1:10:54.
 Манифест **Docker** образа в котором **будет выполнятся Ansible**.
 ```bash
 # Манифест Docker образа.
@@ -575,10 +575,10 @@ WORKDIR /ansible
 CMD [ "ansible-playbook", "--version" ]
 ```
 
-#### Собираем Docker образ. 1 час 12 минут 35 секунд
+#### Собираем Docker образ. 1 час 12 минут 33 секунд
 Собираем Docker образ, в котором будет выполнятся Ansible.
 ```bash
-# Переходим в диоекторию, где лежт Dockerfile
+# Переходим в директорию, где лежит Dockerfile
 $ cd /Users/olegbukatchuk/git/netology.ru/virt-homeworks/05-virt-03-docker-usage/src/build/ansible
 
 #Запускаем сборку с тегом (ключ -t). Тег называется "olegbukatchuk/ansible:2.9.24". 
