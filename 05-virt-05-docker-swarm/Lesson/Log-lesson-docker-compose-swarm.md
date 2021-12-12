@@ -2739,4 +2739,38 @@ root@PC-Ubuntu:~/netology-project/Docker-Compose-Swarm/src/terraform#
 
 #### 6. Запускаем деплой стека приложений.
 #### 7. Проводим стресс тест Docker Swarm кластера.
+- Заходим по ssh на одну из нод.
+```bash
+root@PC-Ubuntu:~# ssh centos@51.250.1.227
+[centos@node02 ~]$ 
+[centos@node02 ~]$ 
+[centos@node02 ~]$ sudo -i
+[root@node02 ~]# 
+[root@node02 ~]# 
+```
+```bash
+[root@node02 ~]# docker node ls
+ID                            HOSTNAME             STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+qjmezayny3c6c5kaf8b6i8v5e     node01.netology.yc   Ready     Active         Leader           20.10.11
+bqre35lordbvn4rtwtlign6no *   node02.netology.yc   Ready     Active         Reachable        20.10.11
+zfbbdwqxrdzorocfb9kp92hfa     node03.netology.yc   Ready     Active         Reachable        20.10.11
+nba4ua0v5u7k7xh2upall2w8w     node04.netology.yc   Ready     Active                          20.10.11
+w8a5dn2em5f85lsgviinp9v3z     node05.netology.yc   Ready     Active                          20.10.11
+j69md7ol8z6bp5w3gqp61jfsw     node06.netology.yc   Ready     Active                          20.10.11
+
+```
+Мы сейчас находимся на ноде bqre35lordbvn4rtwtlign6no, где знак *
+Переходим на ноду-лидер и перезагружаем ее.
+При этом docker-swarm определяет лидером другую ноду
+```bash
+root@node02 ~]# docker node ls
+ID                            HOSTNAME             STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+qjmezayny3c6c5kaf8b6i8v5e     node01.netology.yc   Unknown   Active         Unreachable      20.10.11
+bqre35lordbvn4rtwtlign6no *   node02.netology.yc   Unknown   Active         Leader           20.10.11
+zfbbdwqxrdzorocfb9kp92hfa     node03.netology.yc   Ready     Active         Reachable        20.10.11
+nba4ua0v5u7k7xh2upall2w8w     node04.netology.yc   Unknown   Active                          20.10.11
+w8a5dn2em5f85lsgviinp9v3z     node05.netology.yc   Unknown   Active                          20.10.11
+j69md7ol8z6bp5w3gqp61jfsw     node06.netology.yc   Ready     Active                          20.10.11
+
+```
 #### 8. Удаляем всё, чтобы не тратить деньги!
