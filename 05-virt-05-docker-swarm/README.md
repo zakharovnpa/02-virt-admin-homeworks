@@ -5,7 +5,7 @@
 Дайте письменые ответы на следующие вопросы:
 
 - В чём отличие режимов работы сервисов в Docker Swarm кластере: replication и global?
-- Какой алгоритм выбора лидера используется в Docker Swarm кластере?
+- Какой алгоритм выбора лидера используется в Docker Swarm кластере? Смотрите слайд с Полезными материалами.
 - Что такое Overlay Network?
 
 **Ответ:**
@@ -44,5 +44,6 @@ docker service ls
 docker swarm update --autolock=true
 ```
 **Ответ:**
+
 ![docker-swarm-update](/05-virt-05-docker-swarm/Lecture/img/docker-swarm-update.png)
 * Команда ` docker swarm update --autolock=true ` 
