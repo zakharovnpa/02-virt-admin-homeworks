@@ -282,6 +282,8 @@ Build 'yandex' finished.
 ==> Builds finished. The artifacts of successful builds are:
 --> yandex: A disk image was created: centos-7-base (id: fd8eam19jsb479spvg7o)
 with family name centos
+
+#Просмотр доступных образов
 $ yc compute image list
 +----------------------+---------------+--------+----------------------+--------+
 | ID | NAME | FAMILY | PRODUCT IDS | STATUS |
@@ -291,10 +293,7 @@ $ yc compute image list
 ```
 
 #### Образ ОС доступен в UI: Yandex.Cloud
-[Images-in-Yandex-Cloud](/05-virt-04-docker-compose/img/Images-in-Yandex-Cloud.png)
-[1](/05-virt-04-docker-compose/img/Images-in-Yandex-Cloud.png)
-[2](/05-virt-04-docker-compose/Lecture/png/Images-in-Yandex-Cloud.png)
-
+![Images-in-Yandex-Cloud](/05-virt-04-docker-compose/img/Images-in-Yandex-Cloud.png)
 
 ### Создание ВМ в Yandex.Cloud. 1 час 00 минут 45 сек. от начала лекции
 ```bash
