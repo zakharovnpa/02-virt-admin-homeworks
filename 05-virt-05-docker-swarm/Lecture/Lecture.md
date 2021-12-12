@@ -339,6 +339,7 @@ AP (Availability + Partition tolerance – Consistency).
 - 1:45:00 Заходим на одну из нод. Смотрим вывод ` docker node ls `
 -  1:46:36 Проведение стресс-теста. Перезагрузка ноды 01. Наблюдаем смену лидера у менеджеров
 #### 8. Удаляем всё, чтобы не тратить деньги!
+- 1:51:55 Демонстрация того как узнать имя задеплоиного стека сервисов ` docker stack ls ` , их состояние ` docker stack ps swarm_monitoring `
 
 ### Итоги
 
@@ -349,7 +350,7 @@ AP (Availability + Partition tolerance – Consistency).
 - научились создавать простейший pipeline деплоя используя Terraform и Ansible;
 - создали кластер высокой доступности на основе Docker Swarm и развернули в нём стек микросервисов, устойчивый к отказам виртуальных машин.
 
-### Полезные материалы
+### Полезные материалы. 1:55:55
 - [In Search of an Understandable Consensus Algorithm(Extended Version)](https://raft.github.io/raft.pdf)
 - [Raft (визуализация)](http://thesecretlivesofdata.com/raft/)
 - [Gossip](https://en.wikipedia.org/wiki/Gossip_protocol)
