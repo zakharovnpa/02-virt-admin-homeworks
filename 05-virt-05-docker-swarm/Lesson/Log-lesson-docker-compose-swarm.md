@@ -2773,4 +2773,54 @@ w8a5dn2em5f85lsgviinp9v3z     node05.netology.yc   Unknown   Active             
 j69md7ol8z6bp5w3gqp61jfsw     node06.netology.yc   Ready     Active                          20.10.11
 
 ```
+#### Смотрим состояние стека микросервисов
+##### Узнаем имя стека
+```bash
+[root@node02 ~]# docker stack ls
+NAME               SERVICES   ORCHESTRATOR
+swarm_monitoring   8          Swarm
+
+```
+##### Состояние стека микросервисов
+```bash
+[root@node02 ~]# cd /opt/monitoring/
+[root@node02 monitoring]# 
+[root@node02 monitoring]# docker stack ps swarm_monitoring | less
+[root@node02 monitoring]# 
+[root@node02 monitoring]# docker stack ps swarm_monitoring
+ID             NAME                                                              IMAGE                                          NODE                 DESIRED STATE   CURRENT STATE          ERROR     PORTS
+a641aosfxwfy   swarm_monitoring_alertmanager.1                                   stefanprodan/swarmprom-alertmanager:v0.14.0    node02.netology.yc   Running         Running 2 hours ago              
+np4iqkjzvq09   swarm_monitoring_caddy.1                                          stefanprodan/caddy:latest                      node02.netology.yc   Running         Running 2 hours ago              
+xxbrpyco6z2u    \_ swarm_monitoring_caddy.1                                      stefanprodan/caddy:latest                      node02.netology.yc   Shutdown        Complete 3 hours ago             
+sc83buaycxyj   swarm_monitoring_cadvisor.bqre35lordbvn4rtwtlign6no               google/cadvisor:latest                         node02.netology.yc   Running         Running 2 hours ago              
+15apxmrlddyc   swarm_monitoring_cadvisor.j69md7ol8z6bp5w3gqp61jfsw               google/cadvisor:latest                         node06.netology.yc   Running         Running 2 hours ago              
+90cxdb99ync6   swarm_monitoring_cadvisor.nba4ua0v5u7k7xh2upall2w8w               google/cadvisor:latest                         node04.netology.yc   Running         Running 2 hours ago              
+xbshc3c45260   swarm_monitoring_cadvisor.qjmezayny3c6c5kaf8b6i8v5e               google/cadvisor:latest                         node01.netology.yc   Running         Running 2 hours ago              
+zm0b51r1q7ta    \_ swarm_monitoring_cadvisor.qjmezayny3c6c5kaf8b6i8v5e           google/cadvisor:latest                         node01.netology.yc   Shutdown        Shutdown 2 hours ago             
+l7p2kejd6n8o   swarm_monitoring_cadvisor.w8a5dn2em5f85lsgviinp9v3z               google/cadvisor:latest                         node05.netology.yc   Running         Running 2 hours ago              
+e5ro813zalgr   swarm_monitoring_cadvisor.zfbbdwqxrdzorocfb9kp92hfa               google/cadvisor:latest                         node03.netology.yc   Running         Running 2 hours ago              
+nt9ok9j30s2i   swarm_monitoring_dockerd-exporter.bqre35lordbvn4rtwtlign6no       stefanprodan/caddy:latest                      node02.netology.yc   Running         Running 2 hours ago              
+yoemj2bapygy   swarm_monitoring_dockerd-exporter.j69md7ol8z6bp5w3gqp61jfsw       stefanprodan/caddy:latest                      node06.netology.yc   Running         Running 2 hours ago              
+95jpbhdv72mz   swarm_monitoring_dockerd-exporter.nba4ua0v5u7k7xh2upall2w8w       stefanprodan/caddy:latest                      node04.netology.yc   Running         Running 2 hours ago              
+hujnpr44vm8w   swarm_monitoring_dockerd-exporter.qjmezayny3c6c5kaf8b6i8v5e       stefanprodan/caddy:latest                      node01.netology.yc   Running         Running 2 hours ago              
+231v7jpjs6pc    \_ swarm_monitoring_dockerd-exporter.qjmezayny3c6c5kaf8b6i8v5e   stefanprodan/caddy:latest                      node01.netology.yc   Shutdown        Shutdown 2 hours ago             
+wsp3hho32epg   swarm_monitoring_dockerd-exporter.w8a5dn2em5f85lsgviinp9v3z       stefanprodan/caddy:latest                      node05.netology.yc   Running         Running 2 hours ago              
+xv5uarkjk4vl   swarm_monitoring_dockerd-exporter.zfbbdwqxrdzorocfb9kp92hfa       stefanprodan/caddy:latest                      node03.netology.yc   Running         Running 2 hours ago              
+welag2jjx2qy   swarm_monitoring_grafana.1                                        stefanprodan/swarmprom-grafana:5.3.4           node03.netology.yc   Running         Running 2 hours ago              
+woefql4e1x8a   swarm_monitoring_node-exporter.bqre35lordbvn4rtwtlign6no          stefanprodan/swarmprom-node-exporter:v0.16.0   node02.netology.yc   Running         Running 2 hours ago              
+ojv8w351g946   swarm_monitoring_node-exporter.j69md7ol8z6bp5w3gqp61jfsw          stefanprodan/swarmprom-node-exporter:v0.16.0   node06.netology.yc   Running         Running 2 hours ago              
+wqj4qmhcy9pj   swarm_monitoring_node-exporter.nba4ua0v5u7k7xh2upall2w8w          stefanprodan/swarmprom-node-exporter:v0.16.0   node04.netology.yc   Running         Running 2 hours ago              
+ttm4ibo9a3l9   swarm_monitoring_node-exporter.qjmezayny3c6c5kaf8b6i8v5e          stefanprodan/swarmprom-node-exporter:v0.16.0   node01.netology.yc   Running         Running 2 hours ago              
+2pdengznfhgp    \_ swarm_monitoring_node-exporter.qjmezayny3c6c5kaf8b6i8v5e      stefanprodan/swarmprom-node-exporter:v0.16.0   node01.netology.yc   Shutdown        Shutdown 2 hours ago             
+76zv8unyj6yt   swarm_monitoring_node-exporter.w8a5dn2em5f85lsgviinp9v3z          stefanprodan/swarmprom-node-exporter:v0.16.0   node05.netology.yc   Running         Running 2 hours ago              
+v5obh7bdh6ot   swarm_monitoring_node-exporter.zfbbdwqxrdzorocfb9kp92hfa          stefanprodan/swarmprom-node-exporter:v0.16.0   node03.netology.yc   Running         Running 2 hours ago              
+olqx2n4x8jvv   swarm_monitoring_prometheus.1                                     stefanprodan/swarmprom-prometheus:v2.5.0       node03.netology.yc   Running         Running 2 hours ago              
+wnmixxgpdcqg    \_ swarm_monitoring_prometheus.1                                 stefanprodan/swarmprom-prometheus:v2.5.0       node01.netology.yc   Shutdown        Shutdown 2 hours ago             
+p7oudvj6zc2q   swarm_monitoring_unsee.1                                          cloudflare/unsee:v0.8.0                        node06.netology.yc   Running         Running 2 hours ago              
+[root@node02 monitoring]# 
+
+```
 #### 8. Удаляем всё, чтобы не тратить деньги!
+```bash
+#docker destroy -auto-approve
+```
