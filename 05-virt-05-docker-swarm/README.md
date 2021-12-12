@@ -19,8 +19,9 @@
 docker node ls
 ```
 
-**Ответ:** На скриншоте представлен вывод команды ` docker node ls `
-![]()
+**Ответ:** 
+На скриншоте представлен вывод команды ` docker node ls `
+![docker-node-ls](/05-virt-05-docker-swarm/Lecture/img/docker-node-ls.png)
 
 ## Задача 3
 
@@ -31,8 +32,9 @@ docker node ls
 docker service ls
 ```
 
-**Ответ:**На скриншоте представлен вывод команды ` docker service ls `
-![]()
+**Ответ:** 
+На скриншоте представлен вывод команды ` docker service ls `
+![docker-service-ls](/05-virt-05-docker-swarm/Lecture/img/docker-service-ls.png)
 
 ## Задача 4 (*)
 
