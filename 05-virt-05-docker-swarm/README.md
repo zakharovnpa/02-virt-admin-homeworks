@@ -44,3 +44,5 @@ docker service ls
 docker swarm update --autolock=true
 ```
 **Ответ:**
+![docker-swarm-update](/05-virt-05-docker-swarm/Lecture/img/docker-swarm-update.png)
+* Команда ` docker swarm update --autolock=true ` 
