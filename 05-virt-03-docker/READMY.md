@@ -27,7 +27,7 @@ Hey, Netology
 - [Ссылка на форк образа nginx ](https://hub.docker.com/layers/182189120/zakharovnpa/nginx/13.12.21/images/sha256-f79caf2a37ea9ab9886f24a855a050c4bc7c8e63ee8adce5ca8b57e5ce741d9e?context=repo)
 
 ### Для решения задачи необходимо было создать новый образ с заявленными изменениями из образа nginx
-#### Создаем Dockerfile
+#### Создаем Dockerfile и файл index.html
 ```bash
 # Манифест Docker образа.
 
@@ -38,6 +38,18 @@ RUN rm -rf /usr/share/nginx/html/*
 
 # Копируем новый файл index.html в каталог на будующем образе
 COPY ./html/index.html /usr/share/nginx/html
+
+```
+#### Файл index.html
+```bash
+<html>
+<head>
+Hey, Netology
+</head>
+<body>
+<h1>I’m DevOps Engineer!</h1>
+</body>
+</html>
 
 ```
 #### Запускаем создание образа
@@ -62,6 +74,17 @@ REPOSITORY            TAG        IMAGE ID       CREATED         SIZE
 zakharovnpa/nginx     13.12.21   4b8b755d634a   9 seconds ago   141MB
 
 ```
+#### Запускаем контейнер
+```bash
+root@server1:~/build/nginx# docker run --name=Alfa-nginx -p 80:80 -d zakharovnpa/nginx:13.12.21
+0a2533d58415906a2c34fa8bbf0833112434192a286ef2e46b87fde3c085db90
+root@server1:~/build/nginx# 
+root@server1:~/build/nginx# 
+root@server1:~/build/nginx# docker ps
+CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS          PORTS                               NAMES
+0a2533d58415   zakharovnpa/nginx:13.12.21   "/docker-entrypoint.…"   14 seconds ago   Up 12 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   Alfa-nginx
+
+```
 #### Проеряем ответ сервера
 ```bash
 root@server1:~/build/nginx# curl -X GET 'http://127.0.0.1:80'
@@ -75,6 +98,8 @@ Hey, Netology
 </html>
 
 ```
+#### Ответ сервера в браузере
+![i-am-devops-engeneer](/)
 
 ## Задача 2
 
@@ -169,9 +194,8 @@ Elasticsearch — это масштабируемый полнотекстовы
 Соберите Docker образ с Ansible, загрузите на Docker Hub и пришлите ссылку вместе с остальными ответами к задачам.
 
 **Ответ:**
-Выполнть заданя из слайдов с 47 по 49.
-На основе кода из дректории. Смотр лекцию на 1 час 28 минут.
-Создать  сохранть в своем репозитории zakharovnpa/ansible на Docker Hub
+
+- [Ссылка на собранный образ](https://hub.docker.com/layers/181355580/zakharovnpa/ansible/8.12.21/images/sha256-f48001cc499c344a8c95119bb736c38c56adf770cdac072b6e615e12d4b674cd?context=repo)
 
 ---
 
