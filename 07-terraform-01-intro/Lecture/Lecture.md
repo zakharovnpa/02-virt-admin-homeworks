@@ -368,3 +368,5 @@ AWS, Azure, Google Cloud, DigitalOcean, OpenStack
 [5](https://dmkpress.com/catalog/computer/os/978-5-97060-965-1/)
 [6](https://www.litres.ru/kris-richardson-2184/mikroservisy-patterny-razrabotki-i-refaktori-50445630/?utm_source=google&utm_medium=cpc&utm_campaign=search_dsa_ohvat_f%7C2087774395&utm_term=&utm_content=375733693660%7Bphrase_id%7D_%7Bsource%7D_%7Bsource_type%7D_%7Bregion_name%7D_9040937&param_2=987239&gclid=CjwKCAiA-9uNBhBTEiwAN3IlNI-cgsIfgYw460kCBij-ggSRaPzT8kCz4EQwbKvyDpmL_IX3MFb5hRoCYuUQAvD_BwE)
 [7]()
+
+[Проект Канико](https://github.com/GoogleContainerTools/kaniko)
