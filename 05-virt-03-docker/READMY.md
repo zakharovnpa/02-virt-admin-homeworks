@@ -99,7 +99,7 @@ Hey, Netology
 
 ```
 #### Ответ сервера в браузере
-![i-am-devops-engeneer](/)
+![i-am-devops-engeneer](/05-virt-03-docker/img/i-am-devops-engeneer.png)
 
 ## Задача 2
 
