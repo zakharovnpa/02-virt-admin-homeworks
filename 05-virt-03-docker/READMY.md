@@ -62,7 +62,19 @@ REPOSITORY            TAG        IMAGE ID       CREATED         SIZE
 zakharovnpa/nginx     13.12.21   4b8b755d634a   9 seconds ago   141MB
 
 ```
+#### Проеряем ответ сервера
+```bash
+root@server1:~/build/nginx# curl -X GET 'http://127.0.0.1:80'
+<html>
+<head>
+Hey, Netology
+</head>
+<body>
+<h1>I’m DevOps Engineer!</h1>
+</body>
+</html>
 
+```
 
 ## Задача 2
 
