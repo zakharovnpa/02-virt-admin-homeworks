@@ -24,7 +24,6 @@ Hey, Netology
 Опубликуйте созданный форк в своем репозитории и предоставьте ответ в виде ссылки на https://hub.docker.com/username_repo.
 
 **Ответ:**
-- Пояснения на 1:24:55
 - [Ссылка на форк образа nginx ](https://hub.docker.com/layers/182189120/zakharovnpa/nginx/13.12.21/images/sha256-f79caf2a37ea9ab9886f24a855a050c4bc7c8e63ee8adce5ca8b57e5ce741d9e?context=repo)
 - [Логи выполнения Задания №1](/05-virt-03-docker/docker-testing/exercise-1.md)
 
