@@ -112,8 +112,97 @@ Elasticsearch — это масштабируемый полнотекстовы
 - Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
 
 **Ответ:**
-Как работать с Volume
-- Пояснения на 1:26:08
+
+### 1. Запускаем первый контейнер из образа ***centos*** c любым тэгом в фоновом режиме, подключив папку ```/data``` из текущей рабочей директории на хостовой машине в ```/data``` контейнера;
+
+```bash
+root@server1:~# docker image ls
+REPOSITORY            TAG        IMAGE ID       CREATED          SIZE
+zakharovnpa/debian    009        888b869de873   30 minutes ago   124MB
+zakharovnpa/centos7   001        62ad6751e301   13 hours ago     261MB
+```
+```bash
+root@server1:~/build/debian# docker run -v /root/data:/tmp/data --name=Ford_Fusion -d 62ad6751e301
+```
+#### Запущенный контейнер
+```bash
+root@server1:~# docker ps
+CONTAINER ID   IMAGE          COMMAND            CREATED         STATUS         PORTS     NAMES
+28f057cad73e   62ad6751e301   "/usr/sbin/init"   5 minutes ago   Up 5 minutes   80/tcp    Ford_Fusion
+```
+### 2. Запускаем второй контейнер из образа ***debian*** в фоновом режиме, подключив папку ```/data``` из текущей рабочей директории на хостовой машине в ```/data``` контейнера;
+
+```bash
+root@server1:~# docker run -v /root/data:/tmp/data --name=Ford_Fiesta -d 888b869de873
+6f12266c6324cb77bba5babbcd10162054146cc81811fd2e74a9e786e6e78f9f
+```
+#### Запущенные контейнеры
+```bash
+root@server1:~# docker ps
+CONTAINER ID   IMAGE          COMMAND            CREATED          STATUS          PORTS     NAMES
+6f12266c6324   888b869de873   "/usr/sbin/init"   8 seconds ago    Up 6 seconds    80/tcp    Ford_Fiesta
+28f057cad73e   62ad6751e301   "/usr/sbin/init"   26 minutes ago   Up 26 minutes   80/tcp    Ford_Fusion
+```
+
+#### 3. Подключаемся к первому контейнеру с помощью ```docker exec``` и создаем текстовый файл любого содержания в ```/data```;
+```bash
+root@server1:~# docker exec -it Ford_Fusion bash
+[root@28f057cad73e /]# 
+[root@28f057cad73e /]# cd tmp/data
+[root@28f057cad73e data]# ls -l
+total 0
+```
+###### Создаем пустой файл, т.к. в контейнере не оказалось никакого редактора
+```bash
+
+[root@28f057cad73e data]# touch File-1.txt
+[root@28f057cad73e data]# 
+[root@28f057cad73e data]# ls -l
+total 1
+-rw-r--r-- 1 root root   0 Dec 14 05:06 File-1.txt
+[root@28f057cad73e data]# 
+```
+
+##### 4. На хостовой машине редактируем первый файл и создаем второй файл в папку ```/data``` ;
+```bash
+root@server1:~# cd data
+root@server1:~/data# 
+root@server1:~/data# vim File-1.txt
+root@server1:~/data# 
+root@server1:~/data# cat File-1.txt
+The is a file "File-1.txt"
+root@server1:~/data# 
+root@server1:~/data# vim File-2.txt
+root@server1:~/data# 
+root@server1:~/data# cat File-2.txt
+The is a file "File-2.txt"
+root@server1:~/data# ls -l
+total 2
+-rw-r--r-- 1 root root   0 Dec 14 05:06 File-1.txt
+-rw-r--r-- 1 root root 370 Dec 14 05:14 File-2.txt
+root@server1:~/data# 
+```
+
+##### 5. Подключаемся во второй контейнер и отображаем листинг и содержание файлов в ```/data``` контейнера.
+```bash
+root@server1:~# docker exec -it Ford_Fiesta bash
+[root@6f12266c6324 /]# 
+[root@6f12266c6324 /]# cd /tmp/data
+[root@6f12266c6324 data]# 
+[root@6f12266c6324 data]# ls -l
+total 2
+-rw-r--r-- 1 root root   0 Dec 14 05:06 File-1.txt
+-rw-r--r-- 1 root root 370 Dec 14 05:14 File-2.txt
+```
+```bash
+[root@6f12266c6324 data]# cat File-1.txt
+The is a file "File-1.txt"
+```
+```bash
+[root@6f12266c6324 data]# cat File-2.txt
+The is a file "File-2.txt"
+
+```
 
 ## Задача 4 (*)
 
