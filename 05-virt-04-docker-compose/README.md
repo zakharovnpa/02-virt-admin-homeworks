@@ -8,7 +8,7 @@
 - Скриншот страницы, как на слайде из презентации (слайд 37).
 
 **Ответ:**
-Создан новый ![образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
+- Создан новый образ ![образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
 
 ## Задача 2
 
