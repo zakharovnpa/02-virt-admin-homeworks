@@ -8,7 +8,10 @@
 - Скриншот страницы, как на слайде из презентации (слайд 37).
 
 **Ответ:**
-- Создан новый образ ![образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
+#### 1. Создан новый образ 
+![образ](/05-virt-04-docker-compose/img/new-images-in-yandex-cloud.png)
+#### 2. Утилита Яндекса ` yc ` показывает доступные ресурсы
+![yc-compute-image-list](/05-virt-04-docker-compose/img/yc-compute-image-list.png)
 
 ## Задача 2
 
@@ -23,10 +26,8 @@
 </p>
 
 **Ответ:**
-
-![yc-compute-image-list](/05-virt-04-docker-compose/img/yc-compute-image-list.png)
+#### 1. Скриншот страницы свойств созданной ВМ
 ![running-node01](/05-virt-04-docker-compose/img/running-node01.png)
-
 
 ## Задача 3
 
@@ -39,6 +40,7 @@
 </p>
 
 **Ответ:**
+#### 1. Скриншот работающего веб-интерфейса Grafana с текущими метриками
 ![running-grafana](/05-virt-04-docker-compose/img/running-grafana.png)
 
 ![running-prometheus](/05-virt-04-docker-compose/img/running-prometheus.png)
