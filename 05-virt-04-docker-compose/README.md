@@ -51,12 +51,12 @@
 - Скриншот из Grafana, на котором будут отображаться метрики добавленного вами сервера.
 
 **Ответ:**
-1. Создана вторая ВМ с названием "node02"
+
+### 1. На первой ВМ 62.84.118.134 с  названием "node01" запущен сервис мониторинга Grafana.
+### 2. Создана вторая ВМ 51.250.14.30 с названием "node02"
 ![settings-node02](/05-virt-04-docker-compose/img/settings-node02.png)
 
-
-
-2. На второй ВМ запущены микросервисы точно такие же, как и на первой ВМ
+### 3. На второй ВМ запущены микросервисы точно такие же, как и на первой ВМ
 ```bash
 [root@node02 stack]# docker-compose ps
     Name                  Command                  State                                                   Ports                                             
@@ -70,7 +70,7 @@ prometheus     /bin/prometheus --config.f ...   Up             9090/tcp
 pushgateway    /bin/pushgateway                 Up             9091/tcp                                                                                      
 [root@node02 stack]# 
 ```
-2. На первой ВМ добавили в файле ` prometheus.yml ` 
+### 4. На первой ВМ добавили в файле ` prometheus.yml ` 
 ```bash
   - job_name: 'nodeexporter-2'
     scrape_interval: 5s
@@ -83,7 +83,11 @@ pushgateway    /bin/pushgateway                 Up             9091/tcp
       - targets: ['51.250.14.30:8080']
 
 ```
-3. Добавлен на мониторинг новый источник данных от второй ВМ
+### 5. Добавлен на мониторинг новый источник данных от второй ВМ
 ![Configuration-grafana](/05-virt-04-docker-compose/img/Configuration-grafana.png)
-4. Создан дашборд для второй ВМ 
+### 6. Создан дашборд для второй ВМ 
 ![dashboard-node02](/05-virt-04-docker-compose/img/dashboard-node02.png)
+### 7. Состояние дашборда второй ВМ при ее перезагрузке
+![reload-node02](/05-virt-04-docker-compose/img/reload-node02.png)
+### 8. Состояние дашборда второй ВМ после ее перезагрузки
+![after-reload-node02](/05-virt-04-docker-compose/img/after-reload-node02.png)
