@@ -226,13 +226,15 @@ instance_type = "t3.micro"
 для создания других рессурсов.
 registry.terraform.io/providers/hashicorp/aws/latest/docs/data-source
 s/caller_identity
+```bash
 data "aws_caller_identity" "current" {}
 // data.aws_caller_identity.current.account_id
 // data.aws_caller_identity.current.arn
 // data.aws_caller_identity.current.user_id
-
+```
 ### 34Блок переменных
 Каждый модуль может зависеть от переменных.
+```bash
 variable "image_id" {
 type = string
 }
@@ -241,9 +243,10 @@ instance_type = "t2.micro"
 ami
 = var.image_id
 }
-
+```
 ### 35Блок переменных
 Структура переменной может быть достаточно сложной.
+```bash
 variable "availability_zone_names" {
 type
 = list(string)
@@ -263,9 +266,10 @@ protocol = "tcp"
 }
 ]
 }
-
+```
 ### 36Типы переменных
 Примитивные типы:
+```
 ●
 string
 ● number
@@ -276,8 +280,10 @@ string
 ● map(<TYPE>)
 ● object({<ATTR NAME> = <TYPE>, ... })
 ● tuple([<TYPE>, ...])
+  ```
 
 ### 37Валидация переменных
+```bash
 Особенно важно для повторно используемых модулей.
 variable "image_id" {
 type
@@ -292,10 +298,11 @@ error_message = "The image_id value must be a valid AMI
 id, starting with \"ami-\"."
 }
 }
-
+```
 ### 38Блок output
 Для того чтобы разные модули могли использовать результат
 работы друг-друга.
+```bash
 output "instance_ip_addr" {
 value
 = aws_instance.server.private_ip
@@ -308,9 +315,10 @@ depends_on = [
 aws_security_group_rule.local_access,
 ]
 }
-
+```
 ### 39Локальные переменные
 Могут быть использованы внутри модуля сколько угодно раз.
+```bash
 locals {
 service_name = "forum"
 owner
@@ -326,12 +334,15 @@ Owner
 = local.owner
 }
 }
+```
 
 ### 40Комментарии
 Terraform поддерживает несколько видов комментариев:
+```bash
 ● # начинает однострочные комментарии;
 ● // также однострочные комментарии;
 ● /* и */ для обозначения многострочных комментариев.
+```
 
 ### 41Структура проекта
 
@@ -365,6 +376,9 @@ Yandex.Cloud$
 ○ при помощи Terraform.
 
 ### 46Домашнее задание
+
+https://gitlab.com/k11s-os
+
 
 ### 47Домашнее задание
 Давайте посмотрим ваше домашнее задание.
