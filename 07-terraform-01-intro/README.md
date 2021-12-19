@@ -108,5 +108,11 @@ is 1.1.2. You can update by downloading from https://www.terraform.io/downloads.
 
 **Ответ:**
 
+* Инсталляция Terraform v.012
+![install-terraform-v012](/07-terraform-01-intro/img/install-terraform-v012.png)
+
+* Проверка двух разных версий Terraform
+![terraform-version](/07-terraform-01-intro/img/terraform-version.png)
+
 ---
 
