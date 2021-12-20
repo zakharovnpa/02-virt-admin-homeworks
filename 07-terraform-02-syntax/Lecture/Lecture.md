@@ -302,79 +302,77 @@ id, starting with \"ami-\"."
 ```
 ### 38Блок output
 Для того чтобы разные модули могли использовать результат
-работы друг-друга.
+работы друг друга.
 ```bash
 output "instance_ip_addr" {
-value
-= aws_instance.server.private_ip
-description = "The private IP address of the main server
-instance."
+    value = aws_instance.server.private_ip
+    description = "The private IP address of the main server instance."
+
 depends_on = [
+
 # Security group rule должна быть создана перед тем как
 можно будет использовать этот ip адрес, иначе сервис будет
 недоступен
-aws_security_group_rule.local_access,
-]
+    aws_security_group_rule.local_access,
+  ]
 }
 ```
 ### 39Локальные переменные
 Могут быть использованы внутри модуля сколько угодно раз.
 ```bash
 locals {
-service_name = "forum"
-owner
-= "Community Team"
+    service_name = "forum"
+    owner         = "Community Team"
 }
+
 locals {
-instance_ids = concat(
-aws_instance.blue.*.id, aws_instance.green.*.id
+    instance_ids = concat(
+    aws_instance.blue.*.id, aws_instance.green.*.id
 )
+
 common_tags = {
-Service = local.service_name
-Owner
-= local.owner
-}
+    Service = local.service_name
+    Owner   = local.owner
+  }
 }
 ```
 
 ### 40Комментарии
 Terraform поддерживает несколько видов комментариев:
 ```bash
-● # начинает однострочные комментарии;
-● // также однострочные комментарии;
-● /* и */ для обозначения многострочных комментариев.
+# начинает однострочные комментарии;
+// также однострочные комментарии;
+/* и */ для обозначения многострочных комментариев.
 ```
 
 ### 41Структура проекта
 
 ### 42Структура каталогов
-● /main.tf
-● /any_ﬁle.tf
-● /modules/
-● /modules/awesome_module/
-● /modules/awesome_module/main.tf
-● /modules/awesome_module/any_other_ﬁle.tf
-● /modules/next_module/
-● /modules/next_module/main.tf
-● /modules/next_module/any_other_ﬁle.tf
+- /main.tf
+- /any_ﬁle.tf
+- /modules/
+- /modules/awesome_module/
+- /modules/awesome_module/main.tf
+- /modules/awesome_module/any_other_ﬁle.tf
+- /modules/next_module/
+- /modules/next_module/main.tf
+- /modules/next_module/any_other_ﬁle.tf
 
 ### 43Структура файлов
-● main.tf
-● variables.tf
-● outputs.tf
-● any_other_ﬁles.tf
+- main.tf
+- variables.tf
+- outputs.tf
+- any_other_ﬁles.tf
 
 ### 44Итоги
 
 ### 45Итоги
 Сегодня мы:
-● Познакомились с облачными провайдерами AWS и
-Yandex.Cloud$
-● Познакомились с базовым синтаксисом Terraform;
-● Узнали, как создавать виртуальный инстанс ec2:
-○ через веб интерфейс,
-○ через cli консоль,
-○ при помощи Terraform.
+- Познакомились с облачными провайдерами AWS и Yandex.Cloud$
+- Познакомились с базовым синтаксисом Terraform;
+- Узнали, как создавать виртуальный инстанс ec2:
+  - через веб интерфейс,через cli консоль,
+  - при помощи Terraform.
 
 ### 46Домашнее задание
 
