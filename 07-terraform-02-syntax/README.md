@@ -66,7 +66,8 @@ AWS предоставляет достаточно много бесплатн�
 
 **Ответ:**
 
-Листинг команды ` terraform plan `
+Листинг команды ` terraform plan ` в Yandex.Cloud
+
 ```hcl
 root@PC-Ubuntu:~/netology-project/learning-terraform/yandex-cloud-learning# terraform plan
 
