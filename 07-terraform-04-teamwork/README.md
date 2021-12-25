@@ -56,3 +56,10 @@
 Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
 
 ---
+Ссылки из лекции
+
+https://github.com/hamnsk/go_psql_redis_example
+
+https://github.com/vectordotdev/vector
+
+
