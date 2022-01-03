@@ -480,3 +480,13 @@ Successfully installed awscli-1.22.26 botocore-1.23.26 docutils-0.15.2 pyasn1-0.
 root@PC-Ubuntu:~# 
 ```
 #### 4. Сохранение и экспорт в переменные ключей от AWS
+
+```ps
+root@server1:~# echo 'export AWS_ACCESS_KEY_ID=AKIA.........................EBFX' >> ~/.bashrc
+root@server1:~# 
+root@server1:~# echo 'export AWS_SECRET_ACCESS_KEY=j..............................fg8HNCZ' >> ~/.bashrc
+
+root@server1:~# source ~/.bashrc
+root@server1:~# 
+
+```
