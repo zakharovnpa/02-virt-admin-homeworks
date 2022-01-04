@@ -700,6 +700,12 @@ root@server1:~#
 
 [Инструкция по предварительной настройке](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
-```ps
 
-```
+Процесс конфигурирования
+
+![aws-configure](/07-terraform-02-syntax/AWS/aws-configure.png)
+
+После конфигуриирования параметры сохраняются в файлах
+
+![aws-config-files](/07-terraform-02-syntax/AWS/aws-config-files.png)
+
