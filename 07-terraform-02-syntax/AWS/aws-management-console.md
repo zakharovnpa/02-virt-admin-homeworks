@@ -696,3 +696,10 @@ root@server1:~# source ~/.bashrc
 root@server1:~# 
 
 ```
+#### 5. Предварительная настройка утилиты aws
+
+[Инструкция по предварительной настройке](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+
+```ps
+
+```
