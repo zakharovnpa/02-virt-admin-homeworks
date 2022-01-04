@@ -7,9 +7,9 @@
 1. [Introducing the new Users list experience](https://console.aws.amazon.com/iamv2/home?#/users)
 
 #### 2. Создан пользователь IAM с политиками:
-Пользователь: sergey.zakharov. Без пароля.
+Пользователь: ` sergey.zakharov `. Без пароля.
 
-Группа: netology-terraform
+Группа: ` netology-terraform `
 
 Параметры доступа сохранены в файле `new_user_credentials.csv `
 
