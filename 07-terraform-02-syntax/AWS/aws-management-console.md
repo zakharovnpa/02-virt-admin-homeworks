@@ -701,11 +701,24 @@ root@server1:~#
 [Инструкция по предварительной настройке](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
 
-Процесс конфигурирования
+Процесс конфигурирования:
 
 ![aws-configure](/07-terraform-02-syntax/AWS/aws-configure.png)
 
-После конфигуриирования параметры сохраняются в файлах
+После конфигуриирования параметры сохраняются в файлах:
 
 ![aws-config-files](/07-terraform-02-syntax/AWS/aws-config-files.png)
 
+Результат настройки:
+
+```ps
+root@PC-Ubuntu:~# aws configure list
+      Name                    Value             Type    Location
+      ----                    -----             ----    --------
+   profile                <not set>             None    None
+access_key     ****************EBFX              env    
+secret_key     ****************HNCZ              env    
+    region                us-west-2      config-file    ~/.aws/config
+root@PC-Ubuntu:~# 
+
+```
