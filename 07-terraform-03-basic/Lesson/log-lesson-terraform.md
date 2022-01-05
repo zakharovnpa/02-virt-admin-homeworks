@@ -1643,3 +1643,192 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 
 
 ```
+### 3 часть
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# aws sts decode-authorization-message --encoded-message skY8pWON6taZ9L3uFxAnOfDSxcdE-0S7QAYBlkX7m4TFUYel7ZVPYs8MSF7OECdkJSfaH2GkGfcmAoe6f-fWzMF-mXAzBhDAFQB4j-nKvWCmlUd5351jMo82022tM5fTKlLWoffZ6_D0p6mZd5abGDFWq3O4DSGCgrl2napQyV1pSiILOXbhZNszOEJRQtHAyf7M_WuZ4z2KrmgHosIC5B18bPvQ_iKZFJdiR_FDSkG136udrm2G_WWH7moj7u97oYbXi2aAL4zEfUvLU-qhNpDWihoHmm60GYr3Wx3q4O230AgNiIlueJeL_shAmOAwZgPiQj8BKZThTRJAbqE42Sx9YcxA32IWx7zPOL7w37UCPk048GNzbkUZRMImIHP8AJiIH4umGgcYbnGCXNAv984z7zwVU01hI58PUg8WwzZj7FuG_HjhgPG-uRCdfHhZsXKoMsVjSIc25kpc2KRY9O1X_4aBCEX7fm-6wccM4SZpfWi5OWIvy3D1gjKiLOxiSdRXoFLyMJ2ZntSdCXQ2Mf2wEAXok_E-7dB17jRfr51DCRU8p0Ny7FdPUglrYADFaboctm4XSfYAfeAM1kNdGiuqzcmj3UzLOkomzOYdH1rVR5MdyYslnnoeQ46_o0aJJSfhp45bC4RWhZRQd027Phv3Y2GZhPAGnT4K9Kz1t4G-F9EgPUaIYzugD55Y3xBooto-aRfGr1x_FRuTWL5f8Yd97X4wqBzbkz1S89sVSVkRQx7MgwkXENO7KA6RwN2MyHcoU21vIFmT9HIPc-bxb6xue_qZ6_Uc63gbAfcM55iloRTebzu2WQJuIsMBWcjhS1noXqTklmfGraBh2mi5yUVzAQqtmqqYs8t72IYxzv6LHd5FRC6-4UOxBHLe_YjtbUjt_ewf6YsG6jt4BE8BEX3dgruYaxdfbeFBxGSS1dD112tec5jxkxe3zWXe4nFswNVDO8MQ-sdl3aV119-RRY3A66n3bre08AF0uYgikrNAEpZ-d8YooQVBtKjCs0a2Bd-lKiPkJISWa9Vhej7mbUzk5AZOCJxMZq5o_G9djv-N2DjR5GTDWDX1m-tqt1F-a1nMFDSG_D8jK4KfUeh9nI46vavKfgLU56udqt-j4bIwqXeezxgF1QILKbqh9PmIyqxv2QQ2U5M3AyhLWxye8Ipde-K0mDgjxA7CYgyyIJvBGBhMMMQN4fq1trdLvdruBRRByRNJPEObseQh4Art7eHsPbL974jJhNOObr8PLqo1FWtbWWNOZwWurL7LsYbYDs2j6RqQ5Rz9uVBi4zH6ye-VYHqBlncOiA9jldUJF61AbunAdOQR2m4GaYNm1XmGpvpsDA
+
+An error occurred (AccessDenied) when calling the DecodeAuthorizationMessage operation: User: arn:aws:iam::458241751342:user/sergey.zakharov is not authorized to perform: sts:DecodeAuthorizationMessage because no identity-based policy allows the sts:DecodeAuthorizationMessage action
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# aws sts decode-authorization-message --encoded-message skY8pWON6taZ9L3uFxAnOfDSxcdE-0S7QAYBlkX7m4TFUYel7ZVPYs8MSF7OECdkJSfaH2GkGfcmAoe6f-fWzMF-mXAzBhDAFQB4j-nKvWCmlUd5351jMo82022tM5fTKlLWoffZ6_D0p6mZd5abGDFWq3O4DSGCgrl2napQyV1pSiILOXbhZNszOEJRQtHAyf7M_WuZ4z2KrmgHosIC5B18bPvQ_iKZFJdiR_FDSkG136udrm2G_WWH7moj7u97oYbXi2aAL4zEfUvLU-qhNpDWihoHmm60GYr3Wx3q4O230AgNiIlueJeL_shAmOAwZgPiQj8BKZThTRJAbqE42Sx9YcxA32IWx7zPOL7w37UCPk048GNzbkUZRMImIHP8AJiIH4umGgcYbnGCXNAv984z7zwVU01hI58PUg8WwzZj7FuG_HjhgPG-uRCdfHhZsXKoMsVjSIc25kpc2KRY9O1X_4aBCEX7fm-6wccM4SZpfWi5OWIvy3D1gjKiLOxiSdRXoFLyMJ2ZntSdCXQ2Mf2wEAXok_E-7dB17jRfr51DCRU8p0Ny7FdPUglrYADFaboctm4XSfYAfeAM1kNdGiuqzcmj3UzLOkomzOYdH1rVR5MdyYslnnoeQ46_o0aJJSfhp45bC4RWhZRQd027Phv3Y2GZhPAGnT4K9Kz1t4G-F9EgPUaIYzugD55Y3xBooto-aRfGr1x_FRuTWL5f8Yd97X4wqBzbkz1S89sVSVkRQx7MgwkXENO7KA6RwN2MyHcoU21vIFmT9HIPc-bxb6xue_qZ6_Uc63gbAfcM55iloRTebzu2WQJuIsMBWcjhS1noXqTklmfGraBh2mi5yUVzAQqtmqqYs8t72IYxzv6LHd5FRC6-4UOxBHLe_YjtbUjt_ewf6YsG6jt4BE8BEX3dgruYaxdfbeFBxGSS1dD112tec5jxkxe3zWXe4nFswNVDO8MQ-sdl3aV119-RRY3A66n3bre08AF0uYgikrNAEpZ-d8YooQVBtKjCs0a2Bd-lKiPkJISWa9Vhej7mbUzk5AZOCJxMZq5o_G9djv-N2DjR5GTDWDX1m-tqt1F-a1nMFDSG_D8jK4KfUeh9nI46vavKfgLU56udqt-j4bIwqXeezxgF1QILKbqh9PmIyqxv2QQ2U5M3AyhLWxye8Ipde-K0mDgjxA7CYgyyIJvBGBhMMMQN4fq1trdLvdruBRRByRNJPEObseQh4Art7eHsPbL974jJhNOObr8PLqo1FWtbWWNOZwWurL7LsYbYDs2j6RqQ5Rz9uVBi4zH6ye-VYHqBlncOiA9jldUJF61AbunAdOQR2m4GaYNm1XmGpvpsDA --query DecodedMessage --output text | jq '.'
+
+Команда «jq» не найдена, но может быть установлена с помощью:
+
+snap install jq  # version 1.5+dfsg-1, or
+apt  install jq  # version 1.6-1ubuntu0.20.04.1
+
+See 'snap info jq' for additional versions.
+
+
+An error occurred (AccessDenied) when calling the DecodeAuthorizationMessage operation: User: arn:aws:iam::458241751342:user/sergey.zakharov is not authorized to perform: sts:DecodeAuthorizationMessage because no identity-based policy allows the sts:DecodeAuthorizationMessage action
+```
+Установка утилиты jq - Command-line JSON processor
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# apt  install jq
+Чтение списков пакетов… Готово
+Построение дерева зависимостей       
+Чтение информации о состоянии… Готово
+Будут установлены следующие дополнительные пакеты:
+  libjq1 libonig5
+Следующие НОВЫЕ пакеты будут установлены:
+  jq libjq1 libonig5
+Обновлено 0 пакетов, установлено 3 новых пакетов, для удаления отмечено 0 пакетов, и 0 пакетов не обновлено.
+Необходимо скачать 313 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 1 062 kB.
+Хотите продолжить? [Д/н] y
+Пол:1 http://ru.archive.ubuntu.com/ubuntu focal/universe amd64 libonig5 amd64 6.9.4-1 [142 kB]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 libjq1 amd64 1.6-1ubuntu0.20.04.1 [121 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu focal-updates/universe amd64 jq amd64 1.6-1ubuntu0.20.04.1 [50,2 kB]
+Получено 313 kB за 0с (717 kB/s)
+Выбор ранее не выбранного пакета libonig5:amd64.
+(Чтение базы данных … на данный момент установлено 231827 файлов и каталогов.)
+Подготовка к распаковке …/libonig5_6.9.4-1_amd64.deb …
+Распаковывается libonig5:amd64 (6.9.4-1) …
+Выбор ранее не выбранного пакета libjq1:amd64.
+Подготовка к распаковке …/libjq1_1.6-1ubuntu0.20.04.1_amd64.deb …
+Распаковывается libjq1:amd64 (1.6-1ubuntu0.20.04.1) …
+Выбор ранее не выбранного пакета jq.
+Подготовка к распаковке …/jq_1.6-1ubuntu0.20.04.1_amd64.deb …
+Распаковывается jq (1.6-1ubuntu0.20.04.1) …
+Настраивается пакет libonig5:amd64 (6.9.4-1) …
+Настраивается пакет libjq1:amd64 (1.6-1ubuntu0.20.04.1) …
+Настраивается пакет jq (1.6-1ubuntu0.20.04.1) …
+Обрабатываются триггеры для man-db (2.9.1-1) …
+Обрабатываются триггеры для libc-bin (2.31-0ubuntu9.2) …
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# aws sts decode-authorization-message --encoded-message skY8pWON6taZ9L3uFxAnOfDSxcdE-0S7QAYBlkX7m4TFUYel7ZVPYs8MSF7OECdkJSfaH2GkGfcmAoe6f-fWzMF-mXAzBhDAFQB4j-nKvWCmlUd5351jMo82022tM5fTKlLWoffZ6_D0p6mZd5abGDFWq3O4DSGCgrl2napQyV1pSiILOXbhZNszOEJRQtHAyf7M_WuZ4z2KrmgHosIC5B18bPvQ_iKZFJdiR_FDSkG136udrm2G_WWH7moj7u97oYbXi2aAL4zEfUvLU-qhNpDWihoHmm60GYr3Wx3q4O230AgNiIlueJeL_shAmOAwZgPiQj8BKZThTRJAbqE42Sx9YcxA32IWx7zPOL7w37UCPk048GNzbkUZRMImIHP8AJiIH4umGgcYbnGCXNAv984z7zwVU01hI58PUg8WwzZj7FuG_HjhgPG-uRCdfHhZsXKoMsVjSIc25kpc2KRY9O1X_4aBCEX7fm-6wccM4SZpfWi5OWIvy3D1gjKiLOxiSdRXoFLyMJ2ZntSdCXQ2Mf2wEAXok_E-7dB17jRfr51DCRU8p0Ny7FdPUglrYADFaboctm4XSfYAfeAM1kNdGiuqzcmj3UzLOkomzOYdH1rVR5MdyYslnnoeQ46_o0aJJSfhp45bC4RWhZRQd027Phv3Y2GZhPAGnT4K9Kz1t4G-F9EgPUaIYzugD55Y3xBooto-aRfGr1x_FRuTWL5f8Yd97X4wqBzbkz1S89sVSVkRQx7MgwkXENO7KA6RwN2MyHcoU21vIFmT9HIPc-bxb6xue_qZ6_Uc63gbAfcM55iloRTebzu2WQJuIsMBWcjhS1noXqTklmfGraBh2mi5yUVzAQqtmqqYs8t72IYxzv6LHd5FRC6-4UOxBHLe_YjtbUjt_ewf6YsG6jt4BE8BEX3dgruYaxdfbeFBxGSS1dD112tec5jxkxe3zWXe4nFswNVDO8MQ-sdl3aV119-RRY3A66n3bre08AF0uYgikrNAEpZ-d8YooQVBtKjCs0a2Bd-lKiPkJISWa9Vhej7mbUzk5AZOCJxMZq5o_G9djv-N2DjR5GTDWDX1m-tqt1F-a1nMFDSG_D8jK4KfUeh9nI46vavKfgLU56udqt-j4bIwqXeezxgF1QILKbqh9PmIyqxv2QQ2U5M3AyhLWxye8Ipde-K0mDgjxA7CYgyyIJvBGBhMMMQN4fq1trdLvdruBRRByRNJPEObseQh4Art7eHsPbL974jJhNOObr8PLqo1FWtbWWNOZwWurL7LsYbYDs2j6RqQ5Rz9uVBi4zH6ye-VYHqBlncOiA9jldUJF61AbunAdOQR2m4GaYNm1XmGpvpsDA --query DecodedMessage --output text | jq '.'
+
+An error occurred (AccessDenied) when calling the DecodeAuthorizationMessage operation: User: arn:aws:iam::458241751342:user/sergey.zakharov is not authorized to perform: sts:DecodeAuthorizationMessage because no identity-based policy allows the sts:DecodeAuthorizationMessage action
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform help
+Terraform has no command named "help".
+
+To see all of Terraform's top-level commands, run:
+  terraform -help
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform -help
+Usage: terraform [global options] <subcommand> [args]
+
+The available commands for execution are listed below.
+The primary workflow commands are given first, followed by
+less common or more advanced commands.
+
+Main commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+All other commands:
+  console       Try Terraform expressions at an interactive command prompt
+  fmt           Reformat your configuration in the standard style
+  force-unlock  Release a stuck lock on the current workspace
+  get           Install or upgrade remote Terraform modules
+  graph         Generate a Graphviz graph of the steps in an operation
+  import        Associate existing infrastructure with a Terraform resource
+  login         Obtain and save credentials for a remote host
+  logout        Remove locally-stored credentials for a remote host
+  output        Show output values from your root module
+  providers     Show the providers required for this configuration
+  refresh       Update the state to match remote systems
+  show          Show the current state or a saved plan
+  state         Advanced state management
+  taint         Mark a resource instance as not fully functional
+  test          Experimental support for module integration testing
+  untaint       Remove the 'tainted' state from a resource instance
+  version       Show the current Terraform version
+  workspace     Workspace management
+
+Global options (use these before the subcommand, if any):
+  -chdir=DIR    Switch to a different working directory before executing the
+                given subcommand.
+  -help         Show this help output, or the help for a specified subcommand.
+  -version      An alias for the "version" subcommand.
+  ```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform output
+╷
+│ Error: Unsupported block type
+│ 
+│   on main.tf line 4, in terraform:
+│    4:   data "aws_caller_identity" "current" {
+│ 
+│ Blocks of type "data" are not expected here.
+╵
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform show
+╷
+│ Error: Unsupported block type
+│ 
+│   on main.tf line 4, in terraform:
+│    4:   data "aws_caller_identity" "current" {
+│ 
+│ Blocks of type "data" are not expected here.
+╵
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# vim main.tf 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform show
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 16:
+│   16: }
+│ 
+│ An argument or block definition is required here.
+╵
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# vim main.tf 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform show
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform output
+╷
+│ Warning: No outputs found
+│ 
+│ The state file either has no outputs defined, or all the defined outputs are empty. Please define an output in your configuration with the `output` keyword and run `terraform refresh` for it to become
+│ available. If you are using interpolation, please verify the interpolated value is not empty. You can use the `terraform console` command to assist.
+╵
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $$
+165474
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# type mc
+для mc вычислен хэш (/usr/bin/mc)
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $$
+165474
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $
+$
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $PATH
+/root/yandex-cloud/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $AWS_ACCESS_KEY_ID
+AKIAWVMKWHEXCVVYEBFX
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $AWS_SECRET_ACCESS_KEY
+j+CocTuuNykC3tQNt3FsrRlLSUJw5q3zhfg8HNCZ
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+
+
+```
