@@ -2723,3 +2723,749 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
 
 ```
+### 5 часть
+```ps
+maestro@PC-Ubuntu:~$ sudo -i
+[sudo] пароль для maestro: 
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# mc
+
+root@PC-Ubuntu:~# cd netology-project/learning-terraform/ls -l
+-bash: cd: слишком много аргументов
+root@PC-Ubuntu:~# 
+root@PC-Ubuntu:~# cd netology-project/learning-terraform/
+root@PC-Ubuntu:~/netology-project/learning-terraform# 
+root@PC-Ubuntu:~/netology-project/learning-terraform# ls -l
+итого 8
+drwxr-xr-x 4 root root 4096 янв  4 13:07 aws-cloud-learning
+drwxr-xr-x 3 root root 4096 дек 21 21:46 yandex-cloud-learning
+root@PC-Ubuntu:~/netology-project/learning-terraform# cd aws-cloud-learning/my-project/Alfa/
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# cat main.tf 
+terraform {
+  required_version = ">= 0.13"
+#  key    = "/root/.aws/credentials"	
+#  data "aws_caller_identity" "current" {
+#	data.aws_caller_identity.current.account_id
+#	data.aws_caller_identity.current.arn
+#	data.aws_caller_identity.current.user_id
+#	account_id = 
+#	arn = 
+#	user_id = 
+
+
+
+#	}
+
+}
+
+provider "aws" {
+#  region     = "us-west-2"
+#  access_key = "AKIAWVMKWHEXCVVYEBFX"
+#  secret_key = "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"
+#	region = "${var.aws_region}"
+#	access_key = "${var.aws_access_key}"
+#	secret_key = "${var.aws_secret_key}"
+
+        region = var.aws_region
+        access_key = var.aws_access_key
+        secret_key = var.aws_secret_key
+
+}
+
+
+#provider "aws" {
+#  region = "us-west-2"
+
+  # Allow any 2.x version of the AWS provider
+#  version = "~> 2.0"
+#}
+
+resource "aws_instance" "first-server" {
+#	ami = "ami-0c55b159cbfafe1f0"
+	ami = "ami-0892d3c7ee96c0bf7"
+#	ami = "ami-078278691222aee06"
+	instance_type = "t2.micro"
+
+tags = {
+    Name = "terraform-first-server"
+  }
+}
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# cat variables.tf 
+variable "aws_access_key" {
+#	default = "${AWS_ACCESS_KEY_ID}"
+	default = "AKIAWVMKWHEXCVVYEBFX"
+}
+
+variable "aws_secret_key" {
+#        default = "${AWS_SECRET_ACCESS_KEY}"
+        default = "j+CocTuuNykC3tQNt3FsrRlLSUJw5q3zhfg8HNCZ"
+
+}
+
+variable "aws_region" {
+#        default = "${AWS_DEFAULT_REGION}"
+        default = "us-west-2"
+
+}
+
+
+
+
+#variable "yc_token" {
+#   default = ""
+# }
+#variable "yc_cloud_id" {
+#  default = ""
+#}
+#variable "yc_folder_id" {
+#  default = "b1g0js1146c55lamm0g7"
+#}
+#variable "yc_region" {
+#  default = "ru-central1-a"
+#}
+#variable "yc_project_name" {
+#  default = "default"
+#}
+#variable "yc_network_id" {
+#  default = "enp09opd7ksaedcorclb"
+#}
+#variable "yc_subnet_id" {
+#  default = "e9bjnga63shpd7873vq0"
+#}
+#variable "yc_zone" {
+#  default = "ru-central1-a"
+#}
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# vim main.tf 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v2.70.1
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform apply -auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.first-server will be created
+  + resource "aws_instance" "first-server" {
+      + ami                          = "ami-0892d3c7ee96c0bf7"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + network_interface_id         = (known after apply)
+      + outpost_arn                  = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "terraform-first-server"
+        }
+      + tenancy                      = (known after apply)
+      + volume_tags                  = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+aws_instance.first-server: Creating...
+╷
+│ Error: Error launching source instance: UnauthorizedOperation: You are not authorized to perform this operation. Encoded authorization failure message: kHUqDdhFuZP3_w1OUvvxFpnJTgWGhfEIisU4uO-oUX3tbperKDBI3OCH8F42SfJBD4tDhOlLifpiCv-kgQRM6DRrUDtsKAMe8Qy0qkFgXqhgYb3q7PwSYND_vLy3l8EuUUR_VsxMIecxO6A38rlME837aXBbr5mBk0OwQLJP18Mq5GLKbI9kWip1wnIUVswWxf_IhEmUg8Gc3K-qD1I_et92OneGc7ey_BWLrh_alUT9PmbR-QQFcxO2qbaA2k_Q_FhSpLKj8bsYLO0wxtQ_pERdBTsC0789pVl1FGoab-tj3xFrf-Uw64br51OsiJj4jBI-cgFy20JtOagBBpoHy_ZIbDL3dyxqEc9PHvKeT6V3YAjXk96YXb_VzkOX_J1ZlX9jxMi3DO_pompZsIEGUMlowxpHQsu6nFkWMm5BHRSY-r6mf_m4pkwU6Ugw0gR-ub4Z6WpmY-ylqCqf-cSXgzW34AWy-MYR_RxyRas_6L7aq6iAYX978cROopDGZuFIHhEUZRTwpsyJn90t9VLF9_ncO5t2ukKgHHqKSoeDvGd8cPVhy-wEYvsRcz2kZ6KoLpX7QOW0Fhnv_qcR44k19oMZ2Ke6pRaW8FIKhhCziK-KiQYbar4gHaUj2xknSOssv23GeWuxEX-Xzwj7DGIdcL7bD1dQJ0ReUhJ-eEoHwchHjVDJpRw3Zg3sVDiOmoTqHb1-Pjgeh85bpLPlfTYr5WtRUUb623a27AGOVOXy9lp_jzN508WFwZbdnqp_7yRpwAUNLcau3oP9XNYasIon44ShJJClRYWKWz9Ik2CL_-9dUN_HMfV8c1YxH-rNWb6ym1o39MFHIJSxpk292Ho7tVEkhOBnYpx3PC_OfSMsYhKzIZG1alvQQaEkEFLw77Fc3_a7_Vnoepcnh2KEJ2XkAAEQIsV5AH_UjkyVxWLW8VCsPunZQTX8ocgRVCFVUcIOq_lMEAvHZGYXgym8kRDqwAG0Z8DBzI-KqIx9f9X0BIdBYF4yBsoHBi0qVpWI4-QZttXoPpS1u2liVNrsbiA7PRK_rVoiO6W9OIhiatLJliAo2I-qpEYV_CDUx4R1m3R63nBKd8cH1rIR-6ytcqhpDqIQLRAmrpbLIJaXmJxML0AHHkQJohqjL2JVKdQV9S6z5DM-8NeK1SgcajET-aZMD00Eb23rIXG74b0zKX6s9hPhbyrvMZ0i8Wfs1uOZEx8Izy7Nj_wt-npD54WIv-1Xb5JG_zb8ibf1x_z8cu-bXEhzxPOOTP11mbNjDZZvUBXusvPGrYUgM0k0C_99hBnxywgHMncORHFp97Lc76NtvyJ4Mt2FaoZrNvkz4HnEo84XNNbbSw
+│ 	status code: 403, request id: 4ef16ac6-f310-47c5-8a3d-41dc1d02424e
+│ 
+│   with aws_instance.first-server,
+│   on main.tf line 40, in resource "aws_instance" "first-server":
+│   40: resource "aws_instance" "first-server" {
+│ 
+╵
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# vim main.tf 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# vim variables.tf 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v2.70.1
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terrafirm apply -auto-approve
+terrafirm: команда не найдена
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform apply -auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.first-server will be created
+  + resource "aws_instance" "first-server" {
+      + ami                          = "ami-0892d3c7ee96c0bf7"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + network_interface_id         = (known after apply)
+      + outpost_arn                  = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "terraform-first-server"
+        }
+      + tenancy                      = (known after apply)
+      + volume_tags                  = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+aws_instance.first-server: Creating...
+╷
+│ Error: Error launching source instance: UnauthorizedOperation: You are not authorized to perform this operation. Encoded authorization failure message: os7b9xWfgxet3bCHquNQdv5Vn5k3UQXGXtVlh2ILb7xOD56skLNBunIYxsx-nw7E-RiQPdeplhiWX_r-OBjnJcZ9mykrJLura1RBx43mr0ZUvffR-qudXHLqqgG0UZu7w-FIZfOKtNHV0nYyPcLP6ZsHaiJ44ppm74eCK8FQ3EylrDMnW6huWSEhDaZTBYWncddHprw7Z431y4gh2w7xU32a5Xeq1YTIpdFc86ZuoTLaYakK-Z-DIJudHGRIMPgHY_TYlCSV8aNGlrM7CcLb9pVu4Xe3eWcCJWhtFl5V3MwiYJlFgrMsJVBcDil8BH7Ai13tbqTBSeSOJuoFACvBSr7eMiCPg-wTDuWpvkyexad_cssJ1IHnbSEwgrabqwFA9e7PLlz2728QdjqB-IYAsvQ5WV7sWp9foQR6srygomFl7xWhY40pFxp8GuKG2DeCSKC6ctu5jM03le5IcyabQV3Y_lxqE_MMfu1WVoVb79KKjdufHJepggrOFeDDfr8rq3u_MIZIhaVm-UyPKy0yVl2MQWP2cr17KBEIi1fLmFTWSbiWoP-9b-JdlxxA90pQkuoH3n3fesBShAIKnSDn7X0-Evryk_-EfJJLLAv9vLDL_ZyGA1SP5d048IKKKHz7OXFJPRXudUEF_s20e-JWniCS8_mg3PMSIGOxV4XWTTsn_QoCZ4sNtnwovSYqxL7mxq12Y_JViSTJeWbt2yv9Yv5ntor68dCksbkDI-00sy-eQxIh2IZXbxHKGJMjFdyeOEkH90qxaq9FWpUcQKD92nDBxsFQnlEW7RqyrJY3-1_tStNrBdL24xI1IkV7Y5swdOdLDhhXDAxQgJyBc_8s1uqjZ-CW0XoHm7X-2ha4TzFDbBGke3wS-YqGqeGQckq4wJEjuRqootkFJ7_wdzXA6pivxWW3Jwc9Z3yy6kItmE5_hB37_UM3i_iT06XnrvJpay38wclks0uZoRFvE1jfw5a8NQCdB3ohXsKNCPjAZR7y1s_Zc7MEUL9aZzxDibNGNOzcXQ2MJbxwyGjY7FHm46N2XVAIn_b95n6q0GtbA-BJFtuPuHJI9SYhWifRmv6QVfUfZco8ka53hJYnJ-3jJ2vkfsolEyKd6vPTW_obURY24tPEY9FTYgRytdVCNX6Lm-VErFotmMu9zAUCvAiutPdRrptKLDCeZugcLZEKsZx7dz9eQ2TcOdWUJaO-BJb0_DFBdoo2U7HvRzHSbHGwxnx0DmdyHdb0ogtTIJgAe6owl5HOUDLu7FjWYrAL6plOP2dvFCquj4mnsZ1xtudNiE23pxXscRrgsH6nok5uzB1wnaA7dV5P9gzaq31jXNyTcIws6g
+│ 	status code: 403, request id: ac175f8e-6ddd-40b4-82c1-aa3ef292d680
+│ 
+│   with aws_instance.first-server,
+│   on main.tf line 40, in resource "aws_instance" "first-server":
+│   40: resource "aws_instance" "first-server" {
+│ 
+╵
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform help
+Terraform has no command named "help".
+
+To see all of Terraform's top-level commands, run:
+  terraform -help
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform -help
+Usage: terraform [global options] <subcommand> [args]
+
+The available commands for execution are listed below.
+The primary workflow commands are given first, followed by
+less common or more advanced commands.
+
+Main commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+All other commands:
+  console       Try Terraform expressions at an interactive command prompt
+  fmt           Reformat your configuration in the standard style
+  force-unlock  Release a stuck lock on the current workspace
+  get           Install or upgrade remote Terraform modules
+  graph         Generate a Graphviz graph of the steps in an operation
+  import        Associate existing infrastructure with a Terraform resource
+  login         Obtain and save credentials for a remote host
+  logout        Remove locally-stored credentials for a remote host
+  output        Show output values from your root module
+  providers     Show the providers required for this configuration
+  refresh       Update the state to match remote systems
+  show          Show the current state or a saved plan
+  state         Advanced state management
+  taint         Mark a resource instance as not fully functional
+  test          Experimental support for module integration testing
+  untaint       Remove the 'tainted' state from a resource instance
+  version       Show the current Terraform version
+  workspace     Workspace management
+
+Global options (use these before the subcommand, if any):
+  -chdir=DIR    Switch to a different working directory before executing the
+                given subcommand.
+  -help         Show this help output, or the help for a specified subcommand.
+  -version      An alias for the "version" subcommand.
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform providers
+
+Providers required by configuration:
+.
+└── provider[registry.terraform.io/hashicorp/aws]
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform login
+Terraform will request an API token for app.terraform.io using your browser.
+
+If login is successful, Terraform will store the token in plain text in
+the following file for use by subsequent commands:
+    /root/.terraform.d/credentials.tfrc.json
+
+Do you want to proceed?
+  Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+
+---------------------------------------------------------------------------------
+
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by maestro.)
+[9607:9607:0105/171942.942146:ERROR:zygote_host_impl_linux.cc(90)] Running as root without --no-sandbox is not supported. See https://crbug.com/638180.
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by maestro.)
+/usr/bin/xdg-open: 869: iceweasel: not found
+/usr/bin/xdg-open: 869: seamonkey: not found
+/usr/bin/xdg-open: 869: mozilla: not found
+/usr/bin/xdg-open: 869: epiphany: not found
+/usr/bin/xdg-open: 869: konqueror: not found
+/usr/bin/xdg-open: 869: chromium: not found
+/usr/bin/xdg-open: 869: chromium-browser: not found
+[9644:9644:0105/171943.086796:ERROR:zygote_host_impl_linux.cc(90)] Running as root without --no-sandbox is not supported. See https://crbug.com/638180.
+/usr/bin/xdg-open: 869: www-browser: not found
+/usr/bin/xdg-open: 869: links2: not found
+/usr/bin/xdg-open: 869: elinks: not found
+/usr/bin/xdg-open: 869: links: not found
+/usr/bin/xdg-open: 869: lynx: not found
+/usr/bin/xdg-open: 869: w3m: not found
+xdg-open: no method available for opening 'https://app.terraform.io/app/settings/tokens?source=terraform-login'
+Open the following URL to access the tokens page for app.terraform.io:
+    https://app.terraform.io/app/settings/tokens?source=terraform-login
+
+
+---------------------------------------------------------------------------------
+
+Generate a token using your browser, and copy-paste it into this prompt.
+
+Terraform will store the token in plain text in the following file
+for use by subsequent commands:
+    /root/.terraform.d/credentials.tfrc.json
+
+Token for app.terraform.io:
+  Enter a value: 
+╷
+│ Error: Failed to retrieve token: interrupted
+│ 
+│ 
+╵
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform login
+Terraform will request an API token for app.terraform.io using your browser.
+
+If login is successful, Terraform will store the token in plain text in
+the following file for use by subsequent commands:
+    /root/.terraform.d/credentials.tfrc.json
+
+Do you want to proceed?
+  Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+
+---------------------------------------------------------------------------------
+
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by maestro.)
+[10156:10156:0105/172952.031923:ERROR:zygote_host_impl_linux.cc(90)] Running as root without --no-sandbox is not supported. See https://crbug.com/638180.
+Running Firefox as root in a regular user's session is not supported.  ($XAUTHORITY is /run/user/1000/gdm/Xauthority which is owned by maestro.)
+/usr/bin/xdg-open: 869: iceweasel: not found
+/usr/bin/xdg-open: 869: seamonkey: not found
+/usr/bin/xdg-open: 869: mozilla: not found
+/usr/bin/xdg-open: 869: epiphany: not found
+/usr/bin/xdg-open: 869: konqueror: not found
+/usr/bin/xdg-open: 869: chromium: not found
+/usr/bin/xdg-open: 869: chromium-browser: not found
+[10192:10192:0105/172952.148195:ERROR:zygote_host_impl_linux.cc(90)] Running as root without --no-sandbox is not supported. See https://crbug.com/638180.
+/usr/bin/xdg-open: 869: www-browser: not found
+/usr/bin/xdg-open: 869: links2: not found
+/usr/bin/xdg-open: 869: elinks: not found
+/usr/bin/xdg-open: 869: links: not found
+/usr/bin/xdg-open: 869: lynx: not found
+/usr/bin/xdg-open: 869: w3m: not found
+xdg-open: no method available for opening 'https://app.terraform.io/app/settings/tokens?source=terraform-login'
+Open the following URL to access the tokens page for app.terraform.io:
+    https://app.terraform.io/app/settings/tokens?source=terraform-login
+
+
+---------------------------------------------------------------------------------
+
+Generate a token using your browser, and copy-paste it into this prompt.
+
+Terraform will store the token in plain text in the following file
+for use by subsequent commands:
+    /root/.terraform.d/credentials.tfrc.json
+
+Token for app.terraform.io:
+  Enter a value: 
+╷
+│ Error: Failed to retrieve token: interrupted
+│ 
+│ 
+╵
+
+```
+На сайте был создан новый пользователь ` maestro `, с добавлением в группу `  terraform-netology `, получены новые ключи, которые были добавлены в файлы
+и только после этого terraform смог подключиться. Пользователь унаследовал полисы от группы, но ему отдельно было добавлено разрешение ` AmazonEC2FullAccess `
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# vim main.tf 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v2.70.1
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+```
+
+```tf
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform apply -auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.first-server will be created
+  + resource "aws_instance" "first-server" {
+      + ami                          = "ami-0892d3c7ee96c0bf7"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + network_interface_id         = (known after apply)
+      + outpost_arn                  = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "terraform-first-server"
+        }
+      + tenancy                      = (known after apply)
+      + volume_tags                  = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+aws_instance.first-server: Creating...
+aws_instance.first-server: Still creating... [10s elapsed]
+aws_instance.first-server: Still creating... [20s elapsed]
+aws_instance.first-server: Still creating... [30s elapsed]
+aws_instance.first-server: Still creating... [40s elapsed]
+aws_instance.first-server: Creation complete after 44s [id=i-03260e8f8b1fa4328]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform ssh
+Terraform has no command named "ssh". Did you mean "push"?
+
+To see all of Terraform's top-level commands, run:
+  terraform -help
+
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform -help
+Usage: terraform [global options] <subcommand> [args]
+
+The available commands for execution are listed below.
+The primary workflow commands are given first, followed by
+less common or more advanced commands.
+
+Main commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+All other commands:
+  console       Try Terraform expressions at an interactive command prompt
+  fmt           Reformat your configuration in the standard style
+  force-unlock  Release a stuck lock on the current workspace
+  get           Install or upgrade remote Terraform modules
+  graph         Generate a Graphviz graph of the steps in an operation
+  import        Associate existing infrastructure with a Terraform resource
+  login         Obtain and save credentials for a remote host
+  logout        Remove locally-stored credentials for a remote host
+  output        Show output values from your root module
+  providers     Show the providers required for this configuration
+  refresh       Update the state to match remote systems
+  show          Show the current state or a saved plan
+  state         Advanced state management
+  taint         Mark a resource instance as not fully functional
+  test          Experimental support for module integration testing
+  untaint       Remove the 'tainted' state from a resource instance
+  version       Show the current Terraform version
+  workspace     Workspace management
+
+Global options (use these before the subcommand, if any):
+  -chdir=DIR    Switch to a different working directory before executing the
+                given subcommand.
+  -help         Show this help output, or the help for a specified subcommand.
+  -version      An alias for the "version" subcommand.
+```
+
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform show
+# aws_instance.first-server:
+resource "aws_instance" "first-server" {
+    ami                          = "ami-0892d3c7ee96c0bf7"
+    arn                          = "arn:aws:ec2:us-west-2:458241751342:instance/i-03260e8f8b1fa4328"
+    associate_public_ip_address  = true
+    availability_zone            = "us-west-2c"
+    cpu_core_count               = 1
+    cpu_threads_per_core         = 1
+    disable_api_termination      = false
+    ebs_optimized                = false
+    get_password_data            = false
+    hibernation                  = false
+    id                           = "i-03260e8f8b1fa4328"
+    instance_state               = "running"
+    instance_type                = "t2.micro"
+    ipv6_address_count           = 0
+    ipv6_addresses               = []
+    monitoring                   = false
+    primary_network_interface_id = "eni-0374b0a227e8b55a1"
+    private_dns                  = "ip-172-31-10-204.us-west-2.compute.internal"
+    private_ip                   = "172.31.10.204"
+    public_dns                   = "ec2-54-70-231-99.us-west-2.compute.amazonaws.com"
+    public_ip                    = "54.70.231.99"
+    security_groups              = [
+        "default",
+    ]
+    source_dest_check            = true
+    subnet_id                    = "subnet-0ad7f90e80597e2da"
+    tags                         = {
+        "Name" = "terraform-first-server"
+    }
+    tenancy                      = "default"
+    volume_tags                  = {}
+    vpc_security_group_ids       = [
+        "sg-0b7d3cba53e7f288f",
+    ]
+
+    credit_specification {
+        cpu_credits = "standard"
+    }
+
+    metadata_options {
+        http_endpoint               = "enabled"
+        http_put_response_hop_limit = 1
+        http_tokens                 = "optional"
+    }
+
+    root_block_device {
+        delete_on_termination = true
+        device_name           = "/dev/sda1"
+        encrypted             = false
+        iops                  = 100
+        volume_id             = "vol-01678a0ff5d6c0250"
+        volume_size           = 8
+        volume_type           = "gp2"
+    }
+}
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+```
