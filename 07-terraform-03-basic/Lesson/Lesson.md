@@ -241,7 +241,27 @@ j+CocTuuNykC3tQNt3FsrRlLSUJw5q3zhfg8HNCZ
 ```ps
 
 ```
+1. Подключение по ssh к серверу, созданному через веб-интерфейс
+```ps
+root@PC-Ubuntu:~/.ssh# ssh -i my-key.pem ec2-user@34.209.148.43
 
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+6 package(s) needed for security, out of 16 available
+Run "sudo yum update" to apply all updates.
+[ec2-user@ip-172-31-3-77 ~]$ 
+[ec2-user@ip-172-31-3-77 ~]$ 
+[ec2-user@ip-172-31-3-77 ~]$ 
+[ec2-user@ip-172-31-3-77 ~]$ 
+[ec2-user@ip-172-31-3-77 ~]$ 
+[ec2-user@ip-172-31-3-77 ~]$ sudo -i
+[root@ip-172-31-3-77 ~]# 
+[root@ip-172-31-3-77 ~]# 
+
+```
 
 **Ответ:**
 
