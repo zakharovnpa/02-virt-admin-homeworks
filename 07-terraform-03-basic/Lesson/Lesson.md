@@ -11,6 +11,14 @@
 1. Зарегистрируйте бэкэнд в терраформ проекте как описано по ссылке выше. 
 
 **Ход выполнения:**
+
+[1 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#1-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
+
+[2 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#2-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
+
+[3 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#3-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
+
+
 1. Создать локальную директорию для сохранения файлов и выполнения команд:
 
 ```ps
@@ -19,6 +27,7 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning# mkdir -
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning# cd my-project/
 ```
+1. Создаем пустые файлы для terraform
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# touch main.tf outputs.tf version.tf variables.tf
 ```
@@ -35,14 +44,9 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git init
 Инициализирован пустой репозиторий Git в /root/netology-project/learning-terraform/aws-cloud-learning/my-project/.git/
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# ls -l
-итого 0
--rw-r--r-- 1 root root 0 янв  4 13:08 main.tf
--rw-r--r-- 1 root root 0 янв  4 13:08 outputs.tf
--rw-r--r-- 1 root root 0 янв  4 13:08 variables.tf
--rw-r--r-- 1 root root 0 янв  4 13:08 version.tf
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
+```
+
+```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# ls -la
 итого 12
 drwxr-xr-x 3 root root 4096 янв  4 13:21 .
@@ -52,10 +56,8 @@ drwxr-xr-x 7 root root 4096 янв  4 13:21 .git
 -rw-r--r-- 1 root root    0 янв  4 13:08 outputs.tf
 -rw-r--r-- 1 root root    0 янв  4 13:08 variables.tf
 -rw-r--r-- 1 root root    0 янв  4 13:08 version.tf
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
 ```
-
+1. Смотрим статус Git
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git status
 На ветке master
@@ -71,10 +73,12 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 
 ничего не добавлено в коммит, но есть неотслеживаемые файлы (используйте «git add», чтобы отслеживать их)
 ```
-
+1. Добавляем файл ` .gitignore `
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# vim .gitignore
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
+```
+1. Смотрим статус Git
+```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git status
 На ветке master
 
@@ -90,10 +94,12 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 
 ничего не добавлено в коммит, но есть неотслеживаемые файлы (используйте «git add», чтобы отслеживать их)
 ```
-
+1. Добавляем файлы для отслеживания Git
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git add .gitignore main.tf outputs.tf variables.tf version.tf 
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
+```
+1. Смотрим статус Git
+```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git status
 На ветке master
 
@@ -107,15 +113,17 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 	новый файл:    variables.tf
 	новый файл:    version.tf
   ```
-  Добавление удаленного репозитория ` experiments-netology `:
+ 1. Добавление удаленного репозитория ` experiments-netology `:
   ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git remote add experiments-netology git@github.com:zakharovnpa/experiments-netology.git
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
+```
+1. Смотрим статус удаленых репозиториев Git
+```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git remote -v
 experiments-netology	git@github.com:zakharovnpa/experiments-netology.git (fetch)
 experiments-netology	git@github.com:zakharovnpa/experiments-netology.git (push)
 ```
-Отправка изменений из локальной директории в удаленный репозиторий:
+1. Отправка изменений из локальной директории в удаленный репозиторий:
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push
 fatal: Не настроена точка назначения для отправки.
@@ -127,7 +135,7 @@ fatal: Не настроена точка назначения для отпра
 
     git push <имя>
 ```
-Смотрим состояние Git
+1. Смотрим состояние Git
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git status
 На ветке master
@@ -142,7 +150,7 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 	новый файл:    variables.tf
 	новый файл:    version.tf
 ```
-Выполняем первый коммит
+1. Выполняем первый коммит
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git commit -m "First commit"
 [master (корневой коммит) da3eef8] First commit
@@ -153,13 +161,13 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
  create mode 100644 variables.tf
  create mode 100644 version.tf
  ```
- 
+ 1. Смотрим состояние Git
  ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git status
 На ветке master
 нечего коммитить, нет изменений в рабочем каталоге
 ```
-
+1. Пытаемся отправить в удаленый репозиторий
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push
 fatal: Не настроена точка назначения для отправки.
@@ -172,19 +180,7 @@ fatal: Не настроена точка назначения для отпра
     git push <имя>
 
 ```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push experiments-netology git@github.com:zakharovnpa/experiments-netology.git
-error: src refspec git@github.com does not match any
-error: не удалось отправить некоторые ссылки в «git@github.com:zakharovnpa/experiments-netology.git»
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git status
-На ветке master
-нечего коммитить, нет изменений в рабочем каталоге
-```
-Выполняем отправку изменений в удаленный репозиторий ` git push experiments-netology master `
+1. Выполняем отправку изменений в удаленный репозиторий ` git push experiments-netology master `
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push experiments-netology master
 The authenticity of host 'github.com (140.82.121.4)' can't be established.
@@ -196,106 +192,13 @@ fatal: Не удалось прочитать из внешнего репози
 Удостоверьтесь, что у вас есть необходимые права доступа
 и репозиторий существует.
 ```
-
+1. Проверка доступности удаленных репозиториев
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git remote -v
 experiments-netology	git@github.com:zakharovnpa/experiments-netology.git (fetch)
 experiments-netology	git@github.com:zakharovnpa/experiments-netology.git (push)
 ```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push master
-fatal: Текущая ветка master не имеет вышестоящей ветки.
-Чтобы отправить текущую ветку и установить внешнюю ветку как вышестоящую для этой ветки, используйте
-
-    git push --set-upstream master master
-
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push origiin
-fatal: Текущая ветка master не имеет вышестоящей ветки.
-Чтобы отправить текущую ветку и установить внешнюю ветку как вышестоящую для этой ветки, используйте
-
-    git push --set-upstream origiin master
-```
-
-```ps
-
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push --set-upstream origiin master
-fatal: 'origiin' does not appear to be a git repository
-fatal: Не удалось прочитать из внешнего репозитория.
-
-Удостоверьтесь, что у вас есть необходимые права доступа
-и репозиторий существует.
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# ls -l
-итого 0
--rw-r--r-- 1 root root 0 янв  4 13:08 main.tf
--rw-r--r-- 1 root root 0 янв  4 13:08 outputs.tf
--rw-r--r-- 1 root root 0 янв  4 13:08 variables.tf
--rw-r--r-- 1 root root 0 янв  4 13:08 version.tf
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git log
-commit da3eef8583426e064e5fc2965a233871bb29b8f9 (HEAD -> master)
-Author: Sergey Zakharov <zakharovnpa@gmail.com>
-Date:   Tue Jan 4 13:41:26 2022 +0400
-
-    First commit
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# ls -la
-итого 16
-drwxr-xr-x 3 root root 4096 янв  4 13:28 .
-drwxr-xr-x 4 root root 4096 янв  4 13:07 ..
-drwxr-xr-x 8 root root 4096 янв  4 13:43 .git
--rw-r--r-- 1 root root  862 янв  4 13:28 .gitignore
--rw-r--r-- 1 root root    0 янв  4 13:08 main.tf
--rw-r--r-- 1 root root    0 янв  4 13:08 outputs.tf
--rw-r--r-- 1 root root    0 янв  4 13:08 variables.tf
--rw-r--r-- 1 root root    0 янв  4 13:08 version.tf
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git remote -v
-experiments-netology	git@github.com:zakharovnpa/experiments-netology.git (fetch)
-experiments-netology	git@github.com:zakharovnpa/experiments-netology.git (push)
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push --repo=experiments-netology master
-fatal: Текущая ветка master не имеет вышестоящей ветки.
-Чтобы отправить текущую ветку и установить внешнюю ветку как вышестоящую для этой ветки, используйте
-
-    git push --set-upstream master master
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push
-fatal: Не настроена точка назначения для отправки.
-Либо укажите URL с помощью командной строки, либо настройте внешний репозиторий с помощью
-
-    git remote add <имя> <адрес>
-
-а затем отправьте изменения с помощью имени внешнего репозитория
-
-    git push <имя>
-    
-```
-
-```ps
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push experiments-netology
-fatal: Текущая ветка master не имеет вышестоящей ветки.
-Чтобы отправить текущую ветку и установить внешнюю ветку как вышестоящую для этой ветки, используйте
-
-    git push --set-upstream experiments-netology master
-```
-Удачная передача файлов в удаленный репозиторий ` git push --set-upstream experiments-netology master `
+1. Удачная передача файлов в удаленный репозиторий ` git push --set-upstream experiments-netology master `
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# git push --set-upstream experiments-netology master
 The authenticity of host 'github.com (140.82.121.4)' can't be established.
@@ -319,7 +222,25 @@ To github.com:zakharovnpa/experiments-netology.git
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project# 
 
 ```
+[1 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#1-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
 
+[2 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#2-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
+
+[3 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#3-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
+
+1. Проверка правильности вывода содержимого переменных окружения. Вывод правильный.
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $AWS_ACCESS_KEY_ID
+AKIAWVMKWHEXCVVYEBFX
+
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $AWS_SECRET_ACCESS_KEY
+j+CocTuuNykC3tQNt3FsrRlLSUJw5q3zhfg8HNCZ
+
+```
+1. Добавить в файл ` main.tf ` возможность читать переменные окружения для авторизации на сайте ` aws.amazon.com `
+```ps
+
+```
 
 
 **Ответ:**
