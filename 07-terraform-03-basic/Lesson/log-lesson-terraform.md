@@ -3469,3 +3469,91 @@ resource "aws_instance" "first-server" {
 }
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
 ```
+
+```tf
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform destroy
+aws_instance.first-server: Refreshing state... [id=i-03260e8f8b1fa4328]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_instance.first-server will be destroyed
+  - resource "aws_instance" "first-server" {
+      - ami                          = "ami-0892d3c7ee96c0bf7" -> null
+      - arn                          = "arn:aws:ec2:us-west-2:458241751342:instance/i-03260e8f8b1fa4328" -> null
+      - associate_public_ip_address  = true -> null
+      - availability_zone            = "us-west-2c" -> null
+      - cpu_core_count               = 1 -> null
+      - cpu_threads_per_core         = 1 -> null
+      - disable_api_termination      = false -> null
+      - ebs_optimized                = false -> null
+      - get_password_data            = false -> null
+      - hibernation                  = false -> null
+      - id                           = "i-03260e8f8b1fa4328" -> null
+      - instance_state               = "running" -> null
+      - instance_type                = "t2.micro" -> null
+      - ipv6_address_count           = 0 -> null
+      - ipv6_addresses               = [] -> null
+      - monitoring                   = false -> null
+      - primary_network_interface_id = "eni-0374b0a227e8b55a1" -> null
+      - private_dns                  = "ip-172-31-10-204.us-west-2.compute.internal" -> null
+      - private_ip                   = "172.31.10.204" -> null
+      - public_dns                   = "ec2-54-70-231-99.us-west-2.compute.amazonaws.com" -> null
+      - public_ip                    = "54.70.231.99" -> null
+      - security_groups              = [
+          - "default",
+        ] -> null
+      - source_dest_check            = true -> null
+      - subnet_id                    = "subnet-0ad7f90e80597e2da" -> null
+      - tags                         = {
+          - "Name" = "terraform-first-server"
+        } -> null
+      - tenancy                      = "default" -> null
+      - volume_tags                  = {} -> null
+      - vpc_security_group_ids       = [
+          - "sg-0b7d3cba53e7f288f",
+        ] -> null
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_put_response_hop_limit = 1 -> null
+          - http_tokens                 = "optional" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/sda1" -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - volume_id             = "vol-01678a0ff5d6c0250" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp2" -> null
+        }
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+aws_instance.first-server: Destroying... [id=i-03260e8f8b1fa4328]
+aws_instance.first-server: Still destroying... [id=i-03260e8f8b1fa4328, 10s elapsed]
+aws_instance.first-server: Still destroying... [id=i-03260e8f8b1fa4328, 20s elapsed]
+aws_instance.first-server: Still destroying... [id=i-03260e8f8b1fa4328, 30s elapsed]
+aws_instance.first-server: Still destroying... [id=i-03260e8f8b1fa4328, 40s elapsed]
+aws_instance.first-server: Still destroying... [id=i-03260e8f8b1fa4328, 50s elapsed]
+aws_instance.first-server: Destruction complete after 56s
+
+Destroy complete! Resources: 1 destroyed.
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+
+```
