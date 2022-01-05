@@ -692,7 +692,9 @@ root@server1:~# echo 'export AWS_ACCESS_KEY_ID=AKIA.........................EBFX
 root@server1:~# 
 root@server1:~# echo 'export AWS_SECRET_ACCESS_KEY=j..............................fg8HNCZ' >> ~/.bashrc
 
-root@server1:~# source ~/.bashrc
+root@server1:~# echo 'export AWS_DEFAULT_REGION=us-west-2' >> ~/.bashrc
+
+root@server1:~# source .bashrc
 root@server1:~# 
 
 ```
