@@ -12,6 +12,8 @@
 
 **Ход выполнения:**
 
+[Вход в консоль AWS](https://signin.aws.amazon.com/signin?redirect_uri=https%3A%2F%2Fportal.aws.amazon.com%2Fbilling%2Fsignup%2Fresume&client_id=signup&code_challenge_method=SHA-256&code_challenge=xi_Q0YD0RpJCPuxfwXPR7WJUSP-4YH2T9jY28jMgWcU)
+
 [1 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#1-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
 
 [2 часть логов](https://github.com/zakharovnpa/02-virt-admin-homeworks/blob/main/07-terraform-03-basic/Lesson/log-lesson-terraform.md#2-%D1%87%D0%B0%D1%81%D1%82%D1%8C)
