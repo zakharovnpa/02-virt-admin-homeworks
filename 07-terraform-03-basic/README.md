@@ -19,19 +19,59 @@
 dynamodb.
     * иначе будет создан локальный файл со стейтами.  
 1. Создайте два воркспейса `stage` и `prod`.
-1. В уже созданный `aws_instance` добавьте зависимость типа инстанса от вокспейса, что бы в разных ворскспейсах 
+1. В уже созданный `aws_instance` добавьте зависимость типа инстанса от воркспейса, чтобы в разных ворскспейсах 
 использовались разные `instance_type`.
 1. Добавим `count`. Для `stage` должен создаться один экземпляр `ec2`, а для `prod` два. 
 1. Создайте рядом еще один `aws_instance`, но теперь определите их количество при помощи `for_each`, а не `count`.
 1. Что бы при изменении типа инстанса не возникло ситуации, когда не будет ни одного инстанса добавьте параметр
-жизненного цикла `create_before_destroy = true` в один из рессурсов `aws_instance`.
-1. При желании поэкспериментируйте с другими параметрами и рессурсами.
+жизненного цикла `create_before_destroy = true` в один из ресурсов `aws_instance`.
+1. При желании поэкспериментируйте с другими параметрами и ресурсами.
 
 В виде результата работы пришлите:
 * Вывод команды `terraform workspace list`.
 * Вывод команды `terraform plan` для воркспейса `prod`.  
 
 **Ответ:**
+
+1. Задание не выполнено, т.к. УЗ на AWS отсутствует.
+2. Создайте два воркспейса `stage` и `prod`.
+
+![terraform-workspace-list](/)
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform workspace new stage
+Created and switched to workspace "stage"!
+
+You're now on a new, empty workspace. Workspaces isolate their state,
+so if you run "terraform plan" Terraform will not see any existing state
+for this configuration.
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform workspace new prod
+Created and switched to workspace "prod"!
+
+You're now on a new, empty workspace. Workspaces isolate their state,
+so if you run "terraform plan" Terraform will not see any existing state
+for this configuration.
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform workspace list
+  default
+* prod
+  stage
+
+```
+3. В уже созданный `aws_instance` добавьте зависимость типа инстанса от воркспейса, чтобы в разных ворскспейсах 
+использовались разные `instance_type`.
+
+Добавлен блок
+```ps
+locals {
+	web_instance_type_map = {
+		stage = "t3.micro"
+		prod = "t3.large"
+	}
+}
+
+```
+4. Добавим `count`. Для `stage` должен создаться один экземпляр `ec2`, а для `prod` два. 
 
 ---
 
