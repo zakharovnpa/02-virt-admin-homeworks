@@ -8,22 +8,11 @@
 ```yml
 # repos lists the config for specific repos.
 repos:
-
-  # id can either be an exact repo ID or a regex.
-  # If using a regex, it must start and end with a slash.
-  # Repo ID's are of the form {VCS hostname}/{org}/{repo name}, ex.
-  # github.com/runatlantis/atlantis.
-- id: /.*/
-  # branch is an regex matching pull requests by base branch
-  # (the branch the pull request is getting merged into).
-  # By default, all branches are matched
+ 
+- id: github.com/zakharovnpa/experiments-netology
   branch: /.*/
+   apply_requirements: [approved, mergeable]
 
-  # apply_requirements sets the Apply Requirements for all repos that match.
-  apply_requirements: [approved, mergeable]
-
-  # workflow sets the workflow for all repos that match.
-  # This workflow must be defined in the workflows section.
   workflow: custom
 
   # allowed_overrides specifies which keys can be overridden by this repo in
@@ -66,12 +55,61 @@ workflows:
       - apply
       
 ```
-##### Создай `atlantis.yaml` который, если поместить в корень terraform проекта, скажет атлантису:
-1. Надо запускать планирование и аплай для двух воркспейсов `stage` и `prod`.
-```yml
-
-```
+##### Создать `atlantis.yaml` который, если поместить в корень terraform проекта, скажет атлантису:
+1. Надо запускать планирование и апплай для двух воркспейсов `stage` и `prod`.
 2. Необходимо включить автопланирование при изменении любых файлов `*.tf`.
 ```yml
+version: 3
+automerge: true
+delete_source_branch_on_merge: true
 
+projects:
+- name: my-project-name
+  dir: .
+  workspace: default
+  terraform_version: v0.11.0
+  delete_source_branch_on_merge: true
+  autoplan:
+    when_modified: ["*.tf", "../modules/**.tf"]
+    enabled: true
+  apply_requirements: [mergeable, approved]
+  workflow: myworkflow
+  
+  
+projects:
+- dir: .         # Директория, в которой выполняется контекст
+  workspace: stage
+  terraform_version: v1.1.2
+  delete_source_branch_on_merge: true
+  autoplan:
+    when_modified: ["*.tf", "../modules/**.tf"]   #Когда модифицируются файлы с указнным расширением
+    enabled: true
+  apply_requirements: [mergeable, approved]
+  workflow: myworkflow
+  
+  
+  
+- dir: .
+  workspace: prod
+  
+  
+  
+workflows:
+  myworkflow:
+    plan:
+      steps:
+      - run: my-custom-command arg1 arg2
+      - init
+      - plan:
+          extra_args: ["-lock", "false"]
+      - run: my-custom-command arg1 arg2
+    apply:
+      steps:
+      - run: echo hi
+      - apply
+      
+      
+allowed_regexp_prefixes:
+- dev/
+- staging/
 ```
