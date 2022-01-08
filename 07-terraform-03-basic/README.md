@@ -58,21 +58,80 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
   stage
 
 ```
-3. В уже созданный `aws_instance` добавьте зависимость типа инстанса от воркспейса, чтобы в разных ворскспейсах 
+3. В уже созданный `aws_instance` добавим зависимость типа инстанса от воркспейса, чтобы в разных ворскспейсах 
 использовались разные `instance_type`.
 
 Добавлен блок
 ```ps
 locals {
-	web_instance_type_map = {
+	instance_type_map = {
 		stage = "t3.micro"
 		prod = "t3.large"
 	}
 }
 
 ```
-4. Добавим `count`. Для `stage` должен создаться один экземпляр `ec2`, а для `prod` два. 
+4. Добавим параметр `count`, определяющий кол-во создаваемых ВМ в каждом воркспейсе. Для воркспейс `stage` должен создаться один экземпляр `ec2`, а для `prod` два экземпляра. 
 
----
+```ps
+resource "aws_instance" "web" {
+	ami = data.aws_ami.amazon_linux.id 
+	instance_type = "t3.micro"
+	count = local.instance_count_map[terraform.workspace]}
+
+
+locals {
+	instance_count_map = {
+	stage = 1
+	prod = 2
+	}
+}
+
+```
+5. Создаем рядом еще один `aws_instance`, но теперь их количество определим при помощи `for_each`, а не `count`.
+```ps
+resource "aws_instance" "web" {
+	for_each = local.instances 
+	ami = each.value
+	instance_type = each.key
+}
+
+
+locals {
+	instances = {
+		"t3.micro" = data.aws_ami.amazon_linux.id   
+		"t3.large" = data.aws_ami.amazon_linux.id
+	}
+}
+
+```
+6. Что бы при изменении типа инстанса не возникло ситуации, когда не будет ни одного инстанса добавим параметр
+жизненного цикла `create_before_destroy = true` в один из ресурсов `aws_instance`.
+```ps
+resource "aws_instance" "web" {
+	ami = data.aws_ami.amazon_linux.id 
+	instance_type = "t3.micro"
+	tags = {"project": "main"
+}
+	
+lifecycle {
+	create_before_destroy = true   
+#	prevent_destroy = true
+#	ignore_changes = ["tags"] 
+	}
+}
+```
+7. Вывод команды `terraform workspace list`.
+```ps
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform workspace list
+  default
+* prod
+  stage
+
+```
+9. Вывод команды `terraform plan` для воркспейса `prod`.
+```tf
+
+```
 
 ---
