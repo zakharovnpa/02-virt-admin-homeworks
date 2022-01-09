@@ -51,6 +51,66 @@
 
 **Ответ:**
 
+1. [AWS EC2 Instance Terraform module](https://registry.terraform.io/modules/terraform-aws-modules/ec2-instance/aws/latest)
+
+Terraform module which creates an EC2 instance on AWS.
+```tf
+module "ec2-instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "3.3.0"
+  # insert the 34 required variables here
+}
+
+```
+2.  Изучено стрение модуля. Вопрос: буду ли я в своем проекте использовать этот модуль или непосредственно ресурс `aws_instance` без помощи модуля?
+  - Single EC2 Instance
+
+Учитывая, что модульность для Terraform - это аналог косвенной ссылки на несколько раз повторяемые в других местах участки кода, то код для создания виртуальных машин ` ec2_instance ` можно и нужно будет использовать при зарвертывании однотипных экзепляров с минимальными отличиями в конфигурации виртуального оборудования.
+```tf
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "single-instance"
+
+  ami                    = "ami-ebd02392"
+  instance_type          = "t2.micro"
+  key_name               = "user1"
+  monitoring             = true
+  vpc_security_group_ids = ["sg-12345678"]
+  subnet_id              = "subnet-eddcdzz4"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+```
+  - Multiple EC2 Instance
+```tf
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  for_each = toset(["one", "two", "three"])
+
+  name = "instance-${each.key}"
+
+  ami                    = "ami-ebd02392"
+  instance_type          = "t2.micro"
+  key_name               = "user1"
+  monitoring             = true
+  vpc_security_group_ids = ["sg-12345678"]
+  subnet_id              = "subnet-eddcdzz4"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+```
+
+
 ---
 
 ### Как cдавать задание
