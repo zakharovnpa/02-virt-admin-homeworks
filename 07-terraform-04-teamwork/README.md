@@ -36,6 +36,89 @@
 
 **Ответ:**
 
+Создан `server.yaml` который говорит Атлантису:
+1. Должен работать только для репозиториев в моем github аккаунте.
+2. На стороне клиентского конфига разрешено изменять `workflow`, то есть для каждого репозитория можно будет указать свои дополнительные команды. 
+3. В `workflow`, используемом по-умолчанию, во время планирования не происходил `lock` состояния.
+
+```yml
+
+repos:
+ - id: github.com/zakharovnpa/experiments-netology   # 1. Должен работать только для репозиториев в моем github аккаунте.
+ branch: /.*/
+ apply_requirements: [approved, mergeable]
+
+ workflow: custom
+ allowed_overrides: [apply_requirements, workflow, delete_source_branch_on_merge]
+ allowed_workflows: [custom]
+ allow_custom_workflows: true
+  
+      
+workflows:  # 2. На стороне клиентского конфига разрешено изменять `workflow`, то есть для каждого репозитория можно будет указать свои дополнительные команды. 
+ custom-stage:
+    plan:
+      steps:
+      - run: my-custom-command arg1 arg2
+      - init
+      - plan:
+          extra_args: ["-lock", "false"]  # 3. В `workflow`, используемом по-умолчанию, во время планирования не происходил `lock` состояния.
+      - run: my-custom-command arg1 arg2
+    apply:
+      steps:
+      - run: echo Hi! This is a Stage workspace
+      - apply
+      
+ custom-prod:
+   plan:
+      steps:
+      - run: my-custom-command arg1 arg2
+      - init
+      - plan:
+          extra_args: ["-lock", "false"]
+      - run: my-custom-command arg1 arg2
+   apply:
+      steps:
+      - run: echo Hi! This is a Prod workspace
+      - apply
+      
+      
+```
+Создан `atlantis.yaml` который скажет Атлантису:
+1. Надо запускать планирование и ` apply ` для двух воркспейсов `stage` и `prod`.
+2. Необходимо включить автопланирование при изменении любых файлов `*.tf`.
+
+```yml
+
+version: 0.1
+automerge: true
+delete_source_branch_on_merge: true
+
+projects:
+- dir: ../project/Alfa        # Директория, в которой выполняется команда  ` run appply `
+  workspace: stage
+  terraform_version: v1.1.2
+  delete_source_branch_on_merge: true
+  autoplan:
+    when_modified: ["*.tf", "../modules/**.tf"]   # При условии, когда модифицируются файлы с указнным расширением
+    enabled: true
+  apply_requirements: [mergeable, approved]      # Включение автопланирования при изменении файлов "*.tf"
+  workflow: myworkflow
+    
+- dir: ../project/Alfa        # Директория, в которой выполняется команда  ` run appply `
+  workspace: prod
+  terraform_version: v1.1.2
+  delete_source_branch_on_merge: true
+  autoplan:
+    when_modified: ["*.tf", "../modules/**.tf"]   # При условии, когда модифицируются файлы с указнным расширением
+    enabled: true
+  apply_requirements: [mergeable, approved]      # Включение автопланирования при изменении файлов "*.tf"
+  workflow: myworkflow
+      
+allowed_regexp_prefixes:
+- dev/
+- staging/
+```
+
 
 
 ## Задача 3. Знакомство с каталогом модулей. 
@@ -63,30 +146,10 @@ module "ec2-instance" {
 
 ```
 2.  Изучено стрение модуля. Вопрос: буду ли я в своем проекте использовать этот модуль или непосредственно ресурс `aws_instance` без помощи модуля?
-  - Single EC2 Instance
 
-Учитывая, что модульность для Terraform - это аналог косвенной ссылки на несколько раз повторяемые в других местах участки кода, то код для создания виртуальных машин ` ec2_instance ` можно и нужно будет использовать при зарвертывании однотипных экзепляров с минимальными отличиями в конфигурации виртуального оборудования.
-```tf
-module "ec2_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "~> 3.0"
+Для создания виртуальных машин ` ec2_instance ` можно и нужно будет использовать модули при развертывании однотипных экзепляров с минимальными отличиями в конфигурации виртуального оборудования.
+Гораздо удобнее использовать часто повторяемую часть кода в виде отдельного файла (файлов) и в дальнейшем только делать ссылку на него в других частях кода инфраструктуры.
 
-  name = "single-instance"
-
-  ami                    = "ami-ebd02392"
-  instance_type          = "t2.micro"
-  key_name               = "user1"
-  monitoring             = true
-  vpc_security_group_ids = ["sg-12345678"]
-  subnet_id              = "subnet-eddcdzz4"
-
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
-}
-```
-  - Multiple EC2 Instance
 ```tf
 module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
@@ -112,16 +175,5 @@ module "ec2_instance" {
 
 
 ---
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
-
----
-Ссылки из лекции
-
-https://github.com/hamnsk/go_psql_redis_example
-
-https://github.com/vectordotdev/vector
 
 
