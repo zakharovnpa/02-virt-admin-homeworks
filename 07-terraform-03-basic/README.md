@@ -131,8 +131,10 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 ```
 9. Вывод команды `terraform plan` для воркспейса `prod`.
 ```tf
-root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform workspace show
-prod
+root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform workspace list
+  default
+* prod
+  stage
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# 
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# terraform plan
 
