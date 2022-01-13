@@ -233,10 +233,10 @@ root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-proje
 1. Проверка правильности вывода содержимого переменных окружения. Вывод правильный.
 ```ps
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $AWS_ACCESS_KEY_ID
-AKIAWVMKWHEXCVVYEBFX
+AKIAWVM.....CVVYEBFX
 
 root@PC-Ubuntu:~/netology-project/learning-terraform/aws-cloud-learning/my-project/Alfa# echo $AWS_SECRET_ACCESS_KEY
-j+CocTuuNykC3tQNt3FsrRlLSUJw5q3zhfg8HNCZ
+j+CocTuuNykC3tQ.......RlLSUJw5q3zhfg8HNCZ
 
 ```
 1. Добавить в файл ` main.tf ` возможность читать переменные окружения для авторизации на сайте ` aws.amazon.com `
