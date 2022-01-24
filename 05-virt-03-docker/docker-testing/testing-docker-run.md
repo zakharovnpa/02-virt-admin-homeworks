@@ -5,10 +5,6 @@
 ```bash
 root@server1:~# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
-root@server1:~# 
-root@server1:~# dicker pull hello-world
--bash: dicker: command not found
-root@server1:~# 
 ```
 ```bash
 root@server1:~# docker pull hello-world
@@ -18,8 +14,6 @@ latest: Pulling from library/hello-world
 Digest: sha256:cc15c5b292d8525effc0f89cb299f1804f3a725c8d05e158653a563f15e4f685
 Status: Downloaded newer image for hello-world:latest
 docker.io/library/hello-world:latest
-root@server1:~# 
-root@server1:~# 
 ```
 ```bash
 root@server1:~# docker ps
