@@ -189,6 +189,7 @@ PostgreSQL init process complete; ready for start up.
 2022-01-26 05:29:56.741 UTC [1] LOG:  database system is ready to accept connections
 
 ```
+Установка приложения dbeaver
 ```ps
 maestro@PC-Ubuntu:~/Рабочий стол$ sudo apt install dbeaver-community
 [sudo] пароль для maestro: 
@@ -202,5 +203,113 @@ maestro@PC-Ubuntu:~/Рабочий стол$ sudo snap install dbeaver-ce
 dbeaver-ce 21.3.3.202201221033 от DBeaver (dbeaver-corp) установлен
 maestro@PC-Ubuntu:~/Рабочий стол$ 
 maestro@PC-Ubuntu:~/Рабочий стол$ 
+
+```
+Запущенные контейнеры:
+```ps
+root@server1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED        STATUS        PORTS                                       NAMES
+d64c2e97d86a   postgres:12   "docker-entrypoint.s…"   13 hours ago   Up 13 hours   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology
+root@server1:~# 
+root@server1:~# 
+```
+Просмотр ip адреса ВМ с Докером:
+```ps
+root@server1:~# ip add
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:73:60:cf brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 76813sec preferred_lft 76813sec
+    inet6 fe80::a00:27ff:fe73:60cf/64 scope link 
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:49:28:c2 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.56.11/24 brd 192.168.56.255 scope global eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe49:28c2/64 scope link 
+       valid_lft forever preferred_lft forever
+4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:c7:c9:6e:44 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:c7ff:fec9:6e44/64 scope link 
+       valid_lft forever preferred_lft forever
+6: vetha51279b@if5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+    link/ether 0a:50:34:3d:89:8a brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::850:34ff:fe3d:898a/64 scope link 
+       valid_lft forever preferred_lft forever
+root@server1:~# 
+root@server1:~# 
+```
+```ps
+root@server1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED        STATUS        PORTS                                       NAMES
+d64c2e97d86a   postgres:12   "docker-entrypoint.s…"   13 hours ago   Up 13 hours   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology
+root@server1:~# 
+```
+Заходим в контейнер и запускаем в нем bash
+```ps
+root@server1:~# docker exec -it pg-netology bash
+root@d64c2e97d86a:/# 
+root@d64c2e97d86a:/# ls -alh
+total 84K
+drwxr-xr-x   1 root root 4.0K Jan 26 05:29 .
+drwxr-xr-x   1 root root 4.0K Jan 26 05:29 ..
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 bin
+drwxr-xr-x   2 root root 4.0K Dec 11 17:25 boot
+drwxr-xr-x   5 root root  360 Jan 26 05:29 dev
+drwxr-xr-x   2 root root 4.0K Dec 21 23:32 docker-entrypoint-initdb.d
+-rwxr-xr-x   1 root root    0 Jan 26 05:29 .dockerenv
+drwxr-xr-x   1 root root 4.0K Jan 26 05:29 etc
+drwxr-xr-x   2 root root 4.0K Dec 11 17:25 home
+drwxr-xr-x   1 root root 4.0K Dec 20 00:00 lib
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 lib64
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 media
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 mnt
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 opt
+dr-xr-xr-x 170 root root    0 Jan 26 05:29 proc
+drwx------   1 root root 4.0K Dec 21 23:31 root
+drwxr-xr-x   1 root root 4.0K Dec 21 23:33 run
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 sbin
+drwxr-xr-x   2 root root 4.0K Dec 20 00:00 srv
+dr-xr-xr-x  13 root root    0 Jan 26 05:29 sys
+drwxrwxrwt   1 root root 4.0K Dec 21 23:34 tmp
+drwxr-xr-x   1 root root 4.0K Dec 20 00:00 usr
+drwxr-xr-x   1 root root 4.0K Dec 20 00:00 var
+root@d64c2e97d86a:/# 
+root@d64c2e97d86a:/# 
+```
+Запускаем команду
+```ps
+root@d64c2e97d86a:/# psql
+psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  role "root" does not exist
+root@d64c2e97d86a:/# 
+root@d64c2e97d86a:/# 
+```
+Создаем поьзователя
+```ps
+root@d64c2e97d86a:/# psql -U postgres
+psql (12.9 (Debian 12.9-1.pgdg110+1))
+Type "help" for help.
+
+postgres=# 
+```
+Права пользователя
+
+```ps
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# 
+postgres=# 
 
 ```
