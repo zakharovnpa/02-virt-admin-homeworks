@@ -643,4 +643,25 @@ test_db=# select * from clients as c where  exists (select id from orders as o w
 (3 rows)
 
  ```
-Подсказк - используйте директиву `UPDATE`.
+Подсказка - используйте директиву `UPDATE`.
+
+## Ход выполнения Задания №5
+
+Получите полную информацию по выполнению запроса выдачи всех пользователей из задачи 4 
+(используя директиву EXPLAIN).
+
+Приведите получившийся результат и объясните что значат полученные значения.
+```ps
+test_db=# explain select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Hash Join  (cost=37.00..57.24 rows=810 width=72)
+   Hash Cond: (c.booking = o.id)
+   ->  Seq Scan on clients c  (cost=0.00..18.10 rows=810 width=72)
+   ->  Hash  (cost=22.00..22.00 rows=1200 width=4)
+         ->  Seq Scan on orders o  (cost=0.00..22.00 rows=1200 width=4)
+(5 rows)
+
+```
+Пояснение:
+
