@@ -622,16 +622,13 @@ test_db=# select count (*) from clients;
 
 Приведите SQL-запросы для выполнения данных операций.
 ```ps
-#Иванов Иван Иванович покупает Книгу
-test_db=# update  clients set booking = 3 where id = 1;
+test_db=# update  clients set booking = 3 where id = 1;         #Иванов Иван Иванович покупает Книгу
 UPDATE 1
 
-#Петров Петр Петрович покупает Монитор 
-test_db=# update  clients set booking = 4 where id = 2;
+test_db=# update  clients set booking = 4 where id = 2;         #Петров Петр Петрович покупает Монитор 
 UPDATE 1
 
-#Иоганн Себастьян Бах покупает Гитару
-test_db=# update  clients set booking = 5 where id = 3;
+test_db=# update  clients set booking = 5 where id = 3;         #Иоганн Себастьян Бах покупает Гитару
 UPDATE 1
 ```
 
