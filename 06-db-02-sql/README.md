@@ -82,10 +82,36 @@
 |Иоганн Себастьян Бах| Гитара |
 
 Приведите SQL-запросы для выполнения данных операций.
+```ps
+#Иванов Иван Иванович покупает книгу
+test_db=# update  clients set booking = 3 where id = 1;
+UPDATE 1
+
+#Петров Петр Петрович покупает Монитор
+test_db=# update  clients set booking = 4 where id = 2;
+UPDATE 1
+
+#Иоганн Себастьян Бах покупает Гитару
+test_db=# update  clients set booking = 5 where id = 3;
+UPDATE 1
+
+```
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
- 
-Подсказк - используйте директиву `UPDATE`.
+```ps
+test_db=# select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
+```
+```ps
+ id |       lastname       | country | booking 
+----+----------------------+---------+---------
+  1 | Иванов Иван Иванович | USA     |       3
+  2 | Петров Петр Петрович | Canada  |       4
+  3 | Иоганн Себастьян Бах | Japan   |       5
+(3 rows)
+
+
+```
+Подсказка - используйте директиву `UPDATE`.
 
 ## Задача 5
 
