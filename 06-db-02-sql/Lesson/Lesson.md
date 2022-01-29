@@ -791,13 +791,64 @@ test1=# \l
 
 Приведите получившийся результат и объясните что значат полученные значения.
 
-## Задача 6
+## Ход выполнения Задания №6
+### Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1).
+```ps
+root@d64c2e97d86a:~# pg_dump -U postgres test2 -f /var/lib/postgresql/backup/dump_test2.sql
 
-Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1).
+```
+Появление дампа БД в директории где лежит Volume
+```ps
+root@server1:/var/lib/docker/volumes/vol-2-pg-backup/_data# ls -l
+total 4
+-rw-r--r-- 1 root root 2439 Jan 29 09:26 dump_test2.sql
+```
 
-Остановите контейнер с PostgreSQL (но не удаляйте volumes).
+Как найти директорию Volume
+```ps
+root@server1:~# docker volume inspect vol-2-pg-backup
+[
+    {
+        "CreatedAt": "2022-01-26T04:28:35Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/vol-2-pg-backup/_data",
+        "Name": "vol-2-pg-backup",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+root@server1:~# 
+root@server1:~# 
+root@server1:~# docker volume inspect vol-1-pg-base
+[
+    {
+        "CreatedAt": "2022-01-29T06:37:00Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/vol-1-pg-base/_data",
+        "Name": "vol-1-pg-base",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+root@server1:~# 
+```
+
+### Остановите контейнер с PostgreSQL (но не удаляйте volumes).
+```ps
+root@server1:~# docker container stop d64c2e97d86a
+d64c2e97d86a
+root@server1:~# 
+root@server1:~# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+root@server1:~# 
+```
 
 Поднимите новый пустой контейнер с PostgreSQL.
+```ps
+
+```
 
 Восстановите БД test_db в новом контейнере.
 
