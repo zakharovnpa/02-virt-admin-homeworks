@@ -313,6 +313,12 @@ postgres=#
 postgres=# 
 
 ```
+Создаем БД test_db
+```ps
+test_db=# CREATE DATABASE test_db;
+CREATE DATABASE
+
+```
 Результат: инстанс запущен, БД в работе.
 
 ## Ход выполнения Задания №2
