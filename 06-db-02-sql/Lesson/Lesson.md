@@ -696,6 +696,74 @@ test_db=# select * from clients as c where  exists (select id from orders as o w
 **width** — средний размер одной строки в байтах.
 
 ## Ход выполнения Задания №6
+Накануне при перезагрузке ПК был остановлен контейнер командой Ctrl+C, ране запущенный в интерактивном режиме.
+Для старта остановленного контейнера используется команда ` docker container restart <name> `
+```ps
+root@server1:~# docker container restart d64c2e97d86a
+d64c2e97d86a
+root@server1:~# 
+root@server1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED      STATUS         PORTS                                       NAMES
+d64c2e97d86a   postgres:12   "docker-entrypoint.s…"   3 days ago   Up 4 seconds   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology
+
+```
+```ps
+oot@server1:~# docker exec -it pg-netology bash
+root@d64c2e97d86a:/# 
+root@d64c2e97d86a:/# 
+root@d64c2e97d86a:/# psql -U postgres
+psql (12.9 (Debian 12.9-1.pgdg110+1))
+Type "help" for help.
+
+postgres=# 
+postgres=# 
+postgres=# \dt
+Did not find any relations.
+postgres=# 
+postgres=# \d
+Did not find any relations.
+postgres=# 
+postgres=# 
+postgres=# \du
+                                       List of roles
+    Role name     |                         Attributes                         | Member of 
+------------------+------------------------------------------------------------+-----------
+ postgres         | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test-admin-user  | Superuser, No inheritance                                  | {}
+ test-simple-user | No inheritance                                             | {}
+
+postgres=# 
+postgres=# \dc
+               List of conversions
+ Schema | Name | Source | Destination | Default? 
+--------+------+--------+-------------+----------
+(0 rows)
+
+postgres=# 
+postgres=# \db
+       List of tablespaces
+    Name    |  Owner   | Location 
+------------+----------+----------
+ pg_default | postgres | 
+ pg_global  | postgres | 
+(2 rows)
+
+postgres=# 
+postgres=# 
+postgres=# \c test2
+You are now connected to database "test2" as user "postgres".
+test2=# 
+test2=# 
+test2=# \dt
+          List of relations
+ Schema |  Name   | Type  |  Owner   
+--------+---------+-------+----------
+ public | clients | table | postgres
+ public | orders  | table | postgres
+(2 rows)
+
+
+```
 
 Получите полную информацию по выполнению запроса выдачи всех пользователей из задачи 4 
 (используя директиву EXPLAIN).
