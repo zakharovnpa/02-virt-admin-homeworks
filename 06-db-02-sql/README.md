@@ -142,10 +142,24 @@ postgres=#
 ```
 ### Создаем БД test_db
 ```ps
-test_db=# CREATE DATABASE test_db;
+postgres=# CREATE DATABASE test_db;
 CREATE DATABASE
-
 ```
+```ps
+postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+(6 rows)
+```
+
 ### Результат: инстанс запущен, БД в работе.
 
 ## Задача 2
@@ -173,6 +187,177 @@ CREATE DATABASE
 - описание таблиц (describe)
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
+
+**Ответ:**
+
+### 1 - создайте пользователя test-admin-user и БД test_db
+```ps
+postgres=# CREATE ROLE "test-admin-user" SUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN;
+CREATE ROLE
+```
+Видим появление нового пользователя
+```ps
+postgres=# \du
+                                      List of roles
+    Role name    |                         Attributes                         | Member of 
+-----------------+------------------------------------------------------------+-----------
+ postgres        | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test-admin-user | Superuser, No inheritance                                  | {}
+
+postgres=# 
+```
+### 2 - в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже)
+```ps
+Таблица orders:
+- id (serial primary key)
+- наименование (string)
+- цена (integer)
+
+Таблица clients:
+- id (serial primary key)
+- фамилия (string)
+- страна проживания (string, index)
+- заказ (foreign key orders)
+```
+Входим в БД test_db
+```ps
+postgres=# \c test_db
+You are now connected to database "test_db" as user "postgres".
+```
+Создаем таблицу orders
+```ps
+test_db=#  create table orders (id integer, name text, price integer, PRIMARY KEY (id));
+CREATE TABLE
+```
+Создаем таблицу clients
+```ps
+test_db=# create table clients (id integer PRIMARY KEY, lastname text, country text, booking integer, FOREIGN KEY (booking) REFERENCES orders (Id));
+CREATE TABLE
+```
+Таблицы orders и clients созданы
+```ps
+test_db=# \dt
+          List of relations
+ Schema |  Name   | Type  |  Owner   
+--------+---------+-------+----------
+ public | clients | table | postgres
+ public | orders  | table | postgres
+(2 rows)
+
+```
+
+### 3 - предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db
+```ps
+test_db=# grant all on public.orders to "test-admin-user";
+GRANT
+test_db=# 
+test_db=# grant all on public.clients to "test-admin-user";
+GRANT
+
+```
+
+### 4 - создайте пользователя test-simple-user  
+Создание пользователя test-simple-user
+```ps
+test_db=# create role "test-simple-user" nosuperuser nocreatedb nocreaterole noinherit login; 
+CREATE ROLE
+
+```
+Новый пользователь в списке
+```ps
+test_db=# \du
+                                       List of roles
+    Role name     |                         Attributes                         | Member of 
+------------------+------------------------------------------------------------+-----------
+ postgres         | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test-admin-user  | Superuser, No inheritance                                  | {}
+ test-simple-user | No inheritance   
+
+```
+
+### 5 - предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db
+```ps
+test_db=# grant select on table public.clients to "test-simple-user";
+GRANT
+test_db=# grant insert on table public.clients to "test-simple-user";
+GRANT
+test_db=# grant update on table public.clients to "test-simple-user";
+GRANT
+test_db=# grant delete on table public.clients to "test-simple-user";
+GRANT
+test_db=# 
+test_db=# grant select on table public.orders to "test-simple-user";
+GRANT
+test_db=# grant insert on table public.orders to "test-simple-user";
+GRANT
+test_db=# grant update on table public.orders to "test-simple-user";
+GRANT
+test_db=# grant delete on table public.orders to "test-simple-user";
+GRANT
+
+```
+
+
+### Для ответа приведите:
+- итоговый список БД после выполнения пунктов выше
+```ps
+postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+(6 rows)
+```
+- описание таблиц (describe)
+```ps
+test_db=# \dt
+          List of relations
+ Schema |  Name   | Type  |  Owner   
+--------+---------+-------+----------
+ public | clients | table | postgres
+ public | orders  | table | postgres
+(2 rows)
+```
+
+- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
+```ps
+select * from INFORMATION_SCHEMA.TABLE_PRIVILEGES where grantee in ('test-admin-user', 'test-simple-user');
+```
+- список пользователей с правами над таблицами test_db
+```ps
+test_db=# select * from INFORMATION_SCHEMA.TABLE_PRIVILEGES where grantee in ('test-admin-user', 'test-simple-user');
+ grantor  |     grantee      | table_catalog | table_schema | table_name | privilege_type | is_grantable | with_hierarchy 
+----------+------------------+---------------+--------------+------------+----------------+--------------+----------------
+ postgres | test-simple-user | test_db       | public       | orders     | INSERT         | NO           | NO
+ postgres | test-simple-user | test_db       | public       | orders     | SELECT         | NO           | YES
+ postgres | test-simple-user | test_db       | public       | orders     | UPDATE         | NO           | NO
+ postgres | test-simple-user | test_db       | public       | orders     | DELETE         | NO           | NO
+ postgres | test-admin-user  | test_db       | public       | orders     | INSERT         | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | orders     | SELECT         | YES          | YES
+ postgres | test-admin-user  | test_db       | public       | orders     | UPDATE         | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | orders     | DELETE         | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | orders     | TRUNCATE       | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | orders     | REFERENCES     | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | orders     | TRIGGER        | YES          | NO
+ postgres | test-simple-user | test_db       | public       | clients    | INSERT         | NO           | NO
+ postgres | test-simple-user | test_db       | public       | clients    | SELECT         | NO           | YES
+ postgres | test-simple-user | test_db       | public       | clients    | UPDATE         | NO           | NO
+ postgres | test-simple-user | test_db       | public       | clients    | DELETE         | NO           | NO
+ postgres | test-admin-user  | test_db       | public       | clients    | INSERT         | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | clients    | SELECT         | YES          | YES
+ postgres | test-admin-user  | test_db       | public       | clients    | UPDATE         | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | clients    | DELETE         | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | clients    | TRUNCATE       | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | clients    | REFERENCES     | YES          | NO
+ postgres | test-admin-user  | test_db       | public       | clients    | TRIGGER        | YES          | NO
+(22 rows)
+```
 
 ## Задача 3
 
