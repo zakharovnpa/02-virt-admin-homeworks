@@ -756,11 +756,11 @@ postgres=# \db
 
 postgres=# 
 postgres=# 
-postgres=# \c test2
-You are now connected to database "test2" as user "postgres".
-test2=# 
-test2=# 
-test2=# \dt
+postgres=# \c test_db
+You are now connected to database "test_db" as user "postgres".
+test_db=# 
+test_db=# 
+test_db=# \dt
           List of relations
  Schema |  Name   | Type  |  Owner   
 --------+---------+-------+----------
@@ -778,7 +778,6 @@ test1=# \l
  template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
            |          |          |            |            | postgres=CTc/postgres
  test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
- test2     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
  test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
 (6 rows)
 
@@ -794,14 +793,14 @@ test1=# \l
 ## Ход выполнения Задания №6
 ### Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1).
 ```ps
-root@d64c2e97d86a:~# pg_dump -U postgres test2 -f /var/lib/postgresql/backup/dump_test2.sql
+root@d64c2e97d86a:~# pg_dump -U postgres test_db -f /var/lib/postgresql/backup/dump_test_db.sql
 
 ```
 Появление дампа БД в директории где лежит Volume
 ```ps
 root@server1:/var/lib/docker/volumes/vol-2-pg-backup/_data# ls -l
 total 4
--rw-r--r-- 1 root root 2439 Jan 29 09:26 dump_test2.sql
+-rw-r--r-- 1 root root 2439 Jan 29 09:26 dump_test_db.sql
 ```
 
 Как найти директорию Volume
@@ -877,7 +876,6 @@ postgres=# \l
  template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
            |          |          |            |            | postgres=CTc/postgres
  test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
- test2     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
  test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
 (6 rows)
 
@@ -888,7 +886,7 @@ postgres=# \l
 
 Создание вручную бэкапа БД из контейнера докер
 ```ps
-root@0eabb98f5d26:~# pg_dump -U postgres -d test2 -f /var/lib/postgresql/dump_test2_1.sql
+root@0eabb98f5d26:~# pg_dump -U postgres -d test_db -f /var/lib/postgresql/dump_test_db_1.sql
 root@0eabb98f5d26:~# 
 ```
 ```ps
@@ -901,11 +899,11 @@ root@0eabb98f5d26:/var/lib/postgresql# ls -l
 total 12
 drwxr-xr-x  2 root     root     4096 Jan 29 09:26 backup
 drwx------ 19 postgres postgres 4096 Jan 30 04:56 data
--rw-r--r--  1 root     root     2220 Jan 30 07:06 dump_test2_1.sql
+-rw-r--r--  1 root     root     2220 Jan 30 07:06 dump_test_db_1.sql
 ```
 Содержимое файла дампа:
 ```ps
-root@0eabb98f5d26:/var/lib/postgresql# cat dump_test2_1.sql 
+root@0eabb98f5d26:/var/lib/postgresql# cat dump_test_db_1.sql 
 --
 -- PostgreSQL database dump
 --
@@ -1012,23 +1010,23 @@ GRANT ALL ON TABLE public.orders TO "test-admin-user";
 -- PostgreSQL database dump complete
 --
 ```
-Удаляем БД test2
+Удаляем БД test_db
 ```ps
-postgres=# drop database test2:
+postgres=# drop database test_db:
 DROP DATABASE
 ```
-Перед восстановлением из бэкапа создаем заново пустую БД с тем же именем test2:
+Перед восстановлением из бэкапа создаем заново пустую БД с тем же именем test_db:
 ```ps
-postgres=# create database test2;
+postgres=# create database test_db;
 CREATE DATABASE
 ```
-Восстанавливаем БД test2 из бэкапа:
+Восстанавливаем БД test_db из бэкапа:
 ```ps
 postgres=# \q
 ```
 
 ```ps
-root@0eabb98f5d26:~# psql -U postgres -d test2 -f /var/lib/postgresql/dump_test2_2.sql
+root@0eabb98f5d26:~# psql -U postgres -d test_db -f /var/lib/postgresql/dump_test_db_2.sql
 SET
 SET
 SET
