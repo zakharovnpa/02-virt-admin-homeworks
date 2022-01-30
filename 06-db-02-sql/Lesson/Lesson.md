@@ -1,5 +1,10 @@
 ## Ход выполнения Задания №1
 
+Ссылки:
+- [GRANT](https://docs.microsoft.com/ru-ru/sql/t-sql/statements/permissions-grant-deny-revoke-azure-sql-data-warehouse-parallel-data-warehouse?view=aps-pdw-2016-au7)
+- [DBeaver Community Free Universal Database Tool](https://dbeaver.io/download/)
+- [Использование EXPLAIN. Улучшение запросов](https://habr.com/ru/post/211022/)
+
 Используя docker:
 * поднимите инстанс PostgreSQL (версию 12)
 * с 2 volume
@@ -768,7 +773,7 @@ test_db=# \dt
  public | orders  | table | postgres
 (2 rows)
 
-test1=# \l
+test_db=# \l
                                  List of databases
    Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
 -----------+----------+----------+------------+------------+-----------------------
