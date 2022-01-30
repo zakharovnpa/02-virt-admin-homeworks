@@ -885,3 +885,177 @@ postgres=# \l
 ```
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+
+Создание вручную бэкапа БД из контейнера докер
+```ps
+root@0eabb98f5d26:~# pg_dump -U postgres -d test2 -f /var/lib/postgresql/dump_test2_1.sql
+root@0eabb98f5d26:~# 
+```
+```ps
+root@0eabb98f5d26:~# cd/var/lib/postgresql
+bash: cd/var/lib/postgresql: No such file or directory
+root@0eabb98f5d26:~# 
+root@0eabb98f5d26:~# cd /var/lib/postgresql
+root@0eabb98f5d26:/var/lib/postgresql# 
+root@0eabb98f5d26:/var/lib/postgresql# ls -l
+total 12
+drwxr-xr-x  2 root     root     4096 Jan 29 09:26 backup
+drwx------ 19 postgres postgres 4096 Jan 30 04:56 data
+-rw-r--r--  1 root     root     2220 Jan 30 07:06 dump_test2_1.sql
+```
+Содержимое файла дампа:
+```ps
+root@0eabb98f5d26:/var/lib/postgresql# cat dump_test2_1.sql 
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
+-- Dumped by pg_dump version 12.9 (Debian 12.9-1.pgdg110+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.clients (
+    id integer NOT NULL,
+    lastname text,
+    country text,
+    booking integer
+);
+
+
+ALTER TABLE public.clients OWNER TO postgres;
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.orders (
+    id integer NOT NULL,
+    name text,
+    price integer
+);
+
+
+ALTER TABLE public.orders OWNER TO postgres;
+
+--
+-- Data for Name: clients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.clients (id, lastname, country, booking) FROM stdin;
+\.
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.orders (id, name, price) FROM stdin;
+1	Шоколад	10
+2	Принтер	3000
+3	Книга	500
+4	Монитор	7000
+5	Гитара	4000
+\.
+
+
+--
+-- Name: clients clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clients
+    ADD CONSTRAINT clients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: clients clients_booking_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clients
+    ADD CONSTRAINT clients_booking_fkey FOREIGN KEY (booking) REFERENCES public.orders(id);
+
+
+--
+-- Name: TABLE orders; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.orders TO "test-simple-user";
+GRANT ALL ON TABLE public.orders TO "test-admin-user";
+
+
+--
+-- PostgreSQL database dump complete
+--
+```
+Удаляем БД test2
+```ps
+postgres=# drop database test2:
+DROP DATABASE
+```
+Перед восстановлением из бэкапа создаем заново пустую БД с тем же именем test2:
+```ps
+postgres=# create database test2;
+CREATE DATABASE
+```
+Восстанавливаем БД test2 из бэкапа:
+```ps
+postgres=# \q
+```
+
+```ps
+root@0eabb98f5d26:~# psql -U postgres -d test2 -f /var/lib/postgresql/dump_test2_2.sql
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+COPY 3
+COPY 5
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+root@0eabb98f5d26:~# 
+
+```
