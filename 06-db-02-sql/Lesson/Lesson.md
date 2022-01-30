@@ -845,31 +845,20 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 root@server1:~# 
 ```
 
-Поднимите новый пустой контейнер с PostgreSQL.
+### Поднимите новый пустой контейнер с PostgreSQL.
 ```ps
-root@server1:~# docker run -it --name pg-netology-2 -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v vol-1-pg-base:/var/lib/postgresql/data -v vol-2-pg-backup:/var/lib/postgresql/backup postgres:12
-
-PostgreSQL Database directory appears to contain a database; Skipping initialization
-
-2022-01-29 09:37:32.026 UTC [1] LOG:  starting PostgreSQL 12.9 (Debian 12.9-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
-2022-01-29 09:37:32.030 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
-2022-01-29 09:37:32.031 UTC [1] LOG:  listening on IPv6 address "::", port 5432
-2022-01-29 09:37:32.039 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
-2022-01-29 09:37:32.060 UTC [25] LOG:  database system was shut down at 2022-01-29 09:35:14 UTC
-2022-01-29 09:37:32.069 UTC [1] LOG:  database system is ready to accept connections
-
+root@server1:~# docker run -d --name pg-netology-2 -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v vol-1-pg-base:/var/lib/postgresql/data -v vol-2-pg-backup:/var/lib/postgresql/backup postgres:12
+pg-netology-2
 ```
 
 ```ps
-
 root@server1:~# docker ps
 CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS              PORTS                                       NAMES
 84f3980f7c71   postgres:12   "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology-2
-root@server1:~# 
 ```
 
-Восстановите БД test_db в новом контейнере.
-При создании нового контейнера волюмы подключились автоматически и БД считались
+### Восстановите БД test_db в новом контейнере.
+При создании нового контейнера волюмы подключились автоматически и БД считались также автоматически
 ```ps
 root@server1:~# docker exec -it pg-netology-2 bash 
 root@84f3980f7c71:/# 
