@@ -389,6 +389,118 @@ test_db=# select * from INFORMATION_SCHEMA.TABLE_PRIVILEGES where grantee in ('t
     - запросы 
     - результаты их выполнения.
 
+**Ответ:**
+#### 1- Используя SQL синтаксис - наполните таблицы следующими тестовыми данными:
+```ps
+Таблица orders
+
+|Наименование|цена|
+|------------|----|
+|Шоколад| 10 |
+|Принтер| 3000 |
+|Книга| 500 |
+|Монитор| 7000|
+|Гитара| 4000|
+```
+```ps
+Таблица clients
+
+|ФИО|Страна проживания|
+|------------|----|
+|Иванов Иван Иванович| USA |
+|Петров Петр Петрович| Canada |
+|Иоганн Себастьян Бах| Japan |
+|Ронни Джеймс Дио| Russia|
+|Ritchie Blackmore| Russia|
+```
+
+Состояние таблиц до внесения данных
+```ps
+test_db=# select * from clients;
+ id | lastname | country | booking 
+----+----------+---------+---------
+(0 rows)
+
+test_db=# 
+test_db=# select * from orders;
+ id | name | price 
+----+------+-------
+(0 rows)
+
+test_db=# 
+test_db=# select count (*) from clients;
+ count 
+-------
+     0
+(1 row)
+
+test_db=# 
+test_db=# select count (*) from orders;
+ count 
+-------
+     0
+(1 row)
+
+```
+  - запрос для наполнения данными таблицы orders
+```ps
+insert into orders VALUES (1, 'Шоколад', 10), (2, 'Принтер', 3000), (3, 'Книга', 500), (4, 'Монитор', 7000), (5, 'Гитара', 4000);
+
+```
+  - результат
+
+```ps
+test_db=# select * from orders;
+ id |  name   | price 
+----+---------+-------
+  1 | Шоколад |    10
+  2 | Принтер |  3000
+  3 | Книга   |   500
+  4 | Монитор |  7000
+  5 | Гитара  |  4000
+(5 rows)
+
+test_db=# 
+```
+  - запрос для наполнения данными таблицы clients
+```ps
+test_db=# insert into clients VALUES (1, 'Иванов Иван Иванович', 'USA'), (2, 'Петров Петр Петрович', 'Canada'), (3, 'Иоганн Себастьян Бах', 'Japan'), (4, 'Ронни Джеймс Дио', 'Russia'), (5, 'Ritchie Blackmore', 'Russia');
+INSERT 0 5
+
+```
+  - результат
+
+```ps
+test_db=# select * from clients;
+ id |       lastname       | country | booking 
+----+----------------------+---------+---------
+  1 | Иванов Иван Иванович | USA     |        
+  2 | Петров Петр Петрович | Canada  |        
+  3 | Иоганн Себастьян Бах | Japan   |        
+  4 | Ронни Джеймс Дио     | Russia  |        
+  5 | Ritchie Blackmore    | Russia  |        
+(5 rows)
+
+```
+
+#### 2 - Используя SQL синтаксис вычислите количество записей для каждой таблицы 
+ запросы и результаты их выполнения
+```ps
+test_db=# select count (*) from orders;
+ count 
+-------
+     5
+(1 row)
+```
+
+```ps
+test_db=# select count (*) from clients;
+ count 
+-------
+     5
+(1 row)
+```
+
 ## Задача 4
 
 Часть пользователей из таблицы clients решили оформить заказы из таблицы orders.
