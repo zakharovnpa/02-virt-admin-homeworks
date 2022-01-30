@@ -506,13 +506,16 @@ test_db=# select count (*) from clients;
 Часть пользователей из таблицы clients решили оформить заказы из таблицы orders.
 
 Используя foreign keys свяжите записи из таблиц, согласно таблице:
-
+```ps
 |ФИО|Заказ|
 |------------|----|
 |Иванов Иван Иванович| Книга |
 |Петров Петр Петрович| Монитор |
 |Иоганн Себастьян Бах| Гитара |
+```
+Подсказка - используйте директиву `UPDATE`.
 
+**Ответ:**
 Приведите SQL-запросы для выполнения данных операций.
 ```ps
 #Иванов Иван Иванович покупает книгу
@@ -526,7 +529,6 @@ UPDATE 1
 #Иоганн Себастьян Бах покупает Гитару
 test_db=# update  clients set booking = 5 where id = 3;
 UPDATE 1
-
 ```
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
@@ -541,16 +543,63 @@ test_db=# select * from clients as c where  exists (select id from orders as o w
   3 | Иоганн Себастьян Бах | Japan   |       5
 (3 rows)
 
-
 ```
-Подсказка - используйте директиву `UPDATE`.
 
 ## Задача 5
+
 
 Получите полную информацию по выполнению запроса выдачи всех пользователей из задачи 4 
 (используя директиву EXPLAIN).
 
 Приведите получившийся результат и объясните что значат полученные значения.
+
+**Ответ:**
+
+Выполняем запрос о покупках
+ ```ps
+test_db=# select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
+ id |       lastname       | country | booking 
+----+----------------------+---------+---------
+  1 | Иванов Иван Иванович | USA     |       3
+  2 | Петров Петр Петрович | Canada  |       4
+  3 | Иоганн Себастьян Бах | Japan   |       5
+(3 rows)
+
+```
+Выполняем тот же запрос о покупках с использованием EXPLAIN
+```ps
+test_db=# explain select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
+                               QUERY PLAN                               
+------------------------------------------------------------------------
+ Hash Join  (cost=37.00..57.24 rows=810 width=72)
+   Hash Cond: (c.booking = o.id)
+   ->  Seq Scan on clients c  (cost=0.00..18.10 rows=810 width=72)
+   ->  Hash  (cost=22.00..22.00 rows=1200 width=4)
+         ->  Seq Scan on orders o  (cost=0.00..22.00 rows=1200 width=4)
+(5 rows)
+
+```
+#### Пояснение:
+Для оптимизации запросов очень важно понимать логику работы ядра PostgreSQL. EXPLAIN выводит информацию, необходимую для понимания, что же делает ядро при каждом конкретном запросе.
+
+В нашем примере планировщик выбирает соединение по хешу (Hash Join), при котором строки одной таблицы записываются в хеш-таблицу в памяти, после чего сканируется другая таблица и для каждой её строки проверяется соответствие по хеш-таблице. Здесь отступы отражают структуру плана: результат сканирования битовой карты по clients подаётся на вход узлу Hash, который конструирует хеш-таблицу. Затем она передаётся узлу Hash Join, который читает строки из узла внешнего потомка и проверяет их по этой хеш-таблице.
+
+1. Hash Join вызывает “Hash", который в свою очередь вызывает что-нибудь ещё (в нашем случае – Seq Scan по таблице orders). 
+2. Потом Hash создает в памяти хэш/ассоциативный массив/словарь со строками из источника, хэшированными с помощью того, что используется для объединения данных (в нашем случае это столбец o.id в таблице clients).
+3. Потом Hash Join запускает вторую субоперацию (Seq Scan по таблице clients в нашем случае) и, для каждой строки из неё, делает следующее:
+  - Проверяет, есть ли ключ join (pg_class.relnamespace в данном случае) в хэше, возвращенном операцией Hash.
+    - Если нет, данная строка из субоперации игнорируется (не будет возвращена).
+    - Если ключ существует, Hash Join берет строки из хэша и, основываясь на этой строке, с одной стороны, и всех строках хэша, с другой стороны, генерирует вывод строк, что мы и получили на выходе.
+
+#### Термины:
+**Hash Join** - используется для объединения двух наборов записей.
+**Hash Cond** - для каждой строки таблицы clients вычисляется hash, который сравнивается с hash таблицы orders по условию **Hash Cond**.  
+**Sec Scan on clients c** - при выполнении запроса последовательно считывается каждая запись таблицы clients
+**Hash** - для каждой строки orders вычисляется ее **Hash**.
+**Seq Scan on orders o** - при выполнении запроса последовательно считывается каждая запись таблицы orders. 
+**cost** — стоимость запроса в postgres story points. Это некое сферическое в вакууме понятие, призванное оценить затратность операции. Первое значение 0.00 — затраты на получение первой строки. Второе — 18.10 — затраты на получение всех строк.
+**rows** — приблизительное количество возвращаемых строк при выполнении операции Seq Scan.
+**width** — средний размер одной строки в байтах.
 
 ## Задача 6
 
@@ -564,8 +613,221 @@ test_db=# select * from clients as c where  exists (select id from orders as o w
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
 
+**Ответ:**
+
+### Создаем бэкап БД test_db и помещаем его в volume, предназначенный для бэкапов (см. Задачу 1).
+```ps
+root@d64c2e97d86a:~# pg_dump -U postgres test_db -f /var/lib/postgresql/backup/dump_test_db.sql
+
+```
+Появление дампа БД в директории где лежит Volume
+```ps
+root@server1:/var/lib/docker/volumes/vol-2-pg-backup/_data# ls -l
+total 4
+-rw-r--r-- 1 root root 2439 Jan 29 09:26 dump_test_db.sql
+```
+
+Как найти директорию Volume
+```ps
+root@server1:~# docker volume inspect vol-2-pg-backup
+[
+    {
+        "CreatedAt": "2022-01-26T04:28:35Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/vol-2-pg-backup/_data",
+        "Name": "vol-2-pg-backup",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+root@server1:~# 
+root@server1:~# 
+root@server1:~# docker volume inspect vol-1-pg-base
+[
+    {
+        "CreatedAt": "2022-01-29T06:37:00Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/vol-1-pg-base/_data",
+        "Name": "vol-1-pg-base",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+root@server1:~# 
+```
+
+### Остановливаем контейнер с PostgreSQL (но не удаляйте volumes).
+```ps
+root@server1:~# docker container stop d64c2e97d86a
+d64c2e97d86a
+root@server1:~# 
+root@server1:~# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+root@server1:~# 
+```
+
+### Поднимаем новый пустой контейнер с PostgreSQL.
+```ps
+root@server1:~# docker run -d --name pg-netology-2 -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v vol-1-pg-base:/var/lib/postgresql/data -v vol-2-pg-backup:/var/lib/postgresql/backup postgres:12
+pg-netology-2
+```
+Второй контейнер запустился
+```ps
+root@server1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS              PORTS                                       NAMES
+84f3980f7c71   postgres:12   "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology-2
+```
+
+### Восстановливаем БД test_db в новом контейнере.
+При создании нового контейнера pg-netology-2 волюмы подключились автоматически и БД считались также автоматически
+```ps
+root@server1:~# docker exec -it pg-netology-2 bash 
+root@84f3980f7c71:/# 
+root@84f3980f7c71:/# psql -U postgres
+psql (12.9 (Debian 12.9-1.pgdg110+1))
+Type "help" for help.
+
+
+postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+(6 rows)
+
+
+```
+
+### Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+
+Создание вручную бэкапа БД из shell контейнера docker
+```ps
+root@0eabb98f5d26:~# pg_dump -U postgres -d test_db -f /var/lib/postgresql/dump_test_db_1.sql
+root@0eabb98f5d26:~# 
+```
+```ps
+root@0eabb98f5d26:/var/lib/postgresql# 
+root@0eabb98f5d26:/var/lib/postgresql# ls -l
+total 12
+drwxr-xr-x  2 root     root     4096 Jan 29 09:26 backup
+drwx------ 19 postgres postgres 4096 Jan 30 04:56 data
+-rw-r--r--  1 root     root     2220 Jan 30 07:06 dump_test_db_1.sql
+```
+Удаляем БД test_db
+```ps
+postgres=# drop database test_db:
+DROP DATABASE
+```
+Перед восстановлением из бэкапа создаем заново пустую БД с тем же именем test_db:
+```ps
+postgres=# create database test_db;
+CREATE DATABASE
+```
+Выходим из СУБД в shell контейнера:
+```ps
+postgres=# \q
+```
+Восстанавливаем БД test_db из бэкапа:
+```ps
+root@0eabb98f5d26:~# psql -U postgres -d test_db -f /var/lib/postgresql/dump_test_db_2.sql
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+COPY 3
+COPY 5
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+root@0eabb98f5d26:~# 
+
+```
+Подкллючаемся к СУБД
+```ps
+root@0eabb98f5d26:~# psql -U postgres
+psql (12.9 (Debian 12.9-1.pgdg110+1))
+Type "help" for help.
+```
+БД test_db появилась в списке доступных баз данных
+```ps
+postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ test1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+(5 rows)
+
+```
+Подключаемся к БД
+```ps
+postgres=# \c test_db
+You are now connected to database "test_db" as user "postgres".
+```
+Доступные таблицы
+```ps
+test_db=# \dt
+          List of relations
+ Schema |  Name   | Type  |  Owner   
+--------+---------+-------+----------
+ public | clients | table | postgres
+ public | orders  | table | postgres
+(2 rows)
+```
+Доступные данные в таблицах
+```ps
+test_db=# select * from clients;
+ id |       lastname       | country | booking 
+----+----------------------+---------+---------
+  1 | Иванов Иван Иванович | USA     |        
+  3 | Иоганн Себастьян Бах | Japan   |        
+  5 | Ritchie Blackmore    | Russia  |        
+(3 rows)
+
+test_db=# 
+test_db=# select * from orders;
+ id |  name   | price 
+----+---------+-------
+  1 | Шоколад |    10
+  2 | Принтер |  3000
+  3 | Книга   |   500
+  4 | Монитор |  7000
+  5 | Гитара  |  4000
+(5 rows)
+
+```
+Задание выполнено: при создании нового контейнера из волюма БД автоматически подключилась. А при создании бэкапа вручную, также вручную БД восстановилась.
+
 ---
-Ссылки:
-- [GRANT](https://docs.microsoft.com/ru-ru/sql/t-sql/statements/permissions-grant-deny-revoke-azure-sql-data-warehouse-parallel-data-warehouse?view=aps-pdw-2016-au7)
-- [DBeaver Community Free Universal Database Tool](https://dbeaver.io/download/)
-- [Использование EXPLAIN. Улучшение запросов](https://habr.com/ru/post/211022/)
+
