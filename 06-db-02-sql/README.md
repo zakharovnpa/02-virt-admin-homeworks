@@ -8,10 +8,145 @@
 Приведите получившуюся команду или docker-compose манифест.
 
 **Ответ:**
-1. **Dockerﬁle** (Docker файл) — описание правил (манифест) сборки образа (Docker контейнер?), в котором первая строка указывает на базовый образ.
-Последующие команды выполняют копирование файлов и установку программ для создания определенной среды разработки со
-своим набором переменных окружения и прочих параметров.
+## Создаем Volume для доступа данных из контейнера на локальную машину
 
+```ps
+root@server1:~# docker volume create vol-1-pg-base
+vol-1-pg-base
+root@server1:~# 
+root@server1:~# docker volume create vol-2-pg-backup
+vol-2-pg-backup
+```
+```ps
+root@server1:~# docker volume ls
+DRIVER    VOLUME NAME
+local     vol-1-pg-base
+local     vol-2-pg-backup
+```
+
+Скачиваем образ
+```ps
+root@server1:~# docker pull postgres:12
+12: Pulling from library/postgres
+a2abf6c4d29d: Pull complete 
+e1769f49f910: Pull complete 
+33a59cfee47c: Pull complete 
+461b2090c345: Pull complete 
+8ed8ab6290ac: Pull complete 
+495e42c822a0: Pull complete 
+18e858c71c58: Pull complete 
+594792c80d5f: Pull complete 
+0cc21527d805: Pull complete 
+c33105c93a6d: Pull complete 
+f0d44539f7e1: Pull complete 
+2237b54399af: Pull complete 
+59525896cd85: Pull complete 
+Digest: sha256:1d098cd3c1a7b132edc5bfdd7d775ff0949104b150e31d52c0aff7bdcd25c53e
+Status: Downloaded newer image for postgres:12
+docker.io/library/postgres:12
+```
+```ps
+root@server1:~# docker image ls
+REPOSITORY                    TAG        IMAGE ID       CREATED         SIZE
+postgres                      12         58bff7631346   3 weeks ago     371MB
+```
+
+### Поднимаем инстанс
+```ps
+root@server1:~# docker run -it --name pg-netology -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v vol-1-pg-base:/var/lib/postgresql/data -v vol-2-pg-backup:/var/lib/postgresql/backup postgres:12
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Etc/UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+initdb: warning: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
+waiting for server to start....2022-01-26 05:29:56.347 UTC [47] LOG:  starting PostgreSQL 12.9 (Debian 12.9-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-01-26 05:29:56.350 UTC [47] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2022-01-26 05:29:56.382 UTC [48] LOG:  database system was shut down at 2022-01-26 05:29:55 UTC
+2022-01-26 05:29:56.390 UTC [47] LOG:  database system is ready to accept connections
+ done
+server started
+
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+2022-01-26 05:29:56.584 UTC [47] LOG:  received fast shutdown request
+waiting for server to shut down....2022-01-26 05:29:56.589 UTC [47] LOG:  aborting any active transactions
+2022-01-26 05:29:56.596 UTC [47] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+2022-01-26 05:29:56.597 UTC [49] LOG:  shutting down
+2022-01-26 05:29:56.616 UTC [47] LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+2022-01-26 05:29:56.706 UTC [1] LOG:  starting PostgreSQL 12.9 (Debian 12.9-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-01-26 05:29:56.708 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2022-01-26 05:29:56.710 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2022-01-26 05:29:56.714 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2022-01-26 05:29:56.735 UTC [66] LOG:  database system was shut down at 2022-01-26 05:29:56 UTC
+2022-01-26 05:29:56.741 UTC [1] LOG:  database system is ready to accept connections
+```
+### Запущенные контейнеры:
+```ps
+root@server1:~# docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED        STATUS        PORTS                                       NAMES
+d64c2e97d86a   postgres:12   "docker-entrypoint.s…"   13 hours ago   Up 13 hours   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology
+```
+### Заходим в контейнер и запускаем в нем bash
+```ps
+root@server1:~# docker exec -it pg-netology bash
+root@d64c2e97d86a:/# 
+```
+### Заходим в БД postgres как пользователь postgres
+```ps
+root@d64c2e97d86a:/# psql -U postgres
+psql (12.9 (Debian 12.9-1.pgdg110+1))
+Type "help" for help.
+
+postgres=# 
+```
+### Проверяем права пользователя postgres
+
+```ps
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# 
+postgres=# 
+
+```
+### Создаем БД test_db
+```ps
+test_db=# CREATE DATABASE test_db;
+CREATE DATABASE
+
+```
+### Результат: инстанс запущен, БД в работе.
 
 ## Задача 2
 
