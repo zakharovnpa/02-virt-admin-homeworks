@@ -8,7 +8,7 @@
 Приведите получившуюся команду или docker-compose манифест.
 
 **Ответ:**
-## Создаем Volume для доступа данных из контейнера на локальную машину
+#### Создаем Volume для доступа данных из контейнера на локальную машину
 
 ```ps
 root@server1:~# docker volume create vol-1-pg-base
@@ -24,7 +24,7 @@ local     vol-1-pg-base
 local     vol-2-pg-backup
 ```
 
-Скачиваем образ
+#### Скачиваем образ
 ```ps
 root@server1:~# docker pull postgres:12
 12: Pulling from library/postgres
@@ -51,7 +51,7 @@ REPOSITORY                    TAG        IMAGE ID       CREATED         SIZE
 postgres                      12         58bff7631346   3 weeks ago     371MB
 ```
 
-### Поднимаем инстанс
+#### Поднимаем инстанс
 ```ps
 root@server1:~# docker run -it --name pg-netology -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v vol-1-pg-base:/var/lib/postgresql/data -v vol-2-pg-backup:/var/lib/postgresql/backup postgres:12
 The files belonging to this database system will be owned by user "postgres".
@@ -108,18 +108,18 @@ PostgreSQL init process complete; ready for start up.
 2022-01-26 05:29:56.735 UTC [66] LOG:  database system was shut down at 2022-01-26 05:29:56 UTC
 2022-01-26 05:29:56.741 UTC [1] LOG:  database system is ready to accept connections
 ```
-### Запущенные контейнеры:
+#### Запущенные контейнеры:
 ```ps
 root@server1:~# docker ps
 CONTAINER ID   IMAGE         COMMAND                  CREATED        STATUS        PORTS                                       NAMES
 d64c2e97d86a   postgres:12   "docker-entrypoint.s…"   13 hours ago   Up 13 hours   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology
 ```
-### Заходим в контейнер и запускаем в нем bash
+#### Заходим в контейнер и запускаем в нем bash
 ```ps
 root@server1:~# docker exec -it pg-netology bash
 root@d64c2e97d86a:/# 
 ```
-### Заходим в БД postgres как пользователь postgres
+#### Заходим в БД postgres как пользователь postgres
 ```ps
 root@d64c2e97d86a:/# psql -U postgres
 psql (12.9 (Debian 12.9-1.pgdg110+1))
@@ -127,7 +127,7 @@ Type "help" for help.
 
 postgres=# 
 ```
-### Проверяем права пользователя postgres
+#### Проверяем права пользователя postgres
 
 ```ps
 postgres=# \du
@@ -140,7 +140,7 @@ postgres=#
 postgres=# 
 
 ```
-### Создаем БД test_db
+#### Создаем БД test_db
 ```ps
 postgres=# CREATE DATABASE test_db;
 CREATE DATABASE
@@ -160,7 +160,7 @@ postgres=# \l
 (6 rows)
 ```
 
-### Результат: инстанс запущен, БД в работе.
+#### Результат: инстанс запущен, БД в работе.
 
 ## Задача 2
 
@@ -190,7 +190,7 @@ postgres=# \l
 
 **Ответ:**
 
-### 1 - создайте пользователя test-admin-user и БД test_db
+### 1 - создаем пользователя test-admin-user и БД test_db
 ```ps
 postgres=# CREATE ROLE "test-admin-user" SUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN;
 CREATE ROLE
@@ -206,7 +206,7 @@ postgres=# \du
 
 postgres=# 
 ```
-### 2 - в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже)
+### 2 - в БД test_db создаем таблицу orders и clients (спeцификация таблиц ниже)
 ```ps
 Таблица orders:
 - id (serial primary key)
@@ -246,7 +246,7 @@ test_db=# \dt
 
 ```
 
-### 3 - предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db
+### 3 - предоставляем привилегии на все операции пользователю test-admin-user на таблицы БД test_db
 ```ps
 test_db=# grant all on public.orders to "test-admin-user";
 GRANT
@@ -256,7 +256,7 @@ GRANT
 
 ```
 
-### 4 - создайте пользователя test-simple-user  
+### 4 - создаем пользователя test-simple-user  
 Создание пользователя test-simple-user
 ```ps
 test_db=# create role "test-simple-user" nosuperuser nocreatedb nocreaterole noinherit login; 
@@ -275,7 +275,7 @@ test_db=# \du
 
 ```
 
-### 5 - предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db
+### 5 - предоставляем пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db
 ```ps
 test_db=# grant select on table public.clients to "test-simple-user";
 GRANT
@@ -298,7 +298,7 @@ GRANT
 ```
 
 
-### Для ответа приведите:
+### Для ответа приведим:
 - итоговый список БД после выполнения пунктов выше
 ```ps
 postgres=# \l
@@ -390,7 +390,7 @@ test_db=# select * from INFORMATION_SCHEMA.TABLE_PRIVILEGES where grantee in ('t
     - результаты их выполнения.
 
 **Ответ:**
-#### 1- Используя SQL синтаксис - наполните таблицы следующими тестовыми данными:
+#### 1- Используя SQL синтаксис - наполняем таблицу следующими тестовыми данными:
 ```ps
 Таблица orders
 
@@ -483,7 +483,7 @@ test_db=# select * from clients;
 
 ```
 
-#### 2 - Используя SQL синтаксис вычислите количество записей для каждой таблицы 
+#### 2 - Используя SQL синтаксис вычисляем количество записей для каждой таблицы 
  запросы и результаты их выполнения
 ```ps
 test_db=# select count (*) from orders;
@@ -516,7 +516,7 @@ test_db=# select count (*) from clients;
 Подсказка - используйте директиву `UPDATE`.
 
 **Ответ:**
-Приведите SQL-запросы для выполнения данных операций.
+####  SQL-запросы для выполнения данных операций.
 ```ps
 #Иванов Иван Иванович покупает книгу
 test_db=# update  clients set booking = 3 where id = 1;
@@ -531,7 +531,7 @@ test_db=# update  clients set booking = 5 where id = 3;
 UPDATE 1
 ```
 
-Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
+####  SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
 ```ps
 test_db=# select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
 ```
@@ -555,7 +555,7 @@ test_db=# select * from clients as c where  exists (select id from orders as o w
 
 **Ответ:**
 
-Выполняем запрос о покупках
+#### Выполняем запрос о покупках
  ```ps
 test_db=# select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
  id |       lastname       | country | booking 
@@ -566,7 +566,7 @@ test_db=# select * from clients as c where  exists (select id from orders as o w
 (3 rows)
 
 ```
-Выполняем тот же запрос о покупках с использованием EXPLAIN
+#### Выполняем тот же запрос о покупках с использованием EXPLAIN
 ```ps
 test_db=# explain select * from clients as c where  exists (select id from orders as o where c.booking = o.id);
                                QUERY PLAN                               
@@ -615,7 +615,7 @@ test_db=# explain select * from clients as c where  exists (select id from order
 
 **Ответ:**
 
-### Создаем бэкап БД test_db и помещаем его в volume, предназначенный для бэкапов (см. Задачу 1).
+#### Создаем бэкап БД test_db и помещаем его в volume, предназначенный для бэкапов (см. Задачу 1).
 ```ps
 root@d64c2e97d86a:~# pg_dump -U postgres test_db -f /var/lib/postgresql/backup/dump_test_db.sql
 
@@ -658,7 +658,7 @@ root@server1:~# docker volume inspect vol-1-pg-base
 root@server1:~# 
 ```
 
-### Остановливаем контейнер с PostgreSQL (но не удаляйте volumes).
+#### Остановливаем контейнер с PostgreSQL (но не удаляйте volumes).
 ```ps
 root@server1:~# docker container stop d64c2e97d86a
 d64c2e97d86a
@@ -668,7 +668,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 root@server1:~# 
 ```
 
-### Поднимаем новый пустой контейнер с PostgreSQL.
+#### Поднимаем новый пустой контейнер с PostgreSQL.
 ```ps
 root@server1:~# docker run -d --name pg-netology-2 -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v vol-1-pg-base:/var/lib/postgresql/data -v vol-2-pg-backup:/var/lib/postgresql/backup postgres:12
 pg-netology-2
@@ -680,7 +680,7 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED              STATU
 84f3980f7c71   postgres:12   "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg-netology-2
 ```
 
-### Восстановливаем БД test_db в новом контейнере.
+#### Восстановливаем БД test_db в новом контейнере.
 При создании нового контейнера pg-netology-2 волюмы подключились автоматически и БД считались также автоматически
 ```ps
 root@server1:~# docker exec -it pg-netology-2 bash 
@@ -706,7 +706,7 @@ postgres=# \l
 
 ```
 
-### Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+#### Список операций, который я применял для бэкапа данных и восстановления. 
 
 Создание вручную бэкапа БД из shell контейнера docker
 ```ps
