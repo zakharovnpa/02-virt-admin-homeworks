@@ -371,7 +371,146 @@ select avg_width from pg_stats where tablename='orders';
 
 Преобразовать обычную таблицу в секционированную и наоборот нельзя. Однако в секционированную таблицу можно добавить в качестве секции существующую обычную или секционированную таблицу, а также можно удалить секцию из секционированной таблицы и превратить её в отдельную таблицу; это может ускорить многие процессы обслуживания.
 В нашем случае нет возможности для преобразование таблицы ` orders ` из обычной в секционированную.
+#### Для решения задачи применим метод переноса данных в новую, уже секционированную таблицу.
 
+Сохраняем таблицу ` orders ` под другим именем: ` orders_copy `
 ```ps
+test_database=# alter table orders rename to orders_copy;
+ALTER TABLE
+test_database=# 
+test_database=# 
+test_database=# \dt
+            List of relations
+ Schema |    Name     | Type  |  Owner   
+--------+-------------+-------+----------
+ public | orders_copy | table | postgres
+(1 row)
 
 ```
+Создаем новую таблицу ` orders `, уже секционированную (Type - partitioned table). Граница секции будет по столбцу ` price `: 
+```ps
+test_database=# create table orders (id integer, title varchar(80), price integer) partition by range(price);
+CREATE TABLE
+test_database=# 
+test_database=# \dt
+                  List of relations
+ Schema |    Name     |       Type        |  Owner   
+--------+-------------+-------------------+----------
+ public | orders      | partitioned table | postgres
+ public | orders_copy | table             | postgres
+(2 rows)
+
+```
+А теперь приступаем к разделению (шардированию) таблицы ` orders ` на две отдельные таблицы по условию: 
+- в таблице ` peice_2 ` будет стоимость менее или рвено 499:
+```ps
+test_database=# create table orders_2 partition of orders for values from (0) to (500);
+CREATE TABLE
+test_database=# 
+test_database=# \dt
+                   List of relations
+ Schema |      Name      |       Type        |  Owner   
+--------+----------------+-------------------+----------
+ public | orders         | partitioned table | postgres
+ public | orders_copy    | table             | postgres
+ public | orders_2       | table             | postgres
+(3 rows)
+
+```
+А в таблице ` orders_1 ` будет стоимость от 500 и выше:
+```ps
+test_database=# create table orders_1 partition of orders for values from (500) to (1000);
+CREATE TABLE
+test_database=# \dt
+                   List of relations
+ Schema |      Name      |       Type        |  Owner   
+--------+----------------+-------------------+----------
+ public | orders         | partitioned table | postgres
+ public | orders_copy    | table             | postgres
+ public | orders_2       | table             | postgres
+ public | orders_1       | table             | postgres
+(4 rows)
+
+```
+Переносим данные из копии первоначальной таблицы ` orders_copy ` в  новую таблицу ` orders `:
+```ps
+test_database=# insert into orders (id, title, price) select * from orders_copy;
+INSERT 0 8
+test_database=# 
+```
+Получившиеся таблиы:
+```ps
+test_database=# \dt
+                   List of relations
+ Schema |      Name      |       Type        |  Owner   
+--------+----------------+-------------------+----------
+ public | orders         | partitioned table | postgres
+ public | orders_copy    | table             | postgres
+ public | orders_2       | table             | postgres
+ public | orders_1       | table             | postgres
+(4 rows)
+
+```
+Эти две новые таблицы пустые
+```ps
+test_database=# select * from orders_1;
+ id | title | price 
+----+-------+-------
+(0 rows)
+
+```
+Выполним копирование данных в таблицу ` orders ` из сохраненной копии данных в таблице ` orders_copy `
+```ps
+test_database=# insert into orders (id, title, price) select * from orders_copy;
+INSERT 0 8
+
+```
+
+#### Результаты выполненных запросов:
+```ps
+test_database=# select * from orders;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  2 | My little database   |   500
+  6 | WAL never lies       |   900
+  7 | Me and my bash-pet   |   499
+  8 | Dbiezdmin            |   501
+(8 rows)
+```
+
+```ps
+test_database=# select * from orders_1;
+ id |       title        | price 
+----+--------------------+-------
+  2 | My little database |   500
+  6 | WAL never lies     |   900
+  8 | Dbiezdmin          |   501
+(3 rows)
+
+```
+
+```ps
+test_database=# select * from orders_2;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+(5 rows)
+
+```
+
+## Задача 4
+### Ход выполнения Задания №4
+
+Используя утилиту `pg_dump` создайте бекап БД `test_database`.
+
+Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
+
+**Ответ:**
