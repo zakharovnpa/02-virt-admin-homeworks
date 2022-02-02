@@ -234,3 +234,46 @@ test_db=# \q
 root@49db9913bea2:/# 
 
 ```
+### 
+
+# Задача 2
+### Ход выполнения Задания №2
+
+Используя `psql` создайте БД `test_database`.
+
+```ps
+root@49db9913bea2:/# psql -U postgres test_db -c 'create database test_database'
+CREATE DATABASE
+root@49db9913bea2:/# 
+```
+
+Изучите [бэкап БД](https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql/test_data).
+
+
+Восстановите бэкап БД в `test_database`.
+```ps
+
+```
+
+Перейдите в управляющую консоль `psql` внутри контейнера.
+```ps
+
+```
+
+Подключитесь к восстановленной БД и проведите операцию ANALYZE для сбора статистики по таблице.
+```ps
+
+```
+
+Используя таблицу [pg_stats](https://postgrespro.ru/docs/postgresql/12/view-pg-stats), найдите столбец таблицы `orders` 
+с наибольшим средним значением размера элементов в байтах.
+```ps
+
+```
+
+**Приведите в ответе** команду, которую вы использовали для вычисления и полученный результат.
+
+**Ответ:**
+```ps
+
+```
