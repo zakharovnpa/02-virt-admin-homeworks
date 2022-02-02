@@ -182,7 +182,55 @@ PostgreSQL home page: <https://www.postgresql.org/>
 
 #### **Найдите и приведите** управляющие команды для:
 - вывода списка БД
+```ps
+root@49db9913bea2:/# psql -l -U postgres
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(3 rows)
+
+```
 - подключения к БД
+```ps
+root@49db9913bea2:/# psql -U postgres test_db
+psql (13.5 (Debian 13.5-1.pgdg110+1))
+Type "help" for help.
+
+test_db=# 
+test_db=# 
+```
 - вывода списка таблиц
+```ps
+root@49db9913bea2:/# psql -c '\dt' -U postgres test_db
+         List of relations
+ Schema |  Name  | Type  |  Owner   
+--------+--------+-------+----------
+ public | orders | table | postgres
+(1 row)
+
+```
+
 - вывода описания содержимого таблиц
+```ps
+root@49db9913bea2:/# psql -U postgres test_db -c 'select * from orders'
+ id |  name   | price 
+----+---------+-------
+  1 | Шоколад |    10
+  2 | Принтер |  3000
+  3 | Книга   |   500
+  4 | Монитор |  7000
+  5 | Гитара  |  4000
+(5 rows)
+
+```
 - выхода из psql
+```ps
+test_db=# \q
+root@49db9913bea2:/# 
+
+```
