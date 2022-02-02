@@ -246,6 +246,21 @@ root@49db9913bea2:/# psql -U postgres test_db -c 'create database test_database'
 CREATE DATABASE
 root@49db9913bea2:/# 
 ```
+```ps
+root@49db9913bea2:/# psql -c '\l' -U postgres
+                                   List of databases
+     Name      |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+---------------+----------+----------+------------+------------+-----------------------
+ postgres      | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+               |          |          |            |            | postgres=CTc/postgres
+ template1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+               |          |          |            |            | postgres=CTc/postgres
+ test_database | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ test_db       | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+(5 rows)
+
+```
 
 Изучите [бэкап БД](https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql/test_data).
 
