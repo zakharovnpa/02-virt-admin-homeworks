@@ -1,5 +1,14 @@
 ## Ход выполнения ДЗ по теме "PostgresSQL"
 
+Ссылки из лекции:
+* [1](https://selectel.ru/blog/extensions/)
+* [2](https://postgrespro.ru/docs/postgresql/9.6/sql-createextension)
+* [3](https://www.pgbouncer.org/)
+* [4](https://habr.com/ru/company/oleg-bunin/blog/309330/)
+* [5](https://russianblogs.com/article/9618107343/)
+* 
+
+
 ### Ход выполнения Задания №1
 
 
