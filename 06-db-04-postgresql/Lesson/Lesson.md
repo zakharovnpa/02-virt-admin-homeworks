@@ -516,18 +516,27 @@ test_database=# select * from orders_2;
 **Ответ:**
 Создаем backup для БД `test_database`
 ```ps
-
+root@49db9913bea2#pg_dump -U postgres -d test_database > test_database_dump.sql
 ```
 Дорабатываем файл backup. Необходимо открыть файл в текстовом редактрое и добавить строчки:
 ```ps
 --
--- Name: orders_copy unique_title; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: orders_1 unique_title_1; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.orders_copy ADD CONSTRAINT unique_title UNIQUE (title);
+ALTER TABLE ONLY public.orders_1
+    ADD CONSTRAINT unique_title_1 UNIQUE (title);
+
+--
+-- Name: orders_2 unique_title_2; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_2
+    ADD CONSTRAINT unique_title_2 UNIQUE (title);
+
 ```
 
-
+Предварительная проработка вопроса
 ```ps
 --
 -- Name: orders_copy orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -599,7 +608,6 @@ CREATE SEQUENCE
 ALTER TABLE
 ALTER SEQUENCE
 ALTER TABLE
-ALTER TABLE
 COPY 3
 COPY 5
 COPY 8
@@ -609,6 +617,10 @@ COPY 8
 (1 row)
 
 ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
 
 ```
 БД восстановилась:
@@ -626,6 +638,23 @@ test_database=# \dt
  public | orders_2    | table             | postgres
  public | orders_copy | table             | postgres
 (4 rows)
+
+```
+Содержимое таблиц БД
+
+```ps
+test_database=# select * from orders;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+  2 | My little database   |   500
+  6 | WAL never lies       |   900
+  8 | Dbiezdmin            |   501
+(8 rows)
 
 test_database=# 
 test_database=# select * from orders_1;
@@ -647,13 +676,23 @@ test_database=# select * from orders_2;
   7 | Me and my bash-pet   |   499
 (5 rows)
 
-
 ```
-
+Проверяем свойства столбца ` title ` принимать новые значения.
+Пробуем добавить в таблицу новую строку с новым  значением для поля ` title `
 ```ps
-
+test_database=# insert into orders VALUES (9, 'My grand database', 600);
+INSERT 0 1
 ```
-
+Проверяем свойства столбца ` title ` принимать только уникальные значения.
+Пробуем добавить в таблицу новую строку с повторяющимся значением из поля ` title `
 ```ps
+test_database=# insert into orders VALUES (10, 'My little database', 750);
+ERROR:  duplicate key value violates unique constraint "unique_title_1"
+DETAIL:  Key (title)=(My little database) already exists.
+test_database=# 
 
 ```
+Вывод: повторяющее значение таблица не принимает, значит мы наблюдаем свойство уникальности значения столбца `title` 
+
+---
+
