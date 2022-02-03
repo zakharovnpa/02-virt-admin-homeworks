@@ -514,6 +514,45 @@ test_database=# select * from orders_2;
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
 
 **Ответ:**
+Создаем backup для БД `test_database`
+```ps
+
+```
+Дорабатываем файл backup. Необходимо открыть файл в текстовом редактрое и добавить строчки:
+```ps
+--
+-- Name: orders_copy unique_title; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_copy ADD CONSTRAINT unique_title UNIQUE (title);
+```
+
+
+```ps
+--
+-- Name: orders_copy orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_copy
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+--
+-- Name: orders_copy orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ON orders ((lower(title)));
+
+
+
+ делать через ALTER TABLE таблица ADD CONSTRAINT имя_органичения UNIQUE (колонка 1, колонка 2);
+
+--
+-- Name: orders_copy unique_title; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_copy ADD CONSTRAINT unique_title UNIQUE (title);
+```
+Восстанавливаем данные в БД
 ```ps
 
 ```
