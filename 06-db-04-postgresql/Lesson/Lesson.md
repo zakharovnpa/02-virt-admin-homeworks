@@ -552,7 +552,108 @@ CREATE INDEX ON orders ((lower(title)));
 
 ALTER TABLE ONLY public.orders_copy ADD CONSTRAINT unique_title UNIQUE (title);
 ```
-Восстанавливаем данные в БД
+#### Восстанавливаем данные в БД
+
+Для проверки восстанавливаемости БД удаляем экземпляр БД
+```ps
+postgres=# drop database test_database;
+DROP DATABASE
+```
+И создаем новый пустой экземпляр ЬД
+```ps
+postgres=# create database test_database;
+CREATE DATABASE
+```
+Затем восстанавливаем данные из сохраненного и скорректированного дампа
+```ps
+postgres=# \q
+root@49db9913bea2:~# 
+root@49db9913bea2:~# psql -U postgres -d test_database -f /var/lib/postgresql/data/test_database_dump.sql
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+SET
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+ALTER TABLE
+ALTER TABLE
+COPY 3
+COPY 5
+COPY 8
+ setval 
+--------
+      8
+(1 row)
+
+ALTER TABLE
+
+```
+БД восстановилась:
+```ps
+postgres=# \c test_database
+You are now connected to database "test_database" as user "postgres".
+test_database=# 
+test_database=# 
+test_database=# \dt
+                  List of relations
+ Schema |    Name     |       Type        |  Owner   
+--------+-------------+-------------------+----------
+ public | orders      | partitioned table | postgres
+ public | orders_1    | table             | postgres
+ public | orders_2    | table             | postgres
+ public | orders_copy | table             | postgres
+(4 rows)
+
+test_database=# 
+test_database=# select * from orders_1;
+ id |       title        | price 
+----+--------------------+-------
+  2 | My little database |   500
+  6 | WAL never lies     |   900
+  8 | Dbiezdmin          |   501
+(3 rows)
+
+test_database=# 
+test_database=# select * from orders_2;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+(5 rows)
+
+
+```
+
+```ps
+
+```
+
 ```ps
 
 ```
