@@ -459,7 +459,146 @@ test_database=# select avg_width from pg_stats where tablename='orders';
 
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
 
-**Ответ:**
+### **Ответ:**
+
+Обычную таблицу преобразовать в секционированную и наоборот нельзя. Однако в секционированную таблицу можно добавить в качестве секции существующую обычную или секционированную таблицу, а также можно удалить секцию из секционированной таблицы и превратить её в отдельную таблицу; это может ускорить многие процессы обслуживания.
+В нашем случае нет возможности для преобразование таблицы ` orders ` из обычной в секционированную.
+#### Для решения задачи применим метод переноса данных в новую, уже секционированную таблицу.
+
+Сохраняем таблицу ` orders ` под другим именем: ` orders_copy `
+```ps
+test_database=# alter table orders rename to orders_copy;
+ALTER TABLE
+test_database=# 
+test_database=# 
+test_database=# \dt
+            List of relations
+ Schema |    Name     | Type  |  Owner   
+--------+-------------+-------+----------
+ public | orders_copy | table | postgres
+(1 row)
+
+```
+Создаем новую таблицу ` orders `, уже секционированную (Type - partitioned table). Граница секции будет по столбцу ` price `: 
+```ps
+test_database=# create table orders (id integer, title varchar(80), price integer) partition by range(price);
+CREATE TABLE
+test_database=# 
+test_database=# \dt
+                  List of relations
+ Schema |    Name     |       Type        |  Owner   
+--------+-------------+-------------------+----------
+ public | orders      | partitioned table | postgres
+ public | orders_copy | table             | postgres
+(2 rows)
+
+```
+А теперь приступаем к разделению (шардированию) таблицы ` orders ` на две отдельные таблицы по условию: 
+- в таблице ` peice_2 ` будет стоимость менее или рвено 499:
+```ps
+test_database=# create table orders_2 partition of orders for values from (0) to (500);
+CREATE TABLE
+test_database=# 
+test_database=# \dt
+                   List of relations
+ Schema |      Name      |       Type        |  Owner   
+--------+----------------+-------------------+----------
+ public | orders         | partitioned table | postgres
+ public | orders_copy    | table             | postgres
+ public | orders_2       | table             | postgres
+(3 rows)
+
+```
+А в таблице ` orders_1 ` будет стоимость от 500 и выше:
+```ps
+test_database=# create table orders_1 partition of orders for values from (500) to (1000);
+CREATE TABLE
+test_database=# \dt
+                   List of relations
+ Schema |      Name      |       Type        |  Owner   
+--------+----------------+-------------------+----------
+ public | orders         | partitioned table | postgres
+ public | orders_copy    | table             | postgres
+ public | orders_2       | table             | postgres
+ public | orders_1       | table             | postgres
+(4 rows)
+
+```
+Переносим данные из копии первоначальной таблицы ` orders_copy ` в  новую таблицу ` orders `:
+```ps
+test_database=# insert into orders (id, title, price) select * from orders_copy;
+INSERT 0 8
+test_database=# 
+```
+Получившиеся таблицы:
+```ps
+test_database=# \dt
+                   List of relations
+ Schema |      Name      |       Type        |  Owner   
+--------+----------------+-------------------+----------
+ public | orders         | partitioned table | postgres
+ public | orders_copy    | table             | postgres
+ public | orders_2       | table             | postgres
+ public | orders_1       | table             | postgres
+(4 rows)
+
+```
+Эти две новые таблицы пустые
+```ps
+test_database=# select * from orders_1;
+ id | title | price 
+----+-------+-------
+(0 rows)
+
+```
+Выполним копирование данных в таблицу ` orders ` из сохраненной копии данных в таблице ` orders_copy `
+```ps
+test_database=# insert into orders (id, title, price) select * from orders_copy;
+INSERT 0 8
+
+```
+
+#### Результаты выполненных запросов:
+```ps
+test_database=# select * from orders;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  2 | My little database   |   500
+  6 | WAL never lies       |   900
+  7 | Me and my bash-pet   |   499
+  8 | Dbiezdmin            |   501
+(8 rows)
+```
+
+```ps
+test_database=# select * from orders_1;
+ id |       title        | price 
+----+--------------------+-------
+  2 | My little database |   500
+  6 | WAL never lies     |   900
+  8 | Dbiezdmin          |   501
+(3 rows)
+
+```
+
+```ps
+test_database=# select * from orders_2;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+(5 rows)
+
+```
+В итоге мы шардировали первоначальную таблицу согласно условию задания.
+
 
 ## Задача 4
 
@@ -467,27 +606,164 @@ test_database=# select avg_width from pg_stats where tablename='orders';
 
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
 
-**Ответ:**
+### **Ответ:**
+
+Создаем backup для БД `test_database` с помощью утилиты `pg_dump` 
+```ps
+root@49db9913bea2#pg_dump -U postgres -d test_database > test_database_dump.sql
+```
+
+Поскольку индекс, лежащий в основе ограничения по уникальности, является локально секционированным, он может обеспечить уникальность только на уровне отдельной секции. Однако использование ключа раздела в качестве ключа UNIQUE обеспечивает глобальную уникальность, поскольку разделение распределяет данные на непересекающиеся наборы, каждый из которых защищен индексом UNIQUE.
+
+Для добавления уникальности (неповторяемости одинаковых элементов) значениям столбца `title` дорабатываем файл backup. Необходимо открыть файл в текстовом редактрое и добавить строчки:
+```ps
+--
+-- Name: orders_1 unique_title_1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_1 ADD CONSTRAINT unique_title_1 UNIQUE (title);
+
+--
+-- Name: orders_2 unique_title_2; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_2 ADD CONSTRAINT unique_title_2 UNIQUE (title);
+
+```
+
+#### Восстанавливаем данные в БД
+
+Для проверки восстанавливаемости БД удаляем экземпляр БД
+```ps
+postgres=# drop database test_database;
+DROP DATABASE
+```
+И создаем новый пустой экземпляр БД
+```ps
+postgres=# create database test_database;
+CREATE DATABASE
+```
+Затем восстанавливаем данные из сохраненного и скорректированного дампа
+```ps
+postgres=# \q
+root@49db9913bea2:~# 
+root@49db9913bea2:~# psql -U postgres -d test_database -f /var/lib/postgresql/data/test_database_dump.sql
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+SET
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+ALTER TABLE
+COPY 3
+COPY 5
+COPY 8
+ setval 
+--------
+      8
+(1 row)
+
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+
+```
+БД восстановилась:
+```ps
+postgres=# \c test_database
+You are now connected to database "test_database" as user "postgres".
+test_database=# 
+test_database=# 
+test_database=# \dt
+                  List of relations
+ Schema |    Name     |       Type        |  Owner   
+--------+-------------+-------------------+----------
+ public | orders      | partitioned table | postgres
+ public | orders_1    | table             | postgres
+ public | orders_2    | table             | postgres
+ public | orders_copy | table             | postgres
+(4 rows)
+
+```
+Содержимое таблиц БД
+
+```ps
+test_database=# select * from orders;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+  2 | My little database   |   500
+  6 | WAL never lies       |   900
+  8 | Dbiezdmin            |   501
+(8 rows)
+
+test_database=# 
+test_database=# select * from orders_1;
+ id |       title        | price 
+----+--------------------+-------
+  2 | My little database |   500
+  6 | WAL never lies     |   900
+  8 | Dbiezdmin          |   501
+(3 rows)
+
+test_database=# 
+test_database=# select * from orders_2;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+(5 rows)
+
+```
+Проверяем свойства столбца ` title ` принимать новые значения.
+Пробуем добавить в таблицу новую строку с новым  значением для поля ` title `
+```ps
+test_database=# insert into orders VALUES (9, 'My grand database', 600);
+INSERT 0 1
+```
+Проверяем свойства столбца ` title ` принимать только уникальные значения.
+Пробуем добавить в таблицу новую строку с повторяющимся значением из поля ` title `
+```ps
+test_database=# insert into orders VALUES (10, 'My little database', 750);
+ERROR:  duplicate key value violates unique constraint "unique_title_1"
+DETAIL:  Key (title)=(My little database) already exists.
+test_database=# 
+
+```
+Вывод: повторяющее значение таблица не принимает, значит мы наблюдаем свойство уникальности значения столбца `title` 
+
 
 ---
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
-
----
-
-Ссылки из лекции:
-* [1](https://selectel.ru/blog/extensions/)
-* [2](https://postgrespro.ru/docs/postgresql/9.6/sql-createextension)
-* [3](https://www.pgbouncer.org/)
-* [4](https://habr.com/ru/company/oleg-bunin/blog/309330/)
-* [5](https://russianblogs.com/article/9618107343/)
-* 
-
----
-
-
-
-
 
