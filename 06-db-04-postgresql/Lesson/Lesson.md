@@ -14,6 +14,10 @@
 * [Partitioning in Postgres How Far We’ve Come](https://www.postgresql.eu/events/pgconfeu2019/sessions/session/2685/slides/225/pgconf-eu-2019.pdf)
 * [CREATE TABLE](https://postgrespro.ru/docs/postgresql/10/sql-createtable#SQL-CREATETABLE-PARTITION)
 * [Секционирование таблиц](https://postgrespro.ru/docs/postgresql/12/ddl-partitioning?lang=ru)
+* [DBeaver Community Free Universal Database Tool](https://dbeaver.io/download/)
+* [Запускаем PostgreSQL в Docker: от простого к сложному](https://habr.com/ru/post/578744/)
+* [PARTITION OF таблица_родитель FOR VALUES указание_границ_секции](https://postgrespro.ru/docs/postgresql/10/sql-createtable#SQL-CREATETABLE-PARTITION)
+* 
 
 
 ### Ход выполнения Задания №1
