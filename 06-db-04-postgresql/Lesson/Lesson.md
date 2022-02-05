@@ -1,12 +1,19 @@
 ## Ход выполнения ДЗ по теме "PostgresSQL"
 
 Ссылки из лекции:
-* [1](https://selectel.ru/blog/extensions/)
-* [2](https://postgrespro.ru/docs/postgresql/9.6/sql-createextension)
-* [3](https://www.pgbouncer.org/)
-* [4](https://habr.com/ru/company/oleg-bunin/blog/309330/)
-* [5](https://russianblogs.com/article/9618107343/)
-* 
+* [1-Популярные расширения для PostgreSQL: как установить и для чего использовать ](https://selectel.ru/blog/extensions/)
+* [2- CREATE EXTENSION — установить расширение](https://postgrespro.ru/docs/postgresql/9.6/sql-createextension)
+* [3-PgBouncer](https://www.pgbouncer.org/)
+* [4-Масштабирование базы данных через шардирование и партиционирование](https://habr.com/ru/company/oleg-bunin/blog/309330/)
+* [5-Принципы DRBD - Distributed Relicated Block Device)](https://russianblogs.com/article/9618107343/)
+
+
+Полезные ссылки:
+* [pg_stats](https://postgrespro.ru/docs/postgresql/12/view-pg-stats)
+* [ALTER TABLE](https://postgrespro.ru/docs/enterprise/12/sql-altertable)
+* [Partitioning in Postgres How Far We’ve Come](https://www.postgresql.eu/events/pgconfeu2019/sessions/session/2685/slides/225/pgconf-eu-2019.pdf)
+* [CREATE TABLE](https://postgrespro.ru/docs/postgresql/10/sql-createtable#SQL-CREATETABLE-PARTITION)
+* [Секционирование таблиц](https://postgrespro.ru/docs/postgresql/12/ddl-partitioning?lang=ru)
 
 
 ### Ход выполнения Задания №1
