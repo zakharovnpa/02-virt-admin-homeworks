@@ -105,9 +105,9 @@ Chef, Puppet, Ansible и SaltStack являются средствам упра�
 - 00:37:37 - Пример конфигурации Packer для создания образа серверной ОС
   - Файл JSON
  
-![screen-packer-1.png](/02-virt-admin-homeworks/07-terraform-01-intro/img/screen-packer-templates-1.png)
+![screen-packer-1.png](/07-terraform-01-intro/img/screen-packer-templates-1.png)
 
-![screen-packer-2.png](/02-virt-admin-homeworks/07-terraform-01-intro/img/screen-packer-templates-2.png.png)
+![screen-packer-2.png](/07-terraform-01-intro/img/screen-packer-templates-2.png.png)
 
 
 
