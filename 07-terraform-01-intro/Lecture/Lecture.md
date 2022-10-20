@@ -312,7 +312,7 @@ EOF
 #### 34Инициация ресурсов + шаблонизация + оркестрация
 
 изображение взято из книги “Terraform инфраструктура на уровне кода” Евгений Брикман
-![screen-init-resourece-1.png](/07-terraform-01-intro/img/screen-init-resourece-1.png)
+![screen-init-resource-1.png](/07-terraform-01-intro/img/screen-init-resource-1.png)
 
 
 ### 35Резюме
