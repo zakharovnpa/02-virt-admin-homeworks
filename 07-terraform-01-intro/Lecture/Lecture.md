@@ -383,4 +383,20 @@ AWS, Azure, Google Cloud, DigitalOcean, OpenStack
 [6](https://www.litres.ru/kris-richardson-2184/mikroservisy-patterny-razrabotki-i-refaktori-50445630/?utm_source=google&utm_medium=cpc&utm_campaign=search_dsa_ohvat_f%7C2087774395&utm_term=&utm_content=375733693660%7Bphrase_id%7D_%7Bsource%7D_%7Bsource_type%7D_%7Bregion_name%7D_9040937&param_2=987239&gclid=CjwKCAiA-9uNBhBTEiwAN3IlNI-cgsIfgYw460kCBij-ggSRaPzT8kCz4EQwbKvyDpmL_IX3MFb5hRoCYuUQAvD_BwE)
 [7]()
 
-[Проект Канико](https://github.com/GoogleContainerTools/kaniko)
+- 02:10:00 - о том как организовать локальные раннеры на отдельно взятом Kebernetes кластере.
+- 02:10:35 - подробности:
+  - собирается контейнер, в котором собирается нужная версия Ansible
+  - пайплайн стартует в том репозитории, где хранится код  Ansible
+  - код Ansible в этом Docker контейнере есть и мы его запускаем
+  - Docker  контейнер тоже собирается на раннерах, которые сделаны с помощью Канико
+  - у Kebernetes ест ьсвой механизм очистки и он сам следит за наличием свободного места в кластере и удаляет все лишнее
+
+- 02:11:10 - от Канико
+  - Канико живет в отдельном кластере. Все собирается там
+- 02:11:47 - об организации кластера с Канико
+  - три ВМ, одна из них - Controlplane, две других - Workernode
+  - туда притаскиваем Канико и все. Раннеры все крутятся там.
+  - и все автоматически будет чиститься
+  - выпилили все shell- раннеры (или Docker - раннеры). такие остались только там, где собираются тяжелые образы, т.к. с Канико иногда бывают проблемы
+
+[Проект Канико](https://github.com/GoogleContainerTools/kaniko) для создания раннеров локальных (вместо раннеров на GitLab)
