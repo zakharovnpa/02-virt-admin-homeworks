@@ -733,7 +733,87 @@ reconfig:
 - 01:28:50 - добавление ресурсов для ВМ
 - 01:30:00 - про добавление wait для ожидания запуска демона ssh
 - 01:31:00 - о том ка надо раскидывать ресурсы по конфгурации
+- 01:45:35 - о том как происходит роллбэек. Что такое L-config - это тегированные таски только для того чтобы переконфгурть приложение
+- 01:45:55 - том что такое роль Ansistrana. ansistrana deploy, ansistrana rollback
+- 01:46:15 - о ролях для развертываня приложения. Но файлы .py преподаватель нам не дал!
+Таска для создания DNS в Яндекс облаке
+* infrastructure-as-code/ansible/roles/nginx/tasks/config_dns_discovery.yml
+```yml
+- block:
+    - name: Add vts-exporter dns srv records Yandex Cloud
+      script: scripts/ipa_dns_record_add.py	#
+      environment:
+        IPA_ENDPOINT: "{{ _ipa_host }}"
+        IPA_USER: "{{ _ipa_user.user_input | default(lookup('env','IPA_USER')) }}"
+        IPA_PASS: "{{ _ipa_pass.user_input | default(lookup('env','IPA_PASS')) }}"
+        DNS_ZONE_NAME: "{{os_project_name}}.{{domain}}"
+        DNS_RECORD_NAME: "vts-exporter"
+        DNS_SRV_RECORD: "1 1 443 {{inventory_hostname_short}}"
+      delegate_to: 127.0.0.1
+      become: false
+      when: dc_id is defined and dc_id==2
+      ignore_errors: true
+    - name: Add vts-exporter dns srv records for Crock Openstack
+      script: scripts/ipa_dns_record_add.py
+      environment:
+        IPA_ENDPOINT: "{{ _ipa_host }}"
+        IPA_USER: "{{ _ipa_user.user_input | default(lookup('env','IPA_USER')) }}"
+        IPA_PASS: "{{ _ipa_pass.user_input | default(lookup('env','IPA_PASS')) }}"
+        DNS_ZONE_NAME: "{{os_project_name}}.{{monitoring_discovery_domain | default ('b-pl.cloud')}}"
+        DNS_RECORD_NAME: "vts-exporter"
+        DNS_SRV_RECORD: "1 1 443 {{inventory_hostname_short}}"
+      delegate_to: 127.0.0.1
+      become: false
+      when: dc_id is defined and dc_id==1
+      ignore_errors: true
 
+  when: custom_nginx is defined and custom_nginx |default('false')|bool
+
+# add dns record for blackbox exporter
+- name: Add blackbox-exporter dns srv records Yandex Cloud
+  script: scripts/ipa_dns_record_add.py
+  environment:
+    IPA_ENDPOINT: "{{ _ipa_host }}"
+    IPA_USER: "{{ _ipa_user.user_input | default(lookup('env','IPA_USER')) }}"
+    IPA_PASS: "{{ _ipa_pass.user_input | default(lookup('env','IPA_PASS')) }}"
+    DNS_ZONE_NAME: "{{os_project_name}}.{{domain}}"
+    DNS_RECORD_NAME: "blackbox-exporter"
+    DNS_SRV_RECORD: "1 1 443 {{inventory_hostname_short}}"
+  delegate_to: 127.0.0.1
+  become: false
+  when: dc_id is defined and dc_id==2
+  ignore_errors: true
+- name: Add blackbox-exporter dns srv records for Crock Openstack
+  script: scripts/ipa_dns_record_add.py
+  environment:
+    IPA_ENDPOINT: "{{ _ipa_host }}"
+    IPA_USER: "{{ _ipa_user.user_input | default(lookup('env','IPA_USER')) }}"
+    IPA_PASS: "{{ _ipa_pass.user_input | default(lookup('env','IPA_PASS')) }}"
+    DNS_ZONE_NAME: "{{os_project_name}}.{{monitoring_discovery_domain | default ('b-pl.cloud')}}"
+    DNS_RECORD_NAME: "blackbox-exporter"
+    DNS_SRV_RECORD: "1 1 443 {{inventory_hostname_short}}"
+  delegate_to: 127.0.0.1
+  become: false
+  when: dc_id is defined and dc_id==1
+  ignore_errors: true
+
+```
+
+- 01:56:20 - о том как можно разворачивать кластер Kuerneted
+  - включен рыбак
+  - включен нетворк полиси
+  - секюрити контекст
+  - лимты
+  - горзонтал под автоскеллер (добавляет поды)
+  - вертикал автоскеллер (который ноды добавлякт)
+
+- 02:02:10 - самый правильный вариант для разных облаков
+  - Terraform мы создаем голую ВМ. Без инициализацй, провижионнга пользователей и всего остального.
+  - Terraform создаем ресурсы, сети, балансровщики и т.д.
+  - Packer для созданя образов и загрузки их в облако.  эти образы мы начнем использовать. Лучше использовать свои образы.
+  - Ansible спиливаем дефолтных пользователей, se-linux  прочее настраиваем  с помощью Ansible
+  - в модулях можно описать конфиги для разных облаков. Есл мы едем в это облако, то спользуем эту папку, если в другое облако, то другую папку.
+- 02:03: 05 - про утилиту terregrunt - утилита wrapper для Terraform. Позволяет некоторые вещи делать более унверсальными.
 #### 
 
 
