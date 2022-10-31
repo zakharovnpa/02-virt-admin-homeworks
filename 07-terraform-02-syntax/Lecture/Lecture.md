@@ -393,9 +393,186 @@ Terraform поддерживает несколько видов коммент�
   - через веб интерфейс,через cli консоль,
   - при помощи Terraform.
 
-### 46Домашнее задание
+### Продолжение темы. Дополнительная информация.
 
-https://gitlab.com/k11s-os
+#### Описание создания новостного агрегатора
+- Здесь расположен репозиторий с новостным агрегатором: https://gitlab.com/k11s-os
+
+- 01:11:35 - создание динамческого инвентори для Ansible
+  - сейчас в файле inventory/host пусто (empty). Мы значально не знаем какие у наших создаваемых ВМ будут ip адреса.
+  - для того, чтобы получить ip адреса создаваемых ВМ есть лайфхак: если воспользоваться командой (преподаватель сказал утилитой) `yc compute instance list --format=yaml --folder-name={{yc_project_name}}` и передать в формате YAML в дректорию `{{yc_project_name}}`
+```
+вывод команды
+```
+  - соответственно этот файл мы можем распарсить
+- Пример таски из файла site.yaml для создания динамческого инвентори 
+```yml
+---
+- hosts: localhost
+  become: false
+  tasks:
+    - name: get instances in yandex cloud
+      shell: yc compute instance list --format=yaml --folder-name={{yc_project_name}}
+      register: yc_instances    # записать в переменную yc_instances
+
+    - set_fact:
+        _yc_instances: '{{yc_instances.stdout | from_yaml }}'   # список на основе вывода переменной yc_instances
+
+# Строки кода в продолжении таски для того, чтобы увидеть что происходит при распарсивания файла с выводом команды
+
+    - debug:
+        msg: "{{item['network_interfaces'][0]['primary_v4_address']['one_to_one_nat']['address']}}"
+      with_list: '{{_yc_instances}}'
+      debugger: on_failed
+
+```
+- 01:12:30 - показано как создавать hosts 
+```yaml
+ - name: Add host to multiple groups
+      add_host:
+        hostname: "{{item['network_interfaces'][0]['primary_v4_address']['one_to_one_nat']['address']}}"  # взять публичный адрес, протегроваться
+ # hostname: "{{item['network_interfaces'][`tag`][0]['primary_v4_address']['one_to_one_nat']['address']}}"  # где-то в этой строке надо добавить тег
+        
+        groups:
+          - balancers   # добавить в группу balancers
+          - news        # добавить в группу news
+      with_list: '{{_yc_instances}}'  # со списком, который мы получли выше
+
+```
+- 01:13:00 - о том что для разных групп надо раскатить или ngnix или app. надо назначать через grep (через description назначать), а раньше можно было через тэги
+- мы тегируемся и добавляем ВМ в группу balancers или news
+
+```yml
+- hosts: balancers
+  become: yes
+  roles:
+    - { role: nginx }
+
+- hosts: news
+  roles:
+    - { role: app }
+
+```
+- 01:13:40 - как у нас выглядит app
+  - в папке config есть директория с названем среды и названием роли balancer, который нклудит conf.d
+
+
+```
+ infrastructure-as-code/ansible/config/demo/balancers/conf.d/news-app.conf.j2
+```
+``` 
+ infrastructure-as-code/ansible/config/demo/balancers/nginx.conf.j2
+```
+
+- передаем файл параметров nginx.conf . это обычная джинджа - файл шаблона
+```
+worker_processes  2;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    log_format json escape=json '{"created_at": "$time_iso8601", '
+                            '"app": "rsa_balancer", '
+                            '"remote_addr_ip": "$remote_addr", '
+                            '"remote_user": "$remote_user", '
+                            '"body_bytes_sent": "$body_bytes_sent", '
+                            '"request_time": "$request_time", '
+                            '"status": "$status", '
+                            '"request": "$request_uri", '
+                            '"request_method": "$request_method", '
+                            '"request_body": "$request_body", '
+                            '"http_referrer": "$http_referer", '
+                            '"http_user_agent": "$http_user_agent", '
+                            '"message": "$time_iso8601 $remote_addr $remote_user $body_bytes_sent $request_time $status $request $request_method $http_referer $request_body $http_user_agent" }';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+    }
+
+```
+
+
+```
+#{{ ansible_managed }} last deploy by {{ ansible_user_id }} on {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}
+
+{% for upstream in upstreams.values() %}
+upstream {{upstream.name}} {
+{% for option in upstream.options %}
+    {{option}};
+{% endfor %}
+{% for server in upstream.servers %}
+{% if exclude_node not in server %}
+    server {{server}} ;
+{% endif %}
+{% endfor %}
+}
+{% endfor %}
+
+
+
+server {
+        listen 80 default;
+        server_name {{server_name}};
+
+        client_max_body_size 50M;
+        charset utf-8;
+        proxy_buffering off;
+        proxy_http_version 1.1;
+
+        proxy_connect_timeout   10s;
+        proxy_send_timeout              300s;
+        proxy_read_timeout              300s;
+        send_timeout                    300s;
+
+        gzip on;
+        gzip_comp_level 5;
+        gzip_proxied any;
+        gzip_types text/plain text/xml text/css application/javascript application/x-javascript text/javascript application/xml+rss text/json application/json;
+
+        proxy_set_header  Host               $host;
+        proxy_set_header  Connection "";
+
+        access_log      {{ access_log }};
+        error_log       {{ error_log }};
+
+{% for location in locations.values() %}
+        location {{location.name}} {
+        {% for option in location.options %}
+            {{option}} ;
+        {% endfor %}
+        {% if location.proxy_pass|length > 1 %}
+            proxy_pass {{ location.proxy_pass }} ;
+        {% endif %}
+}
+{% endfor %}
+}
+
+```
+
+
+
+#### 
 
 
 ### 47Домашнее задание
