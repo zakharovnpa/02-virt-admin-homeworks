@@ -419,6 +419,7 @@ Terraform поддерживает несколько видов коммент�
         _yc_instances: '{{yc_instances.stdout | from_yaml }}'   # список на основе вывода переменной yc_instances
 
 # Строки кода в продолжении таски для того, чтобы увидеть что происходит при распарсивания файла с выводом команды
+# на 01:23:33 будет показан вывод результатов
 
     - debug:
         msg: "{{item['network_interfaces'][0]['primary_v4_address']['one_to_one_nat']['address']}}"
@@ -456,10 +457,6 @@ Terraform поддерживает несколько видов коммент�
 - 01:13:40 - как у нас выглядит app
   - в папке config есть директория с названем среды и названием роли balancer, который нклудит conf.d
 
-
-```
- infrastructure-as-code/ansible/config/demo/balancers/conf.d/news-app.conf.j2
-```
 ``` 
  infrastructure-as-code/ansible/config/demo/balancers/nginx.conf.j2
 ```
@@ -511,8 +508,11 @@ http {
     }
 
 ```
-
-
+- инклудим этот шаблон файла:
+```
+ infrastructure-as-code/ansible/config/demo/balancers/conf.d/news-app.conf.j2
+```
+- у нас все динамика, все по феншую и по красоте
 ```
 #{{ ansible_managed }} last deploy by {{ ansible_user_id }} on {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}
 
@@ -569,8 +569,170 @@ server {
 }
 
 ```
+```
+infrastructure-as-code/ansible/config/demo/news/systemd/app.service.j2
+```
+```
+# {{ansible_managed}}
+[Unit]
+Description={{service}}
+After=syslog.target network.target
+
+[Service]
+Type=simple
+# Set Environment for APP
+
+Environment=NEWS_APP_BIND_ADDR={{news_app_bind_addr | default("127.0.0.1:8080")}}
+Environment=NEWS_APP_NEWS_LANG={{news_app_news_lang | default("ru")}}
+Environment=NEWS_APP_API_KEY={{news_app_api_key | default("lalalalalal")}}
+
+WorkingDirectory=/opt/{{service}}/current
+
+ExecStart=/opt/{{service}}/current/{{app_startup_command}}    # для хранения несколькх версий на тачке
+User={{app_user}}
+Group={{app_user}}
+
+[Install]
+WantedBy=multi-user.target
+
+```
+- 01:14:35 - в инвентори у нас лежит `infrastructure-as-code/ansible/inventory/demo/group_vars/all.yml`
+```yml
+env: demo
+yc_project_name: "{{ lookup('env','ENV') }}"
+ansible_user: centos
+log_root: "/var/log/{{ service }}"
+custom_nginx: true
+env_asserts:    # это подготовлено на будущее, чтобы работало CI/CD
+  - APP_VERSION   
+  - SERVICE
+  - CI_PROJECT_ID
+
+users:
+  # Sergey Andryunin
+  - username: sergey.andryunin
+    state: present
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6H4lEXMWhEaUXl0hq7h3oIlBSQMcmllMSyS7Hb4NKPk9vHL+yr/z3yaqHXi5RzI3PUTg4b7fBaveJx57CKN0NxI+ws+4do8SUf1T0TsxDNIwp1AqaepS0srvAIEbX8Ofgj6AGavfbSaJAJmfUswgRB3BieYyqMZkLzQUKDTw/xYjRzoGTPK94L+AkO+Bh0rY5goAtK9RpoJGergBHojDIr9KeIuwBmApMeWuoWf2v2CbP0O5+FF7QmzbF/haMm/KeXgvc1mUL2mX+AAUPfvPL9uc+5dujvsZwC+uJqEgnMmemxO9vAP2FgvmswsB8ybITC+fv79KeZ/ZsZ1o3+x16apKE3rY0+vgynf/IK4iraoZre3FB84cOUQM9xjVO3m7md/os/oexLbYq+HZRcnDm8CIe+N8GbXhn4KldCo6m2k8wYS+FPeOxudi0mg5PM3O1FuCFUIN6MsggRjZV3QeuQui2TpqMk94KpIsfXwDhzrH7ldKvjudfzcax9lwjl/8= s.andryunin@fedora-work
+
+```
+- 01:15:25 - для балансровщика в инвентори у нас лежит `infrastructure-as-code/ansible/inventory/demo/group_vars/balancers.yml`
+
+```yml
+server_name: news-app-demo
+access_log: /var/log/nginx/access.log main
+error_log: /var/log/nginx/error.log warn
+exclude_node: nothing   # указание на отулючение ноды из балансировки при канареечном обновлении
+
+nginx_official_repo_mainline: true    #спользование офциальной репы
+
+nginx_config_files:
+  - news-app.conf
+
+upstreams:    # для того, чрбы спрятать наше приложене за ngnix, чтобы он не торчал голой попой в Интернет
+  news-app:
+    name: news-app
+    options:
+      - keepalive 50
+    servers:
+      - 127.0.0.1:8080 max_fails=10 fail_timeout=10s
+
+locations:
+  root:
+    name: /
+    options:
+      - proxy_set_header    Host                $host
+      - proxy_set_header    X-Real-IP           $remote_addr
+      - proxy_set_header    X-Forwarded-Host    $host
+      - proxy_set_header    X-Forwarded-Server  $host
+      - proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for
+      - proxy_redirect      off
+      - proxy_next_upstream error timeout http_502 http_503 http_500 http_504 non_idempotent
+      - proxy_next_upstream_tries 2
+    proxy_pass: http://news-app
+
+```
+- 01:17:13 - для нашего приложения в инвентори у нас лежит `infrastructure-as-code/ansible/inventory/demo/group_vars/news.yml`
+
+```yml
+app_user: newsapp
+app_group: newsapp
+keep_releases: 3
+service: "{{ lookup('env','SERVICE') }}"
+app_version: "{{ lookup('env','APP_VERSION') }}"
+app_startup_command: "news-demo"
+app_root: "/opt/{{ service }}"
+app_path: "{{app_root}}/releases/{{app_version}}"
+app_url: "https://gitlab.com/api/v4/projects/{{ lookup('env','CI_PROJECT_ID') }}/packages/generic/news-app-demo/{{ app_version }}" # путь у пакетнице
+artifacts_name:
+  - "news-app-demo.tar.gz"
+artifact_name: "news-app-demo.tar.gz"
+private_gitlab_token: "{{ lookup('env','CI_JOB_TOKEN') }}"
+
+systemd: true
+app_services_to_copy:
+  - app.service
+app_services_to_start:
+  - app.service
+
+shared_paths:
+  - { path: "{{ app_root }}/current", src: "{{ app_root }}/releases/{{app_version}}" }
+
+news_app_bind_addr: 127.0.0.1:8080
+news_app_news_lang: ru
+news_app_api_key: a0bd1250692648c79515de6be5f41dcc
 
 
+```
+- 01:19:20 - о ролях
+- 01:20:30 - Makefile
+
+```sh
+ENV?=default
+
+all: init workspace plan apply pause deploy
+
+init:
+	cd ./terraform/demo && terraform init
+
+workspace:
+	cd ./terraform/demo && terraform workspace new ${ENV}
+
+set_workspace:
+	cd ./terraform/demo && terraform workspace select ${ENV}
+
+plan: set_workspace
+	cd ./terraform/demo && terraform plan
+
+apply: set_workspace
+	cd ./terraform/demo && terraform apply -auto-approve
+
+destroy: set_workspace
+	cd ./terraform/demo && terraform destroy -auto-approve
+
+clean:
+	cd ./terraform/demo &&  rm -f terraform.tfplan
+	cd ./terraform/demo &&  rm -f .terraform.lock.hcl
+	cd ./terraform/demo &&  rm -fr terraform.tfstate*
+	cd ./terraform/demo &&  rm -fr .terraform/
+
+pause:
+	echo "Wait for 60 seconds stupid Yandex Cloud creating a VM's..."
+	sleep 60
+	echo "May be created? Ok, run an ansible playbook..."
+deploy:
+	cd ./ansible && source .env.news-app && ansible-playbook -i inventory/demo site.yml
+
+reconfig:
+	cd ./ansible && source .env.news-app && ansible-playbook -i inventory/demo site.yml -t config
+
+```
+- 01:22:30 - запуск команды `make all` создаем ВМ в облаке
+- 01:23:33 - ! показан вывод результатов таски для создания днамческого инвентори. Яндекс отдает какие у него есть инстансы.
+- 01:24:20 - чтобы плейбук делал ретраи если в облаке не успевается запустться демон ssh. Или добавить wait
+- 01:27:50 - make destroy  - удаляем ВМ из облака
+- 01:28:50 - добавление ресурсов для ВМ
+- 01:30:00 - про добавление wait для ожидания запуска демона ssh
+- 01:31:00 - о том ка надо раскидывать ресурсы по конфгурации
 
 #### 
 
