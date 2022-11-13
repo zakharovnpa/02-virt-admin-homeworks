@@ -204,7 +204,7 @@ terraform.io/docs/providers/index.html
 
 ### 29Блоки
 Все конфигурации описываются в виде блоков.
-```python
+```tf
 resource "aws_vpc" "main" {
       cidr_block = var.base_cidr_block
 }
@@ -213,20 +213,20 @@ resource "aws_vpc" "main" {
       название_параметра = выражение_значение_параметра
 }
 ```
-### 30Блок провайдеров
+### 30Блок провайдеров - 00:42:25
 registry.terraform.io/providers/hashicorp/aws/latest/docs
-```python
+```tf
 provider "aws" {
     region = "us-east-1"
 }
 ```
 ### 31Блок требований к провайдерам
 Блок «terraform» для указаний версий провайдеров и бэкэндов.
-```python
+```tf
 terraform {
-    required_providers {
-        aws = {
-            source = "hashicorp/aws"
+    required_providers {	# используемый провайдер
+        aws = {		# название провайдера
+            source = "hashicorp/aws"		#откуда его взять
             version = "~> 3.0"
     }
   }
@@ -235,63 +235,67 @@ terraform {
 ### 32Блок ресурсов
 registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
 Ресурс **aws_instance** – это экземпляр ec2
-```python
-resource "aws_instance" "web" {
-   ami = data.aws_ami.ubuntu.id
-      instance_type = "t3.micro"
+```tf
+resource "aws_instance" "web" {	# ресурс, имя ресура, которое мы прсвом
+   ami = data.aws_ami.ubuntu.id		# образ, используемый для создания ВМ
+      instance_type = "t3.micro"	# тп ресурса, определенный облачным провайдером. Пож типом прячутся параметры проц, памят, размера диска и др. 
 }
 ```
-### 33Блок внешних данных
+### 33Блок внешних данных	- 00:43:10
 Для того что бы прочитать данные из внешнего API и использовать для создания других рессурсов.
 Use this data source to get the access to the effective Account ID, User ID, and ARN in which Terraform is authorized.
 [Data Source: aws_caller_identity](registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity)
-```python
+```hcl
 data "aws_caller_identity" "current" {}
 
 // data.aws_caller_identity.current.account_id
 // data.aws_caller_identity.current.arn
 // data.aws_caller_identity.current.user_id
 ```
-### 34Блок переменных
+Здесь вернется инфа о том, под какой УЗ вы подключены к облаку
+
+
+
+### 34Блок переменных	- 00:43:35
 Каждый модуль может зависеть от переменных.
-```python
+```tf
 variable "image_id" {
     type = string
 }
 
 resource "aws_instance" "example" {
       instance_type = "t2.micro"
-      ami           = var.image_id
+      ami           = var.image_id  # для обращеня к переменной указываем var, точку  имя переменной image_id
 }
 ```
-### 35Блок переменных
+### 35Блок переменных	- 00:44:00
 Структура переменной может быть достаточно сложной.
-```bash
+```tf
 variable "availability_zone_names" {
-type
-= list(string)
-default = ["us-west-1a"]
+  type = list(string)
+  default = ["us-west-1a"]
 }
+
 variable "docker_ports" {
-type = list(object({
-internal = number
-external = number
-protocol = string
-}))
+  type = list(object({
+    internal = number
+    external = number
+    protocol = string
+  }))
+  
 default = [
-{
-internal = 8300
-external = 8300
-protocol = "tcp"
-}
-]
+  {
+    internal = 8300
+    external = 8300
+    protocol = "tcp"
+  }
+ ]
 }
 ```
-### 36Типы переменных
+### 36Типы переменных	- 00:44:25
+```
 Примитивные типы:
-```
-●
-string
+● string
 ● number
 ● bool
 Комбинированные типы:
@@ -300,34 +304,38 @@ string
 ● map(<TYPE>)
 ● object({<ATTR NAME> = <TYPE>, ... })
 ● tuple([<TYPE>, ...])
-  ```
+```
 
-### 37Валидация переменных
-```bash
+### 37Валидация переменных	- 00:44:45
+
 Особенно важно для повторно используемых модулей.
+```tf
 variable "image_id" {
-type
-= string
-description = "The id of the machine image (AMI) to use
+  type = string
+  description = "The id of the machine image (AMI) to use
 for the server."
-validation {
-condition
-= length(var.image_id) > 4 &&
+
+  validation {
+    condition = length(var.image_id) > 4 &&
 substr(var.image_id, 0, 4) == "ami-"
-error_message = "The image_id value must be a valid AMI
+
+    error_message = "The image_id value must be a valid AMI
 id, starting with \"ami-\"."
-}
+  }
 }
 ```
-### 38Блок output
+Необходмо для валдац данных, которые мы передаем. В этом примере показана проверка того, что в выводе имени дректории будет более 4 знаков и первые 4 знака будут ami-
+
+
+### 38Блок output	- 00:45:30
 Для того чтобы разные модули могли использовать результат
 работы друг друга.
-```bash
+```tf
 output "instance_ip_addr" {
-    value = aws_instance.server.private_ip
-    description = "The private IP address of the main server instance."
+ value       = aws_instance.server.private_ip
+ description = "The private IP address of the main server instance."
 
-depends_on = [
+ depends_on = [
 
 # Security group rule должна быть создана перед тем как
 можно будет использовать этот ip адрес, иначе сервис будет
@@ -336,12 +344,12 @@ depends_on = [
   ]
 }
 ```
-### 39Локальные переменные
+### 39Локальные переменные	- 00:46:50
 Могут быть использованы внутри модуля сколько угодно раз.
-```bash
+```tf
 locals {
-    service_name = "forum"
-    owner         = "Community Team"
+    service_name = "forum"	# будем тегировать все образы
+    owner         = "Community Team"	# владелец будет этот
 }
 
 locals {
@@ -356,7 +364,7 @@ common_tags = {
 }
 ```
 
-### 40Комментарии
+### 40Комментарии	- 00:47:14
 Terraform поддерживает несколько видов комментариев:
 ```bash
 # начинает однострочные комментарии;
@@ -364,11 +372,11 @@ Terraform поддерживает несколько видов коммент�
 /* и */ для обозначения многострочных комментариев.
 ```
 
-### 41Структура проекта
+### 41Структура проекта		- 00:47:40
 
 ### 42Структура каталогов
-- /main.tf
-- /any_ﬁle.tf
+- /main.tf	- заглавный файл
+- /any_ﬁle.tf	- файлы с переменным, и др. парамтерами
 - /modules/
 - /modules/awesome_module/
 - /modules/awesome_module/main.tf
@@ -377,13 +385,13 @@ Terraform поддерживает несколько видов коммент�
 - /modules/next_module/main.tf
 - /modules/next_module/any_other_ﬁle.tf
 
-### 43Структура файлов
+### 43Структура файлов	- 00:48:37
 - main.tf
 - variables.tf
 - outputs.tf
 - any_other_ﬁles.tf
 
-### 44Итоги
+### 44Итоги	- 00:49:12
 
 ### 45Итоги
 Сегодня мы:
@@ -393,11 +401,96 @@ Terraform поддерживает несколько видов коммент�
   - через веб интерфейс,через cli консоль,
   - при помощи Terraform.
 
-### Продолжение темы. Дополнительная информация.
+### Продолжение темы. Дополнительная информация.	- 00:49:20
 
 #### Описание создания новостного агрегатора
 - Здесь расположен репозиторий с новостным агрегатором: https://gitlab.com/k11s-os
 
+### - 00:52:10 Создание ВМ в Я.О веб интерфейс
+### - 00:56:30 Создание ВМ в консольной утилите
+- `compute instance create`
+- 00:58:25 - `yc compute instance list`
+### - 00:59:50 Big Demo сервса агрегатора новостей 
+[Директория с агрегатором новостей](https://gitlab.com/k11s-os/news-app-demo/-/tree/main/)
+- 01:00:40 - описание файлов агрегатора
+- 01:01:50 - файлы на Go
+- 01:02:30 - описание структуры [файла для CI](https://gitlab.com/k11s-os/news-app-demo/-/blob/main/.gitlab-ci.yml) `.gitlab-ci.yml`
+- 01:03:00 - про создане образа Packer-ом
+- 01:05:50 - про работу Terraform. О структуре проекта
+- 01:06:30 - main.tf
+- 01:07:00 - vars.tf
+- 01:07:50 - в файле `main.tf` ВМ называются `module`
+- 01:09:15 - про [модули](https://gitlab.com/k11s-os/infrastructure-as-code/-/tree/main/terraform/modules)
+- 01:09:20 - про [модуль iam для K8s](https://gitlab.com/k11s-os/infrastructure-as-code/-/blob/main/terraform/modules/iam/service-accounts.tf)
+- 01:09:35 - [instance.tf ](https://gitlab.com/k11s-os/infrastructure-as-code/-/blob/main/terraform/modules/instance/instance.tf)
+```tf
+variable image { default =  "centos-8" }
+variable name { default = ""}
+variable description { default =  "instance from terraform" }
+variable instance_role { default =  "all" }
+variable users { default = "centos"}
+variable cores { default = ""}
+variable platform_id { default = "standard-v1"}
+variable memory { default = ""}
+variable core_fraction { default = "20"}
+variable subnet_id { default = ""}
+variable nat { default = "false"}
+variable instance_count { default = 1 }
+variable count_offset { default = 0 } #start numbering from X+1 (e.g. name-1 if '0', name-3 if '2', etc.)
+variable count_format { default = "%01d" } #server number format (-1, -2, etc.)
+variable boot_disk { default =  "network-hdd" }
+variable disk_size { default =  "20" }
+variable zone { default =  "" }
+variable folder_id { default =  "" }
+
+terraform {
+  required_providers {
+    yandex = {
+      source  = "yandex-cloud/yandex"
+      version = "0.61.0"
+    }
+  }
+}
+
+data "yandex_compute_image" "image" {
+  family = var.image
+}
+
+resource "yandex_compute_instance" "instance" {
+  count = var.instance_count
+  name = "${var.name}-${format(var.count_format, var.count_offset+count.index+1)}"
+  platform_id = var.platform_id
+  hostname = "${var.name}-${format(var.count_format, var.count_offset+count.index+1)}"
+  description = var.description
+  zone = var.zone
+  folder_id = var.folder_id
+
+  resources {
+    cores  = var.cores
+    memory = var.memory
+    core_fraction = var.core_fraction
+  }
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.image.id
+      type = var.boot_disk
+      size = var.disk_size
+    }
+  }
+  network_interface {
+    subnet_id = var.subnet_id
+    nat       = var.nat
+  }
+
+  metadata = {
+    ssh-keys = "${var.users}:${file("~/.ssh/id_rsa.pub")}"
+  }
+}
+
+
+```
+
+### Про Ansible  - 01:11:35
 - 01:11:35 - создание динамческого инвентори для Ansible
   - сейчас в файле inventory/host пусто (empty). Мы значально не знаем какие у наших создаваемых ВМ будут ip адреса.
   - для того, чтобы получить ip адреса создаваемых ВМ есть лайфхак: если воспользоваться командой (преподаватель сказал утилитой) `yc compute instance list --format=yaml --folder-name={{yc_project_name}}` и передать в формате YAML в дректорию `{{yc_project_name}}`
