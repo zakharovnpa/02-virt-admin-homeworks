@@ -360,12 +360,98 @@ null_resource, который, по-умолчанию, ничего не дел
 - триггеры,
 - другие аргументы.
 
+
+
+
+### Дополнительная информация - 00:33:99
+
+- 00:35:00 - о модулях
+
+Прмеры взяты отсюда: [instance.tf](https://gitlab.com/k11s-os/infrastructure-as-code/-/blob/main/terraform/modules/instance/instance.tf)
+- instance.tf
+```tf
+variable image { default =  "centos-8" }
+variable name { default = ""}
+variable description { default =  "instance from terraform" }
+variable instance_role { default =  "all" }
+variable users { default = "centos"}
+variable cores { default = ""}
+variable platform_id { default = "standard-v1"}
+variable memory { default = ""}
+variable core_fraction { default = "20"}
+variable subnet_id { default = ""}
+variable nat { default = "false"}
+variable instance_count { default = 1 }
+variable count_offset { default = 0 } #start numbering from X+1 (e.g. name-1 if '0', name-3 if '2', etc.)
+variable count_format { default = "%01d" } #server number format (-1, -2, etc.)
+variable boot_disk { default =  "network-hdd" }
+variable disk_size { default =  "20" }
+variable zone { default =  "" }
+variable folder_id { default =  "" }
+
+terraform {
+  required_providers {
+    yandex = {
+      source  = "yandex-cloud/yandex"
+      version = "0.61.0"
+    }
+  }
+}
+
+data "yandex_compute_image" "image" {
+  family = var.image
+}
+
+resource "yandex_compute_instance" "instance" {
+  count = var.instance_count
+  name = "${var.name}-${format(var.count_format, var.count_offset+count.index+1)}"
+  platform_id = var.platform_id
+  hostname = "${var.name}-${format(var.count_format, var.count_offset+count.index+1)}"
+  description = var.description
+  zone = var.zone
+  folder_id = var.folder_id
+
+  resources {
+    cores  = var.cores
+    memory = var.memory
+    core_fraction = var.core_fraction
+  }
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.image.id
+      type = var.boot_disk
+      size = var.disk_size
+    }
+  }
+  network_interface {
+    subnet_id = var.subnet_id
+    nat       = var.nat
+  }
+
+  metadata = {
+    ssh-keys = "${var.users}:${file("~/.ssh/id_rsa.pub")}"
+  }
+}
+
+
+```
+
+- 00:36:00 - показаны `main.tf` с описанием ресурсов для Yandex.Cloud
+- 00:37:30 - показано создане ресурса VPC
+- 00:40:00 - про то как при использовании провайдеров решать проблемы и ошибки  
+- 00:46:00 - как сделать count
+- 00:47:50 - показаны локальные переменные для создания ресурсов
+- 00:50:00 - запуск создания ВМ и ошибки при этом
+- 00:51:00 - пояснене про переменные. Yandex не поддерживает создание ресурсов методом `count` (ля управления кол-вом ресурсов и не писать одн  тот же код для разных ресурсов). Есть еще метод For_each
+- 00:52:00 - про автоматческое или динамическое создание ресурсов
+- 00:53:00 - что может AWS с count для управления кол-вом ресурсов и не писать одн  тот же код для разных ресурсов
+
   ### 34Итоги
 #### 35Итоги
 - Узнали как хранится состояние проекта.
 - Разобрались с бэкэндами.
 - Создали отдельные воркспейсы.
-- Познакомились с особенностями настройки рессурсов.
+- Познакомились с особенностями настройки рессурсов. Через функцю map (тпеперь это tomap) создавали ресурсы
 
 ###   36Домашнее задание
 
@@ -375,6 +461,29 @@ null_resource, который, по-умолчанию, ничего не дел
 ● Задачи можно сдавать по частям.
 ● Зачёт по домашней работе проставляется после того, как приняты все
 задачи.
+
+### Ответы на вопросы - 01:00:00
+- о provisioner "file"
+- 01:07:50 - про создание нескольких ресурсов и про переменные
+- 01:10:00 - в чем смысл файла vars.tf
+- 01:12:50 - про оверрайдинг (перезапсыване) переменных. Все что запсано через командную строку и (что-то там (end?) в переменных) оно оверрайдится (перезапсывается) и имеет высший приоритет. Есл в конфге указано одно, а через командную строку указаои другое, то переменная перезапшется.
+- 01:14:00 - как подставляется токен
+- 01:14:45 - про переменные в terraform. `TF_VAR`, `export TF_VAR_yc_token`, `YC_TOKEN`
+- 01:15:00 - про то как правльно использовать ресурсы ВМ при их создание Terraform-ом. Если что-то в разных ВМ отлчается, то создаем новую переменную. 
+- 01:16:45 - пример про ЯП. Как использовать переменные и константы в Terraform
+- 01:24:30 - про Packer & Proxmox
+- 01:26:45 - ESXi и Terraform
+
+### Про mitogen - 01:22:10
+
+Это плагин для Ansible, который позволяет ускорять Ansible
+[mitogen for ansile](mitogen.networkgenomics.com/ansible_detailed.html)
+
+
+
+
+
+
 
   ### 38Задавайте вопросы и
 пишите отзыв о лекции!
